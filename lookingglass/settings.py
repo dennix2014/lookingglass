@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'lg'
+    'lg',
+    'ratelimit'
 ]
 
 MIDDLEWARE = [
@@ -48,7 +49,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'ratelimit.middleware.RatelimitMiddleware',
 ]
+
+RATELIMIT_VIEW = 'lg.views.rate_limited'
 
 ROOT_URLCONF = 'lookingglass.urls'
 

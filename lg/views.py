@@ -29,3 +29,7 @@ def home(request):
             elif command == 'route detail':
                 result = route_detail(ip_address)
                 return render(request, 'lg.html', {'form':form, 'result': result})
+
+def rate_limited(request, exception):
+    rate_limited_message = "Too many probes in a short time buddy. Please try again after 5 minutes."
+    return render(request, 'base.html', {'rate_limited_message': rate_limited_message})
