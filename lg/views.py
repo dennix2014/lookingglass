@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from .utils import ping, traceroute, route, route_detail
 from .forms import CommandForm
+from ratelimit.decorators import ratelimit
 
 
-# Create your views here.
-
+@ratelimit(key='ip', rate='5/m', method=ratelimit.UNSAFE, block=True)
 def home(request):
     if request.method == 'GET':
         form = CommandForm()
