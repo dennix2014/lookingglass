@@ -1,0 +1,62 @@
+
+<!doctype html>
+<html lang="en">
+	{% load static %}
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>IXPN LOOKING GLASS</title>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+		<link href="/docs/4.4/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+		
+		<style>
+				.footer {
+				position: fixed;
+				left: 0;
+				bottom: 0;
+				width: 100%;
+				background-color:#2B5928;
+				color: white;
+				text-align: center;
+			}
+				.result {
+				padding-left: 50px;
+				padding-top: 30px;
+				padding-bottom: 30px;
+				position: top;
+				width: auto;
+				background-color:WhiteSmoke;
+				color: black;
+				font-size: small;
+				font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+			}
+		</style>
+	</head>
+	<body>
+		<nav class="navbar navbar-dark" style="background-color: #2B5928;">
+			<a class="navbar-brand" href="{% url 'home' %}">
+			IXPN LOOKING GLASS
+			</a>
+		</nav>
+		<br>
+		<br>
+		<div class="justify-content-center">
+			<img src="{% static "ixpn2.png" %}" class="rounded mx-auto d-block" alt="IXPN LOGO">
+		</div>
+		<br><br>
+		<main role="main" class="inner cover, text-center">
+			<h1 class="cover-heading">IXPN LOOKING GLASS.</h1>
+		</main>
+		<br>
+
+		{% block content %}
+		{% endblock %}
+		<br><br><br>
+
+		<footer class="mastfoot mt-auto">
+			<div class="footer">
+					<p>© Internet Exchange point of Nigeria  {% now  "Y" %}</p>
+			</div>
+		</footer>
+	</body> 
+</html>
