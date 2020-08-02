@@ -4,7 +4,7 @@ from .forms import CommandForm
 from ratelimit.decorators import ratelimit
 
 
-@ratelimit(key='ip', rate='5/m', method=ratelimit.UNSAFE, block=True)
+@ratelimit(key='header:x-cluster-client-ip', rate='5/m', method=ratelimit.UNSAFE, block=True)
 def home(request):
     if request.method == 'GET':
         form = CommandForm()
