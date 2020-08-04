@@ -7,8 +7,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<title>IXPN LOOKING GLASS</title>
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-		<link href="/docs/4.4/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-		
+		<link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}" />
+		<link rel="shortcut icon" type="image/x-icon" href="{% static 'favicon.ico' %}" />
 		<style>
 				.footer {
 				position: fixed;
@@ -41,16 +41,16 @@
 		<br>
 		<br>
 		<div class="justify-content-center">
-			<img src="{% static "ixpn2.png" %}" class="rounded mx-auto d-block" alt="IXPN LOGO">
+			<img src="{% static 'ixpn2.png' %}" class="rounded mx-auto d-block" alt="IXPN LOGO">
 		</div>
 		<br><br>
 		<main role="main" class="inner cover, text-center">
 			<h1 class="cover-heading">IXPN LOOKING GLASS.</h1>
-			<p>
-				Please note that probes are limited to 5 per minute.
-			</p>
 			<br>
-			<h4 class="text-danger">{{ rate_limited_message }}</h4>
+			<div class="justify-content-center load" style="display: none;"" >
+				<img src="{% static 'ajax-loader.gif' %}" alt="load">
+				<p> Loading.............</p>
+			</div>
 		</main>
 		
 		<br>
@@ -64,5 +64,7 @@
 					<p>© Internet Exchange point of Nigeria  {% now  "Y" %}</p>
 			</div>
 		</footer>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script type="text/javascript" src="{% static 'ajaxFormSubmit.js' %}"></script>
 	</body> 
 </html>

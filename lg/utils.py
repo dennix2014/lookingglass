@@ -4,7 +4,7 @@ import subprocess
 import time
 import sys
 
-base_dir = '/home/noc-admin'
+base_dir = '/home/uchechukwu/Documents'
 sys.path.insert(1, f'{base_dir}')
 
 from lookingglass.local_settings import cred
@@ -15,27 +15,15 @@ initial_html = """<div class="container result">
 
 closing_html = """</div></div></div>"""
 
-def connect_tp_server(command):
-    if 'traceroute' in command or 'ping' in command:
-        server = {
-            'device_type': 'linux',
-            'host': cred.get('other_box'),
-            'username': cred.get('ssh_user'),
-            'password': cred.get('ssh_pass'),
-            'port': cred.get('ssh_port_2'),
-        }
-        net_connect = ConnectHandler(**server)
-        time.sleep(2)
-
-    else:
-        server = {
-            'device_type': 'linux',
-            'host': cred.get('bird_server'),
-            'username': cred.get('ssh_user'),
-            'password': cred.get('ssh_pass'),
-            'port': cred.get('ssh_port_1'),
-        }
-        net_connect = ConnectHandler(**server)
+def conect_to_ipv4_route_server(command):
+    server = {
+        'device_type': 'linux',
+        'host': cred.get('bird_server'),
+        'username': cred.get('ssh_user'),
+        'password': cred.get('ssh_pass'),
+        'port': cred.get('ssh_port_1'),
+    }
+    net_connect = ConnectHandler(**server)
 
     out = net_connect.send_command(command, delay_factor=2)
     time.sleep(2)
@@ -59,25 +47,25 @@ def connect_tp_server(command):
 def ping(ip_address):
     
     command = f'ping -c 5 {ip_address}'
-    result = connect_tp_server(command)
+    result = conect_to_ipv4_route_server(command)
     return result
 
 
 def traceroute(ip_address):
     
     command = f'traceroute {ip_address}'
-    result = connect_tp_server(command)
+    result = conect_to_ipv4_route_server(command)
     return result
 
 
 def route(ip_address):
 
     command = f'please show route for {ip_address}'
-    result = connect_tp_server(command)
+    result = conect_to_ipv4_route_server(command)
     return result
 
 def route_detail(ip_address):
 
     command = f'please show route for {ip_address} all'
-    result = connect_tp_server(command)
+    result = conect_to_ipv4_route_server(command)
     return result
