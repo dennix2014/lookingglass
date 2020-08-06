@@ -1,8 +1,8 @@
-import subprocess
 from netmiko import ConnectHandler
 import subprocess
-import time
 import sys
+import time
+
 
 base_dir = '/home/uchechukwu/Documents'
 sys.path.insert(1, f'{base_dir}')
@@ -20,8 +20,10 @@ def conect_to_ipv4_route_server(command):
         'device_type': 'linux',
         'host': cred.get('bird_server'),
         'username': cred.get('ssh_user'),
-        'password': cred.get('ssh_pass'),
+        'use_keys': True,
+        "key_file": '/home/noc-admin/.ssh/id_rsa.pub',
         'port': cred.get('ssh_port_1'),
+        
     }
     net_connect = ConnectHandler(**server)
 
