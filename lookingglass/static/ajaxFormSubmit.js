@@ -17,13 +17,24 @@ $('#form').on('submit', function(e){
        success: function(data){
         $('.loading').hide();
         $('.return-home').css("display", "block")
-        $('#output').html(data.result)/* response message */
+        $('#output').show();
+        $('#output').html(data.result)
+        $('#form').trigger('reset')/* response message */
        },
 
        error: function(XMLHttpRequest, textStatus, errorThrown) { 
            $('.loading').hide();
+           $('#output').show();
            $('#output').html(`<p class="text-danger text-center">${errorThrown}</p>`)
     
             }      
     });
+});     
+
+$('.return-home').on('click', function(e){
+    e.preventDefault();
+    $('.return-home').hide()
+    $('.wrap-every').show();
+    $('#output').hide();
+
 });     
