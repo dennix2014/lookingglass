@@ -1,72 +1,46 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container text-center">
-    <form method = "POST" id="form" action = "{% url 'home' %}"> 
-    {% csrf_token %}
-        <div class=" form-group row">
-            <div class="col-sm">
-                <span><strong>Protocol</strong>&emsp;&emsp;</span>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="protocol" required id="protocol_1" value="ipv4">
-                    <label class="form-check-label" for="protocol_1">
-                        ipv4
-                    </label>
+<a class="return-home" href="{% url 'home' %}">Run another probe</a>
+<div class="wrap-every">
+<div class="row">
+    <div class="row1">
+        <form method = "POST" id="form" action = "{% url 'home' %}"> 
+            {% csrf_token %} 
+            <h1 class="row10"><strong>PROBE</strong></h1><br>
+                <div class="form-group">
+                  <label for="protocol"><strong>Protocol</strong></label>
+                  <select class="form-control" id="protocol" name="protocol">
+                    <option value="ipv4">ipv4</option>
+                    <option value="ipv6">ipv6</option>
+                  </select>
                 </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="protocol" required id="protocol_2" value="ipv6">
-                    <label class="form-check-label" for="protocol_2">
-                      ipv6
-                    </label>
+                <div class="form-group">
+                    <label for="command"><strong>Command</strong></label>
+                    <select class="form-control" id="command" name="command">
+                      <option value="ping">ping</option>
+                      <option value="traceroute">traceroute</option>
+                      <option value="route">route</option>
+                      <option value="route detail">route detail</option>
+                    </select>
+                  </div>
+                <div class="form-group">
+                  <label for="ip_address"><strong>Ip Address</strong></label>
+                  <input type="text" name="ip_address" class="form-control" id="ip_address" placeholder="ipv4 or ipv6 address">
                 </div>
-            </div>
-        </div>
-        <div class="form-group row form-row">
-            <div class="col-sm justify-content-center">
-                <label for="ip_address"><strong>IP Address</strong>&emsp;&emsp;</label>
-                <input type="text" name="ip_address" required id="ip_address" placeholder="ipv4 or ipv6 address">
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-sm justify-content-center">
-                <span><strong>Command</strong>&emsp;&emsp;</span>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="command" required id="command_1" value="ping">
-                    <label class="form-check-label" for="command_1">
-                      ping
-                    </label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="command" required id="command_2" value="traceroute">
-                    <label class="form-check-label" for="command_2">
-                      traceroute
-                    </label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="command" required id="command_3" value="route">
-                    <label class="form-check-label" for="command_3">
-                      route
-                    </label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="command" required id="command_4" value="route detail">
-                    <label class="form-check-label" for="command_4">
-                      route detail
-                    </label>
-                </div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-sm">
-                <input type="submit" name="submit" class="btn btn-success" value="Probe">&emsp;
-                <input type="button" class="btn btn-secondary" value="&emsp;Reset&emsp;" onClick="this.form.reset()" />
-            </div>
-        </div>
-    </form> 
+                <input type="submit" name="submit" class="btn btn-success" value="Start probe">&emsp;
+               
+              </form>
+        
+    </div>
+    <div class="row2"></div>
 </div>
-<br><br>
+
+
+</div>
 
 <div id="output"></div>
-{{ result|safe}}
+
+    <br><br><br>
 
 {% endblock %}
