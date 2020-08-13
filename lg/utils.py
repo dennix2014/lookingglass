@@ -13,7 +13,7 @@ initial_html = """<div class="container result">
                 <div class="row">
 	    	<div class="col-sm">"""
 
-closing_html = """</div></div></div>"""
+closing_html = """</div></div></div><br>"""
 
 def conect_to_ipv4_route_server(command):
     server = {
