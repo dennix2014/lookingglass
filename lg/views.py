@@ -13,7 +13,7 @@ from lookingglass.local_settings import \
     server4, server6, commands
 
 
-@ratelimit(key='ip', rate='10/m', method=ratelimit.UNSAFE, block=True)
+@ratelimit(key='header:x-cluster-client-ip', rate='10/m', method=ratelimit.UNSAFE, block=True)
 def home(request):
     if request.method == 'GET':
         return render(request, 'lg.html')
