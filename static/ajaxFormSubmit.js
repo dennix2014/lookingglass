@@ -9,6 +9,7 @@ $('#form').on('submit', function(e){
        data: {
         ip_address : $('#ip_address').val(),
         command: $('#command').find(":selected").val(),
+        protocol: $('#protocol').find(":selected").val(),
         csrfmiddlewaretoken: $("form").find('input[name=csrfmiddlewaretoken]').val(),
         dataType: "json",
 
