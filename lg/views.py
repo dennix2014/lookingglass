@@ -37,7 +37,7 @@ def home(request):
                 response = {'result':result}
                 return JsonResponse(response) 
             except ValueError:
-                result = "<p class='error'>Not a valid ipv4 or ipv6 address</p>"
+                result = f"<p class='error'>{ip_address} is not  a valid ipv4 or ipv6 address</p>"
                 response = {'result': result}
                 return JsonResponse(response)
             
