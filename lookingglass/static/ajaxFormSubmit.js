@@ -1,7 +1,8 @@
 $('#form').on('submit', function(e){
     e.preventDefault();
-    $('.wrap-every').hide();
-    $('.loading').css("display", "block")
+    $('.loading').css("display", "block");
+    $('#output').hide();
+    $('.btn').prop("disabled",true);
 
     $.ajax({
        type : "POST", 
@@ -9,7 +10,6 @@ $('#form').on('submit', function(e){
        data: {
         ip_address : $('#ip_address').val(),
         command: $('#command').find(":selected").val(),
-        protocol: $('#protocol').find(":selected").val(),
         csrfmiddlewaretoken: $("form").find('input[name=csrfmiddlewaretoken]').val(),
         dataType: "json",
 
@@ -20,8 +20,9 @@ $('#form').on('submit', function(e){
         $('.return-home').css("display", "block")
         $('#output').show();
         $('#output').html(data.result)
-        $('#form').trigger('reset')/* response message */
+        $('.btn').prop("disabled",false);
        },
+       
 
        error: function(XMLHttpRequest, textStatus, errorThrown) { 
            $('.loading').hide();

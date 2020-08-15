@@ -28,6 +28,7 @@
 			}
 			.wrap-every {
 				padding-left: 45px;
+				margin-bottom: 30px;
 			
 
 			}
@@ -100,11 +101,12 @@
 			  }
 			}
 			.loading {
-				padding: 30px;
 				display: none;
 				margin-left: auto;
 				margin-right: auto;
+				margin-bottom: 50px;
 				width: 50%;
+
 			}
 
 			.return-home {
@@ -119,9 +121,8 @@
 			.result {
 				border-radius: 35px;
   				border: 2px solid #2B5928;
-  				width: auto;
-  				height: auto;
 				padding: 20px;
+				margin-bottom: 50px;
 				width: 90%;
 				color: black;
 				font-size: small;
@@ -132,7 +133,7 @@
   				border: 2px solid #2B5928;
   				width: auto;
   				height: auto;
-				  background-color:#2B5928;
+				background-color:#2B5928;
 				padding: 10px;
 				width: 95%;
 				color: white;
@@ -145,6 +146,9 @@
 			}
 			.contact-heading {
 				text-align: center;
+			}
+			.error {
+				color: red;
 			}
 			
 		</style>
@@ -166,9 +170,9 @@
 				<li>Ping any destination IPv4 and IPv6 address</li>
 				<li>Traceroute any destination IPv4 and IPv6 address</li>
 				<li>Show route for any destination IPv4 and IPv6 address</li>
-				<li>Show route detail for any destination IPv4 and IPv6 address</li>
+				<li>Show route for any destination IPv4 and IPv6 address detailled</li>
 			</ul>
-			<p>Sensible rate limit is enforced, so try again in a couple
+			<p>Some sensible rate limits are enforced so try again in a couple
 				of minutes if you reach the limit.</p><br>
 
 			<div class="contact">
@@ -176,17 +180,17 @@
 				<ul>
 					<li><i class="fa fa-map-marker" aria-hidden="true"></i> &emsp;8th floor, NCR building, No 6, Broad Street, Marina, Lagos</li>
 					<li><i class="fa fa-phone" aria-hidden="true"></i> &emsp;+234-8093878110</li>
-					<li><i class="fa fa-envelope-o" aria-hidden="true"></i>&emsp; noc@ixp.net.ng</li>
+					<li><i class="fa fa-envelope-o" aria-hidden="true"></i>&emsp; noc@ixp.net.ng.com</li>
 				</ul>
 
 			</div>
 		</div>
 		<div class="main">
+			{% block content %}{% endblock %}
 			<div class="loading">
 				<img src="{% static 'ajaxloader_1_09873.gif' %}" alt="load"><br><br>
 				<h3> <strong>Proccessing</strong></h3>
 			</div>
-	    	{% block content %}{% endblock %}
 	  	</div>
 	</div>
 

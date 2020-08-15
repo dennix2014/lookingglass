@@ -1,21 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<button class="btn btn-outline-success return-home">Run another Probe</button>
-<br>
 <div class="wrap-every">
 <div class="row">
     <div class="row1">
         <form method = "POST" id="form" action = "{% url 'home' %}"> 
             {% csrf_token %} 
             <h1 class="row10"><strong>PROBE</strong></h1><br>
-                <div class="form-group">
-                  <label for="protocol"><strong>Protocol</strong></label>
-                  <select class="form-control" id="protocol" name="protocol">
-                    <option value="ipv4">ipv4</option>
-                    <option value="ipv6">ipv6</option>
-                  </select>
-                </div>
                 <div class="form-group">
                     <label for="command"><strong>Command</strong></label>
                     <select class="form-control" id="command" name="command">
@@ -40,10 +31,7 @@
 
 </div>
 
+
 <div id="output"></div>
-<button class="btn btn-outline-success return-home-two return-home">Run another Probe</button>
-
-
-    <br><br><br>
 
 {% endblock %}
