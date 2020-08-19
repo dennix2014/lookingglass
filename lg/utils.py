@@ -14,6 +14,7 @@ def connect_to_route_server(server, command):
     output = out.replace('      ', '&emsp;&emsp;').\
         replace('BIRD 1.6.3 ready.\nAccess restricted\n', '').\
         replace('BIRD 1.6.8 ready.\nAccess restricted\n', '').\
+        replace('BIRD 1.4.0 ready.\nAccess restricted\n', '').\
         replace('\n', '<br>').replace('\t', '&emsp;&emsp;').\
         replace('   ', '&emsp;&emsp;').\
         replace('    ', '&emsp;&emsp;').\
