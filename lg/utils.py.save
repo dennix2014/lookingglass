@@ -1,0 +1,24 @@
+import subprocess
+from netmiko import ConnectHandler
+import subprocess
+import time
+import sys
+
+base_dir = '/home/uchechukwu/Documents'
+sys.path.insert(1, f'{base_dir}')
+
+from lookingglass.local_settings import cred
+
+initial_html = """<div class="container result">
+                <div class="row">
+	    	<div class="col-sm">"""
+
+closing_html = """</div></div></div>"""
+
+def conect_to_ipv4_route_server(command):
+    server = {
+        'device_type': 'linux',
+        'host': cred.get('bird_server'),
+        'username': cred.get('ssh_user'),
+        'use_keys': True,
+        'port': cred.get('ssh_port_1'),
