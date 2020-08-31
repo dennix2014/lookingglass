@@ -9,7 +9,8 @@ closing_html = """</div></div></div><br>"""
 def connect_to_route_server(server, command):
     
     net_connect = ConnectHandler(**server)
-    out = net_connect.send_command(command, delay_factor=2)
+    out = net_connect.send_command(command)
+    net_connect.disconnect()
 
     output = out.replace('      ', '&emsp;&emsp;').\
         replace('BIRD 1.6.3 ready.\nAccess restricted\n', '').\
