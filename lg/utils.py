@@ -73,8 +73,7 @@ def connect_to_route_server(server, command):
 
     net_connect = ConnectHandler(**server_params)
     output = net_connect.send_command(command, delay_factor=2)
-    time.sleep(1)
-    #net_connect.disconnect()
+    net_connect.disconnect()
     print("--- %s seconds ---" % (time.time() - start_time))
     if output:
 
