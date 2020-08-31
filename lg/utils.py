@@ -166,6 +166,9 @@ def connect_to_route_server(server, command):
 
             final_html = bgp_nei_rec_html
             a = output.splitlines()
+            for item in set(a):
+                if item == '':
+                    a.remove(item)
             n=2
             output_joined = []
             for i in range(0,len(a),n):
