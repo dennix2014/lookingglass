@@ -22,8 +22,7 @@ ptr_html = """<br><br>
 
 ptr_close_html = """</div></div></div><br><br>"""
 
-bgp_nei_html = """<br><br>
-            <table>
+bgp_nei_html = """
             <tr>
             <th>Neighbor</th>
             <th>Neighbor Address</th>
@@ -35,8 +34,7 @@ bgp_nei_html = """<br><br>
 
 bgp_nei_closing_html = '</table><br><br>'
 
-bgp_nei_rec_html = """<br><br>
-            <table>
+bgp_nei_rec_html = """
             <tr>
             <th>Prefix</th>
             <th>Origin</th>
@@ -113,7 +111,8 @@ def connect_to_route_server(server, command):
                     'kernel1' in item:
                     protocols.remove(item)
 
-            final_html = bgp_nei_html
+            final_html =  f'<table><caption>{server}: {command}</caption>'
+            final_html += bgp_nei_html
 
             for protocol in protocols:
                 final_html += '<tr>'
@@ -162,8 +161,9 @@ def connect_to_route_server(server, command):
             return final_html
 
         elif 'please show route protocol' in command:
+            final_html =  f'<table><caption>{server}: {command[:-27]}</caption>'
+            final_html += bgp_nei_rec_html
 
-            final_html = bgp_nei_rec_html
             a = output.splitlines()
             for item in set(a):
                 if item == '':
