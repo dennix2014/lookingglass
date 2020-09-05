@@ -125,10 +125,9 @@ def connect_to_route_server(server, command):
                 else:
                     final_html += f'<td>-</td>'
 
-
-                nei = re.search('Neighbor address: (.*)', protocol)
-                if nei:
-                    final_html += f'<td>{nei.group(1)}</td>'
+                neighbor_ip = re.search('Neighbor address: (.*)', protocol)
+                if neighbor_ip:
+                    final_html += f'<td>{neighbor_ip.group(1)}</td>'
                 else:
                     final_html += f'<td>-</td>'
 
@@ -138,21 +137,21 @@ def connect_to_route_server(server, command):
                 else:
                     final_html += f'<td>-</td>'
 
-                state = re.search('BGP state:          (\w+)', protocol)
-                if state and state.group(1) == "Established":
-                     final_html += f'<td class="green">{state.group(1)}</td>'
-                elif state:
-                    final_html += f'<td class="red">{state.group(1)}</td>'
+                bgp_state = re.search('BGP state:          (\w+)', protocol)
+                if bgp_state and bgp_state.group(1) == "Established":
+                     final_html += f'<td class="green">{bgp_state.group(1)}</td>'
+                elif bgp_state:
+                    final_html += f'<td class="red">{bgp_state.group(1)}</td>'
     
-                route = re.search('Routes:         (\w+)', protocol)
-                if route:
-                    final_html += f'<td>{route.group(1)}</td>'
+                received_routes = re.search('Routes:         (\w+)', protocol)
+                if received_routes:
+                    final_html += f'<td>{received_routes.group(1)}</td>'
                 else:
                     final_html += f'<td>-</td>'
 
-                route1 = re.search('imported, (\d+)', protocol)
-                if route1:
-                    final_html += f'<td>{route1.group(1)}</td>'
+                advertised_routes = re.search('imported, (\d+)', protocol)
+                if advertised_routes:
+                    final_html += f'<td>{advertised_routes.group(1)}</td>'
                 else:
                     final_html += f'<td>-</td>'
                 final_html += '</tr>'
@@ -168,6 +167,8 @@ def connect_to_route_server(server, command):
             for item in set(a):
                 if item == '':
                     a.remove(item)
+            
+            # Join consecutive lines and treat as one.
             n=2
             output_joined = []
             for i in range(0,len(a),n):
@@ -176,24 +177,24 @@ def connect_to_route_server(server, command):
             for item in output_joined:
 
                 prefix = item.split(None)[0]
-
                 if prefix:
                     final_html += f'<td>{prefix}</td>'
 
                 origin = re.search(r"\bAS\w+", item)
                 if origin:
                     final_html += f'<td>{origin.group()}</td>'
+                
                 path = re.findall(r"\BGP.as_path:(.*)", item)
                 if path:
                     path = ' '.join(path)
                     final_html += f'<td>{path}</td>'
+                
                 pref = re.search(r'\(\d{1,9}\)', item)
                 if pref:
                     final_html += f'<td>{pref.group()[1:-1]}</td>'
                 final_html += '</tr>'
 
             final_html += bgp_nei_closing_html
-
             return final_html
     else:
         final_html = "<P>Query retured no result</p>"
