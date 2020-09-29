@@ -118,9 +118,7 @@ def connect_to_route_server(server, command):
                 final_html += '<tr>'
 
                 description = re.search('Description:    (.*)', protocol)
-                if description and len(description.group(1).split()) > 2:
-                    final_html += f'<td>{description.group(1).split()[2]}</td>'
-                elif description:
+                if description:
                     final_html += f'<td>{description.group(1)}</td>'
                 else:
                     final_html += f'<td>-</td>'
