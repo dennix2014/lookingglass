@@ -32,8 +32,16 @@ def ping_trace_route(request):
         
         if command == 'route_detail':
             command_to_run = f'{commands.get(command)} {ip_address} all'
+        
         elif command == 'ping' or command == 'traceroute':
-            command_to_run = f'{commands.get(command)} {ip_address}' 
+            ### Check if route is in the routing table so as not use the internet
+            check_route = f'{commands.get("route")} {ip_address}'
+            if 'Network not in table' in connect_to_route_server(server, check_route):
+                result = f'<p class="error"><strong>"{ip_address}"</strong> not in routing table</p>'
+                response = {'result': result}
+                return JsonResponse(response)
+            else:
+                command_to_run = f'{commands.get(command)} {ip_address}' 
         
         if server != 'rs2.med.v6':
             if check_ipv4(ip_address):
