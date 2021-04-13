@@ -8,7 +8,7 @@
         <form id="formOne" action = "{% url 'home' %}"> 
             <h1 class="row10"><strong>&nbsp;&nbsp;PROBE</strong></h1><br>
                 <div class="form-group col-md-10">
-                  <label for="server"><strong>Route Servers</strong></label>
+                  <label for="server"><strong>Route Server</strong></label>
                   <select class="form-control" id="server" name="server" required>
                     <option disabled selected value style="display:none; font-size: xx-small;">Select route server</option>
                     <option value="rs1.rc.v4">rs1.rc - IPV4</option>
@@ -35,33 +35,36 @@
                       <option value="AFILIAS">AFILIAS</option>
                       <option value="AFR_IX">AFR_IX</option>
                       <option value="AIRTEL">AIRTEL</option>
-                      <option value="Akamai">Akamai</option>
+                      <option value="Akamai">AKAMAI</option>
                       <option value="ANGOLACABLE">ANGOLACABLE</option>
                       <option value="BBC">BBC</option>
-                      <option value="BICS">BICS</option>
                       <option value="BICS_2">BICS_2</option>
+                      <option value="BICS">BICS</option>
                       <option value="BILLYRONKS">BILLYRONKS</option>
                       <option value="BITFLUX">BITFLUX</option>
                       <option value="BRAINSHARE">BRAINSHARE</option>
                       <option value="CDNS">CDNS</option>
                       <option value="CHINA_TELECOM">CHINA_TELECOM</option>
-                      <option value="Clickatell">Clickatell</option>
-                      <option value="Cloudflare">Cloudflare</option>
+                      <option value="CHOICE2MOBILE">CHOICE2MOBILE</option>
+                      <option value="CIUDAD">CIUDAD</option>
+                      <option value="Clickatell">CLICKATELL</option>
+                      <option value="Cloudflare">CLOUDFLARE</option>
                       <option value="COBRANET">COBRANET</option>
-                      <option value="Coollink_Med">Coollink_Med</option>
-                      <option value="Cyberspace">Cyberspace</option>
-                      <option value="Dolphin">Dolphin</option>
+                      <option value="COMERCIOCLOUD">COMERCIOCLOUD</option>
+                      <option value="COOLLINK">COOLLINK</option>
+                      <option value="Cyberspace">CYBERSPACE</option>
+                      <option value="Dolphin">DOLPHIN</option>
                       <option value="DOTMAC_LOS">DOTMAC_LOS</option>
                       <option value="EKOKONNECT">EKOKONNECT</option>
                       <option value="EKOVOLT">EKOVOLT</option>
-                      <option value="eStream_Networks">eStream_Networks</option>
+                      <option value="eStream_Networks">ESTREAM_NETWORKS</option>
                       <option value="ETISALAT">ETISALAT</option>
                       <option value="FACEBOOK1">FACEBOOK1</option>
                       <option value="FACEBOOK2">FACEBOOK2</option>
-                      <option value="Garanntor">Garanntor</option>
-                      <option value="GGC_NODE">GGC_NODE</option>
-                      <option value="GGC_RTR">GGC_RTR</option>
+                      <option value="Garanntor">GARANNTOR</option>
+                      <option value="GGCRTR">GGCRTR</option>
                       <option value="GLO1">GLO1</option>
+                      <option value="GOOGLE_2">GOOGLE_2</option>
                       <option value="GOOGLE">GOOGLE</option>
                       <option value="HUAWEI_1">HUAWEI_1</option>
                       <option value="HUAWEI_2">HUAWEI_2</option>
@@ -72,60 +75,70 @@
                       <option value="ISN">ISN</option>
                       <option value="ISNIGERIA">ISNIGERIA</option>
                       <option value="IXPN_ABJ">IXPN_ABJ</option>
-                      <option value="IXPN">IXPN</option>
+                      <option value="IXPN_NCR">IXPN_NCR</option>
                       <option value="IXPN_RC">IXPN_RC</option>
                       <option value="JUNIPER">JUNIPER</option>
                       <option value="KKON">KKON</option>
                       <option value="LAYER3">LAYER3</option>
                       <option value="LIMELIGHT">LIMELIGHT</option>
-                      <option value="Main_One">Main_One</option>
+                      <option value="Main_One">MAIN_ONE</option>
+                      <option value="MS1">MS1</option>
+                      <option value="MS2">MS2</option>
                       <option value="MTN">MTN</option>
                       <option value="NATCOMM">NATCOMM</option>
-                      <option value="Netcomm">Netcomm</option>
-                      <option value="NGCOM_2">NGCOM_2</option>
+                      <option value="Netcomm">NETCOMM</option>
                       <option value="NGCOM">NGCOM</option>
-                      <option value="ngREN">ngREN</option>
+                      <option value="ngREN">NGREN</option>
                       <option value="NIGCOMSAT">NIGCOMSAT</option>
                       <option value="NIRA_MED">NIRA_MED</option>
                       <option value="NIRA_RC">NIRA_RC</option>
-                      <option value="nMobile">nMobile</option>
-                      <option value="ORANGE_Med">ORANGE Med</option>
-                      <option value="ORANGE_RC">ORANGE RC</option>
+                      <option value="nMobile">NMOBILE</option>
+                      <option value="ORANGE_4004">ORANGE_4004</option>
+                      <option value="ORANGE_Med">ORANGE_MED</option>
+                      <option value="ORANGE_RC">ORANGE_RC</option>
                       <option value="PCH_AS3856">PCH_AS3856</option>
                       <option value="PCH_AS42">PCH_AS42</option>
                       <option value="PHASE3">PHASE3</option>
+                      <option value="PHC_IXP">PHC_IXP</option>
                       <option value="PLATINUM">PLATINUM</option>
-                      <option value="Smiles">Smiles</option>
-                      <option value="SoftAlliance">SoftAlliance</option>
-                      <option value="Spectranet">Spectranet</option>
+                      <option value="PROLINE">PROLINE</option>
+                      <option value="Smiles">SMILES</option>
+                      <option value="SoftAlliance">SOFTALLIANCE</option>
+                      <option value="Spectranet">SPECTRANET</option>
                       <option value="SWIFT_NG">SWIFT_NG</option>
-                      <option value="SwiftNG_MDXi">SwiftNG_MDXi</option>
-                      <option value="SWIFTTALK">SWIFTTALK</option>
-                      <option value="VDT">VDT</option>
+                      <option value="SwiftNG_MDXi">SWIFTNG_MDXI</option>
+                      <option value="TestBird">TESTBIRD</option>
+                      <option value="VDT_RC">VDT_RC</option>
                       <option value="VERISIGN">VERISIGN</option>
                       <option value="VODACOM">VODACOM</option>
-                      <option value="Vodacom_RC">Vodacom_RC</option>
+                      <option value="Vodacom_RC">VODACOM_RC</option>
                       <option value="VTS">VTS</option>
                       <option value="WACREN">WACREN</option>
                       <option value="WEB4AFRICA2">WEB4AFRICA2</option>
                       <option value="WIOCC">WIOCC</option>
+                      <option value="WRAGBY">WRAGBY</option>
                       <option value="ZENLAYER">ZENLAYER</option>
-                      
                     </select>
                   </div>
                   <div class="form-group col-md-10" id="abj_nei">
                     <label for="abj_neighbors"><strong>Neighbors</strong></label>
                     <select class="form-control" id="abj_neighbors" name="abj_neighbors">
                         <option disabled selected value style="display:none;">--Please select a member</option>
-                        <option value="Billyronks">Billyronks</optiom>
-                        <option value="Cobranet_Abj">Cobranet_Abj</optiom>
-                        <option value="DotmacTech_Abj">DotmacTech_Abj</option>
-                        <option value="GGC_RTR">GGC_RTR</option>
-                        <option value="Netcom_Abj">Netcom_Abj</option>
-                        <option value="NG_ICT_Abj">NG_ICT_Abj</option>
-                        <option value="Spectranet">Spectranet</option>
-                        <option value="WINROK">WINROK</option>
-                        <option value="WIOCC">WIOCC</option>
+                        <option value="Billyronks">BILLYRONKS</optiom>
+                        <option value="Cobranet_Abj">COBRANET_ABJ</optiom>
+                        <option value="Cynox_IT">CYNOX_IT</optiom>
+                        <option value="DotmacTech_Abj">DOTMACTECH_ABJ</optiom>
+                        <option value="GGC_RTR">GGC_RTR</optiom>
+                        <option value="Megamore">MEGAMORE</optiom>
+                        <option value="Netcom_Abj">NETCOM_ABJ</optiom>
+                        <option value="Netcom_Kano">NETCOM_KANO</optiom>
+                        <option value="NG_ICT_Abj">NG_ICT_ABJ</optiom>
+                        <option value="Phase3">PHASE3</optiom>
+                        <option value="SkyVision">SKYVISION</optiom>
+                        <option value="Spectranet">SPECTRANET</optiom>
+                        <option value="WINROK">WINROK</optiom>
+                        <option value="WIOCC">WIOCC</optiom>
+                          
                     </select>
                 </div>
                 <div class="form-group col-md-10" id="los_nei_v6">
@@ -136,19 +149,21 @@
                     <option value="pb_0082_as60171">AFR_IX</option>
                     <option value="pb_0004_as36873">AIRTEL</option>
                     <option value="pb_0051_as327952">AKAMAI</option>
-                    <option value="pb_0066_as37468">ANGOLA</option>
-                    <option value="pb_0093_as43256">BICS 2</option>
-                    <option value="pb_0085_as37659">BILLYRONKS</option>
+                    <option value="pb_0066_as37468">ANGOLA CABLES</option>
+                    <option value="pb_0093_as43256">BICS II</option>
+                    <option value="pb_0085_as37659">BILLYRONKS GLOBAL LTD</option>
                     <option value="pb_0077_as37714">BITFLUX</option>
                     <option value="pb_0083_as328457">BRAINSHARE</option>
                     <option value="pb_0020_as42909">CDNS</option>
+                    <option value="pb_0099_as328658">CHOICE2MOBILE</option>
+                    <option value="pb_0096_as328722">CIUDAD INFRASTRUCTURE LTD.</option>
                     <option value="pb_0041_as328043">CLICKATEL</option>
                     <option value="pb_0067_as13335">CLOUDFLARE</option>
                     <option value="pb_0008_as35074">COBRANET</option>
                     <option value="pb_0029_as37308">COOLINK_RC</option>
                     <option value="pb_0011_as37308">COOLLINK_MED</option>
                     <option value="pb_0002_as20598">CYBERSPACE</option>
-                    <option value="pb_0012_as37613">DOLPHIN</option>
+                    <option value="pb_0012_as37613">DOLPHIN TELECOMS</option>
                     <option value="pb_0079_as328160">DOTMAC_LOS</option>
                     <option value="pb_0053_as328202">ECONETMEDIA</option>
                     <option value="pb_0045_as37495">EKOKONNECT</option>
@@ -160,14 +175,14 @@
                     <option value="pb_0014_as11344">GGC</option>
                     <option value="pb_0033_as37148">GLO</option>
                     <option value="pb_0015_as15169">GOOGLE</option>
-                    <option value="pb_0094_as136907">HUAWEI 1</option>
-                    <option value="pb_0095_as136907">HUAWEI 2</option>
+                    <option value="pb_0090_as15169">GOOGLE 2</option>
+                    <option value="pb_0094_as136907">HUAWEI_1</option>
+                    <option value="pb_0095_as136907">HUAWEI_2</option>
                     <option value="pb_0047_as37209">HYPERIA</option>
                     <option value="pb_0076_as37269">ICSL</option>
                     <option value="pb_0006_as30988">INTERNET SOLUTION</option>
                     <option value="pb_0007_as29091">IPNX</option>
                     <option value="pb_0046_as37521">ISN</option>
-                    <option value="pb_0089_as36932">IXPN</option>
                     <option value="pb_0090_as36932">IXPN</option>
                     <option value="pb_0048_as37398">JUNIPER</option>
                     <option value="pb_0031_as36920">KKON</option>
@@ -178,34 +193,38 @@
                     <option value="pb_0074_as8075">MICROSOFT2</option>
                     <option value="pb_0018_as29465">MTN-NG</option>
                     <option value="pb_0010_as327952">NATCOMM-MED</option>
-                    <option value="pb_0013_as30998">NETCOM</option>
+                    <option value="pb_0013_as30998">NETCOM AFRICA</option>
                     <option value="pb_0016_as37347">NGCOM-MDX</option>
+                    <option value="pb_0026_as37347">NGCOM-MED</option>
                     <option value="pb_0044_as37661">NGREN</option>
                     <option value="pb_0024_as36938">NIRA-MED</option>
                     <option value="pb_0052_as36938">NIRA-RC</option>
                     <option value="pb_0050_as328166">NMOBILE</option>
                     <option value="pb_0089_as328126">ORANGE MED</option>
                     <option value="pb_0088_as328126">ORANGE RC</option>
+                    <option value="pb_0091_as4004">ORANGE-MED</option>
                     <option value="pb_0039_as3856">PCH1</option>
                     <option value="pb_0040_as42">PCH2</option>
                     <option value="pb_0022_as37248">PHASE3</option>
-                    <option value="pb_0049_as328203">PLATINUM</option>
+                    <option value="pb_0049_as328203">PLATINUM INDEX</option>
+                    <option value="pb_0097_as328779">PROLINE</option>
                     <option value="pb_0034_as327880">SHOWMAX</option>
                     <option value="pb_0037_as37637">SMILECOMM</option>
-                    <option value="pb_0078_as328401">SOFT</option>
+                    <option value="pb_0078_as328401">SOFT ALLIANCE</option>
                     <option value="pb_0003_as37340">SPECTRANET</option>
                     <option value="pb_0019_as36923">SWIFTNG</option>
                     <option value="pb_0023_as36923">SWIFTTALK</option>
                     <option value="pb_0025_as37088">VDT</option>
                     <option value="pb_0032_as26415">VERISIGN</option>
-                    <option value="pb_0009_as16284">VODACOM</option>
-                    <option value="pb_0030_as16284">VODACOM</option>
+                    <option value="pb_0009_as16284">VODACOM MED</option>
+                    <option value="pb_0030_as16284">VODACOM RC</option>
                     <option value="pb_0087_as37721">VTS</option>
                     <option value="pb_0075_as37288">WACREN</option>
                     <option value="pb_0070_as327813">WEB4AFRICA_MED</option>
                     <option value="pb_0084_as37662">WIOCC</option>
                     <option value="pb_0081_as328588">WRAGBY</option>
                     <option value="pb_0062_as21859">ZEN LAYER</option>
+
                   </select>
               </div>
 
@@ -217,9 +236,7 @@
                 <div class="form-group col-md-10">
                     <input type="submit" name="submit" class="btn btn-success btn-block" value="Start probe">&emsp;&emsp;&emsp;
                 </div>
-                
               </form>
-        
     </div>
     <div class="row2"></div>
 </div>

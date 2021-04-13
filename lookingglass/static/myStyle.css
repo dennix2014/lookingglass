@@ -39,9 +39,9 @@ body {
 /* Create two unequal columns that sits next to each other */
 /* Sidebar/left column */
 .side {
-    flex: 40%;
+    flex: 30%;
     background-color:#E5EFF1;
-    padding-left: 50px;
+    padding-left: 30px;
     padding-right: 20px;
     padding-top: 25px;
     padding-bottom: 100px;
@@ -50,7 +50,7 @@ body {
 
 /* Main column */
 .main {
-    flex: 60%;
+    flex: 70%;
     background-color: white;
     padding: 20px;
 }
@@ -117,20 +117,20 @@ body {
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 .contact {
-  border-radius: 35px;
+  border-radius: 15px;
     border: 2px solid #2B5928;
-    width: auto;
+    width: 100%;
     height: auto;
   background-color:#2B5928;
-  padding: 10px;
-  width: 95%;
+  width: 100%;
   color: white;
   font-size: small;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 ul {
   list-style-type: none;
-  line-height: 200%;
+  line-height: 150%;
+  font-weight: bold;
 }
 .contact-heading {
   text-align: center;
