@@ -27,6 +27,7 @@ body {
     text-align: center;
     background:#2B5928;
     color:whitesmoke;
+    width: 100%;
 }
 
 
@@ -86,6 +87,15 @@ body {
 @media screen and (max-width: 700px) {
 .row, .navbar {   
   flex-direction: column;
+}
+table.all_peers td:nth-of-type(2),
+table.all_peers td:nth-of-type(3),
+table.all_peers td:nth-of-type(6),
+table.all_peers th:nth-of-type(2),
+table.all_peers th:nth-of-type(3),
+table.all_peers th:nth-of-type(6) {
+
+    display: none;
 }
 }
 .loading {

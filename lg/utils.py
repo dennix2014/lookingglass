@@ -111,7 +111,7 @@ def connect_to_route_server(server, command):
                     'kernel1' in item:
                     protocols.remove(item)
 
-            final_html =  f'<table><caption>{server}: {command}</caption>'
+            final_html =  f'<table class="all_peers"><caption>{server}: {command}</caption>'
             final_html += bgp_nei_html
 
             for protocol in protocols:
