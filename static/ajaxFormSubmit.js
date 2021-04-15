@@ -22,7 +22,7 @@ $(document).ready(function() {
             $('#los_neighbors_v6').removeAttr('required');
             $('#los_neighbors_v6').removeAttr('data-error');
         } else if (selected_command == 'bgp_neighbor_received' && selected_server == "rs3.abj.v4"){
-            scrollToElement(".subnit-button");
+            scrollToElement(".submit-button");
             $('#ip_add').hide();
             $('#los_nei').hide();
             $('#los_nei_v6').hide();
