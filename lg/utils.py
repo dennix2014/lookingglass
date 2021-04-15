@@ -16,11 +16,12 @@ def split_on_empty_lines(s):
 
 
 ptr_html = """<br><br>
-            <div class="container result">
+            <div class="container">
                 <div class="row">
-	    	<div class="col-sm">"""
+                <div class="result">
+	    	<div class="col-sm"><strong>"""
 
-ptr_close_html = """</div></div></div><br><br>"""
+ptr_close_html = """</strong></div></div></div></div><br><br>"""
 
 bgp_nei_html = """
             <tr>
@@ -90,7 +91,7 @@ def connect_to_route_server(server, command):
                 replace('     ', '&emsp;&emsp;')
 
             final_html = ptr_html
-            final_html += f'<strong>Command: {command}</strong><br><br>'
+            final_html += f'<h4><strong>{command}</strong></h4><br>'
 
             final_html += out
             final_html += ptr_close_html

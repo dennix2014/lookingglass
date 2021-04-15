@@ -1,13 +1,17 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<br>
 <div class="container">
 <div id="wrap-every">
-<div class="row">
-    <div class="row1">
+    <div class="row">
+      <div class="col-sm-3"></div>
+      <div class="col-sm-5 form-border">
         <form id="formOne" action = "{% url 'home' %}"> 
-            <h1 class="row10"><strong>&nbsp;&nbsp;PROBE</strong></h1><br>
-                <div class="form-group col-md-10">
+            <h1 class="row10"><strong>PROBE</strong></h1><br>
+            <div class="row">
+                <div class="col-sm-1"></div>
+                <div class="form-group col-sm-10">
                   <label for="server"><strong>Route Server</strong></label>
                   <select class="form-control" id="server" name="server" required>
                     <option disabled selected value style="display:none; font-size: xx-small;">Select route server</option>
@@ -17,7 +21,12 @@
                     <option value="rs3.abj.v4">rs3.abj - IPV4</option>
                   </select>
                 </div>
-                <div class="form-group col-md-10">
+                <div class="col-sm-1"></div>
+            
+            </div>
+            <div class="row">
+              <div class="col-sm-1"></div>
+                <div class="form-group col-sm-10">
                     <label for="command"><strong>Command</strong></label>
                     <select class="form-control" id="command" name="command" required>
                       <option disabled selected value style="display:none;">--Please select a command</option>
@@ -28,7 +37,11 @@
                       <option value="bgp_neighbor_received">show bgp neighbor ... receieved routes</option>
                     </select>
                   </div>
-                  <div class="form-group col-md-10" id="los_nei">
+                  <div class="col-sm-1"></div>
+            </div>
+            <div class="row">
+              <div class="col-sm-1"></div>
+                  <div class="form-group col-sm-10" id="los_nei">
                     <label for="los_neighbors"><strong>Neighbors</strong></label>
                     <select class="form-control" id="los_neighbors" name="los_neighbors">
                       <option disabled selected value style="display:none;">--Please select a member</option>
@@ -120,7 +133,11 @@
                       <option value="ZENLAYER">ZENLAYER</option>
                     </select>
                   </div>
-                  <div class="form-group col-md-10" id="abj_nei">
+                  <div class="col-sm-1"></div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-1"></div>
+                  <div class="form-group col-sm-10" id="abj_nei">
                     <label for="abj_neighbors"><strong>Neighbors</strong></label>
                     <select class="form-control" id="abj_neighbors" name="abj_neighbors">
                         <option disabled selected value style="display:none;">--Please select a member</option>
@@ -138,10 +155,13 @@
                         <option value="Spectranet">SPECTRANET</optiom>
                         <option value="WINROK">WINROK</optiom>
                         <option value="WIOCC">WIOCC</optiom>
-                          
                     </select>
                 </div>
-                <div class="form-group col-md-10" id="los_nei_v6">
+                <div class="col-sm-1"></div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-1"></div>
+                <div class="form-group col-sm-10" id="los_nei_v6">
                   <label for="los_neighbors_v6"><strong>Neighbors</strong></label>
                   <select class="form-control" id="los_neighbors_v6" name="los_neighbors_v6">
                     <option disabled selected value style="display:none;">--Please select a member</option>
@@ -227,19 +247,32 @@
 
                   </select>
               </div>
-
-                <div class="form-group col-md-10" id="ip_add">
+              <div class="col-sm-1"></div>
+              </div>
+              <div class="row">
+                <div class="col-sm-1"></div>
+                <div class="form-group col-sm-10" id="ip_add">
                   <label for="ip_address"><strong>Ip Address</strong></label>
                   <input type="text" name="ip_address" class="form-control" id="ip_address" placeholder="ipv4 or ipv6 address">
+  
                 </div>
-                <br><br>
-                <div class="form-group col-md-10">
-                    <input type="submit" name="submit" class="btn btn-success btn-block" value="Start probe">&emsp;&emsp;&emsp;
+                <div class="col-sm-1"></div>
+              </div>
+                <br>
+                <div class="row">
+                  <div class="col-sm-3"></div>
+                <div class="form-group col-sm-6">
+                    <input type="submit" name="submit" class="btn btn-block submit-button" value="Start probe">&emsp;&emsp;&emsp;
+                </div>
+                <div class="col-sm-3"></div>
+           
                 </div>
               </form>
     </div>
+    <div class="col-sm-3"></div>
+    </div>
+
     <div class="row2"></div>
-</div>
 
 
 

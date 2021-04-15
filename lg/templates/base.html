@@ -38,7 +38,7 @@
 			<div class="contact">
 				<br>
 				<h5 class="contact-heading">Internet Exchange Point of Nigeria</h5>
-					&emsp;<i class="fa fa-map-marker" aria-hidden="true"></i> &emsp;8th floor, NCR building, No 6, Broad Street, Marina, &emsp;&emsp;&emsp;Lagos<br>
+					&emsp;<i class="fa fa-map-marker" aria-hidden="true"></i> &emsp;8th floor, NCR building, No 6, Broad Street, <br>&emsp;&emsp;&emsp;Marina, Lagos<br>
 					&emsp;<i class="fa fa-phone" aria-hidden="true"></i> &emsp;+234-8093878110<br>
 					&emsp;<i class="fa fa-envelope-o" aria-hidden="true"></i>&emsp; noc@ixp.net.ng<br><br>
 
@@ -46,9 +46,15 @@
 		</div>
 		<div class="main">
 			{% block content %}{% endblock %}
+			<div class="row">
+				<div class="col-sm-3"></div>
+				<div class="col-sm-5">
 			<div class="loading">
 				<img src="{% static 'ajaxloader_1_09873.gif' %}" alt="load"><br><br>
 				<h3> <strong>Proccessing</strong></h3>
+			</div>
+				</div>
+				<div class="col-sm-3"></div>
 			</div>
 	  	</div>
 	</div>

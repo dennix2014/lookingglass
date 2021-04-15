@@ -24,10 +24,9 @@ body {
 /* Header/logo Title */
 .header {
   padding: 15px;
-    text-align: center;
-    background:#2B5928;
-    color:whitesmoke;
-    width: 100%;
+  text-align: center;
+  background:#2B5928;
+  color:whitesmoke;
 }
 
 
@@ -53,7 +52,8 @@ body {
 .main {
     flex: 70%;
     background-color: white;
-    padding: 20px;
+    padding-left: 20px;
+    padding-right: 10px;
 }
 
 /* Footer */
@@ -65,6 +65,14 @@ body {
     text-align: center;
     background: #2B5928;
     color: whitesmoke;
+}
+
+.form-border {
+  border: 5px solid #2B5928;
+  border-radius: 10px;
+  color: #2B5928;
+  width: 100%;
+
 }
 .row0{
   flex: 5%;
@@ -80,12 +88,24 @@ body {
   flex: 30%;
   padding: 5px;
 }
-.submit-button {
-  padding-top: 20px;
+
+.row10 {
+  text-align: center;
 }
+.submit-button {
+  background-color:  #2B5928;
+  color: whitesmoke;
+  border-color: whitesmoke;
+  border-radius: 15px;
+}
+
 /* Responsive layout - when the screen is less than 700px wide, make the two columns stack on top of each other instead of next to each other */
 @media screen and (max-width: 700px) {
-.row, .navbar {   
+.row, .header {   
+  flex-direction: column;
+}
+body {
+  display: flex;
   flex-direction: column;
 }
 table.all_peers td:nth-of-type(2),
@@ -97,6 +117,13 @@ table.all_peers th:nth-of-type(6) {
 
     display: none;
 }
+
+div.row1{
+  margin-right: 2%;
+  width: 100%;
+
+}
+
 }
 .loading {
   display: none;
@@ -118,19 +145,18 @@ table.all_peers th:nth-of-type(6) {
 }
 .result {
   border-radius: 35px;
-    border: 2px solid #2B5928;
+  border: 10px solid #2B5928;
   padding: 20px;
   margin-bottom: 50px;
-  width: 90%;
   color: black;
   font-size: small;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 .contact {
   border-radius: 15px;
-    border: 2px solid #2B5928;
-    width: 100%;
-    height: auto;
+  border: 2px solid #2B5928;
+  width: 100%;
+  height: auto;
   background-color:#2B5928;
   width: 100%;
   color: white;
