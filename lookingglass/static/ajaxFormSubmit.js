@@ -1,4 +1,8 @@
-
+function scrollToElement(id_or_class){
+    $('html, body').animate({
+        scrollTop: $(id_or_class).offset().top
+    }, 1000);
+}
 
 $(document).ready(function() {
     $("#command, #server").on('load change', function() {
@@ -18,6 +22,7 @@ $(document).ready(function() {
             $('#los_neighbors_v6').removeAttr('required');
             $('#los_neighbors_v6').removeAttr('data-error');
         } else if (selected_command == 'bgp_neighbor_received' && selected_server == "rs3.abj.v4"){
+            scrollToElement(".subnit-button");
             $('#ip_add').hide();
             $('#los_nei').hide();
             $('#los_nei_v6').hide();
@@ -32,6 +37,7 @@ $(document).ready(function() {
             $('#abj_neighbors').attr('data-error', 'This field is required');
 
         }else if (selected_command == 'bgp_neighbor_received' && (selected_server == "rs1.rc.v4" || selected_server == "rs2.med.v4") ){
+            scrollToElement(".submit-button");
             $('#ip_add').hide();
             $('#abj_nei').hide();
             $('#los_nei_v6').hide();
@@ -46,6 +52,7 @@ $(document).ready(function() {
             $('#los_neighbors').attr('data-error', 'This field is required');
 
         }else if (selected_command == 'bgp_neighbor_received' && selected_server == "rs2.med.v6") {
+            scrollToElement(".submit-button");
             $('#ip_add').hide();
             $('#abj_nei').hide();
             $('#los_nei').hide();
@@ -60,9 +67,7 @@ $(document).ready(function() {
             $('#los_neighbors_v6').attr('data-error', 'This field is required');
 
         }else if (selected_command == 'ping' || selected_command == 'traceroute' || selected_command == 'route' || selected_command =='route_detail'){
-            $('html, body').animate({
-                scrollTop: $(".submit-button").offset().top
-            }, 1000); 
+            scrollToElement(".submit-button");
             $('#ip_add').show();
             $('#ip_address').attr('required', '');
             $('#ip_address').attr('data-error', 'This field is required.');
@@ -106,9 +111,7 @@ $('#formOne').on('submit', function(e){
     $('.loading').css("display", "block");
     $('#output').hide();
     $('.btn').prop("disabled",true);
-    $('html, body').animate({
-        scrollTop: $(".loading").offset().top
-    }, 1000); 
+    scrollToElement(".loading");
 
     $.ajax({
        type : "GET", 
@@ -127,9 +130,7 @@ $('#formOne').on('submit', function(e){
        success: function(data){
         resetForm();
         $('#output').html(data.result);
-        $('html, body').animate({
-            scrollTop: $("#output").offset().top
-        }, 1000);  
+        scrollToElement("#output"); 
        },
        
        error: function(XMLHttpRequest, textStatus, errorThrown) { 
