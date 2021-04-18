@@ -159,7 +159,7 @@ def connect_to_route_server(server, command):
             return final_html
 
         elif 'please show route protocol' in command:
-            final_html =  f'<table><caption>{server}: {command[:-27]}</caption>'
+            final_html =  f'<table class="received"><caption>{server}: {command[:-27]}</caption>'
             final_html += bgp_nei_rec_html
 
             a = output.splitlines()

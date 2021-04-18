@@ -135,7 +135,7 @@ $('#formOne').on('submit', function(e){
        
        error: function(XMLHttpRequest, textStatus, errorThrown) { 
            resetForm();
-           $('#output').html(`<p class="text-danger text-center">${errorThrown}</p>`)
+           $('#output').html(`<p class="text-danger">&emsp;&emsp;&emsp;${errorThrown}</p>`)
 
         }      
     });
