@@ -17,6 +17,9 @@ def home(request):
         if ref is not None:
             if ref != "https://ixpmanager.ixp.net.ng/":
                 redirect(ref)
+            elif ref == "https://ixpmanager.ixp.net.ng/":
+                return render(request, 'lg.html')
+
               
         else:
             return render(request, 'lg.html')
