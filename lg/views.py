@@ -13,11 +13,14 @@ from lookingglass.local_settings import servers, server_params, commands
 
 def home(request):
     ref = request.META.get('HTTP_REFERER')
-    if not ref or != 'https://ixpmanager.ixp.net.ng/':
-        return redirect(ref)
-    elif request.method == 'GET':
-        return render(request, 'lg.html')
-    
+    if request.method == "GET":
+        if ref is not None:
+            if ref != "https://ixpmanager.ixp.net.ng/":
+                redirect(ref)
+              
+        else:
+            return render(request, 'lg.html')
+  
 
 def beenLimited(request, exception):
     message = '<h3 class="text-danger text-center">A few too many tries for today buddy. Please try again after 5 minutes</h3>'
