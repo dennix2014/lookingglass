@@ -12,8 +12,9 @@ from lookingglass.local_settings import servers, server_params, commands
 
 
 def home(request):
+    ref = request.META.HTTP_REFERER
     if request.method == 'GET':
-        return render(request, 'lg.html')
+        return render(request, 'lg.html', {'ref':ref })
     
 
 def beenLimited(request, exception):
