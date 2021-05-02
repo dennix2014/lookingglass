@@ -13,7 +13,9 @@ from lookingglass.local_settings import servers, server_params, commands
 
 def home(request):
     ref = request.META.get('HTTP_REFERER')
-    if request.method == 'GET':
+    if ref == 'https://ixpmanager.ixp.net.ng/':
+        return redirect(ref)
+    elif request.method == 'GET':
         return render(request, 'lg.html', {'ref':ref })
     
 
