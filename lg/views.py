@@ -16,7 +16,7 @@ def home(request):
     if ref != 'https://ixpmanager.ixp.net.ng/' or None:
         return redirect(ref)
     elif request.method == 'GET':
-        return render(request, 'lg.html', {'ref':ref })
+        return render(request, 'lg.html')
     
 
 def beenLimited(request, exception):
