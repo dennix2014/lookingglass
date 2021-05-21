@@ -103,9 +103,7 @@ def connect_to_route_server(server, command):
 
             s = set(protocols)
             for item in s:
-                if 'BIRD 1.6.3 ready.' in item or \
-                    'BIRD 1.6.0 ready.' in item or \
-                    'BIRD 1.4.0 ready.' in item or \
+                if 'BIRD ' in item or \
                     'Pipe for ' in item or \
                     'direct1' in item or \
                     'static1' in item or \
