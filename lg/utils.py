@@ -115,10 +115,14 @@ def connect_to_route_server(server, command):
 
             for protocol in protocols:
                 final_html += '<tr>'
+                if server == 'rs2.med.v6':
+                    description = re.search('Description:    (.*)', protocol).group(1)
+                    description2 = protocol.split()[0]
+                else:
+                    description = protocol.split()[0]
 
-                description = re.search('Description:    (.*)', protocol)
                 if description:
-                    final_html += f'<td>{description.group(1)}</td>'
+                    final_html += f'<td>{description}</td>'
                 else:
                     final_html += f'<td>-</td>'
 
