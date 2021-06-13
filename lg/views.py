@@ -12,26 +12,20 @@ from lookingglass.local_settings import servers, server_params, commands
 
 
 def home(request):
-    ref = request.META.get('HTTP_REFERER')
     if request.method == "GET":
-        if ref is not None:
-            if ref != "https://ixpmanager.ixp.net.ng/":
-                redirect(ref)
-            elif ref == "https://ixpmanager.ixp.net.ng/":
-                return render(request, 'lg.html')
-
-              
-        else:
-            return render(request, 'lg.html')
+        return render(request, 'lg.html')
   
 
 def beenLimited(request, exception):
-    message = '<h3 class="text-danger text-center">A few too many tries for today buddy. Please try again after 5 minutes</h3>'
+    message = (f'<h3 class="text-danger text-center">'
+                f'A few too many tries for you today buddy. '
+                f'Please try again later</h3>')
     response = {'result':message}
     return JsonResponse(response) 
     
 
-@ratelimit(key='header:x-cluster-client-ip', rate='5/m', method=ratelimit.ALL, block=True)
+@ratelimit(key='header:x-cluster-client-ip', 
+            rate='5/m', method=ratelimit.ALL, block=True)
 def ping_trace_route(request):
     if request.method == 'GET' and request.is_ajax():
         
@@ -43,10 +37,12 @@ def ping_trace_route(request):
             command_to_run = f'{commands.get(command)} {ip_address} all'
         
         elif command == 'ping' or command == 'traceroute':
-            ### Check if route is in the routing table so as not use the internet
+            ### Check if ip is in the routing table so as not use the internet
             check_route = f'{commands.get("route")} {ip_address}'
-            if 'Network not in table' in connect_to_route_server(server, check_route):
-                result = f'<p class="error"><strong>"{ip_address}"</strong> not in routing table</p>'
+            if 'Network not in table' \
+                in connect_to_route_server(server, check_route):
+                result = (f'<p class="error"><strong>"{ip_address}"</strong> '
+                            f'not in routing table</p>')
                 response = {'result': result}
                 return JsonResponse(response)
             else:
@@ -58,7 +54,8 @@ def ping_trace_route(request):
                 response = {'result':result}
                 return JsonResponse(response) 
             else:
-                result = f'<p class="error"><strong>"{ip_address}"</strong> is not  a valid ipv4 address</p>'
+                result = (f'<p class="error"><strong>"{ip_address}"</strong> '
+                            f'is not  a valid ipv4 address</p>')
                 response = {'result': result}
                 return JsonResponse(response)
 
@@ -68,12 +65,14 @@ def ping_trace_route(request):
                 response = {'result':result}
                 return JsonResponse(response) 
             else:
-                result = f'<p class="error"><strong>"{ip_address}"</strong> is not  a valid ipv6 address</p>'
+                result = (f'<p class="error"><strong>"{ip_address}"</strong> '
+                            f'is not  a valid ipv6 address</p>')
                 response = {'result': result}
                 return JsonResponse(response)
 
 
-@ratelimit(key='header:x-cluster-client-ip', rate='5/m', method=ratelimit.ALL, block=True)
+@ratelimit(key='header:x-cluster-client-ip', \
+            rate='5/m', method=ratelimit.ALL, block=True)
 @cache_page(60 * 15)
 def bgp_neighbors(request):
     if request.method == 'GET' and request.is_ajax():
@@ -87,7 +86,8 @@ def bgp_neighbors(request):
         return JsonResponse(response) 
     
 
-@ratelimit(key='header:x-cluster-client-ip', rate='5/m', method=ratelimit.ALL, block=True)
+@ratelimit(key='header:x-cluster-client-ip', \
+            rate='5/m', method=ratelimit.ALL, block=True)
 @cache_page(60 * 15)
 def bgp_neighbor_received(request):
     if request.method == 'GET' and request.is_ajax():

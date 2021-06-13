@@ -6,7 +6,7 @@ import subprocess
 import time
 import re
 from lookingglass.local_settings import commands, servers, server_params
-
+he_url = 'https://bgp.he.net/AS'
 
 def split_on_empty_lines(s):
     
@@ -25,6 +25,7 @@ ptr_close_html = """</strong></div></div></div></div><br><br>"""
 
 bgp_nei_html = """
             <tr>
+            <th>S/N</th>
             <th>Neighbor</th>
             <th>Neighbor Address</th>
             <th>ASN</th>
@@ -37,6 +38,7 @@ bgp_nei_closing_html = '</table><br><br>'
 
 bgp_nei_rec_html = """
             <tr>
+            <th>S/N</th>
             <th>Prefix</th>
             <th>Origin</th>
             <th>Path</th>
@@ -110,21 +112,25 @@ def connect_to_route_server(server, command):
                     'kernel1' in item:
                     protocols.remove(item)
 
-            final_html =  f'<table class="all_peers"><caption>{server}: {command}</caption>'
+            final_html =  (f'<table class="all_peers"><caption>{server}: '
+                            f'{command}</caption>')
             final_html += bgp_nei_html
 
+            no = 0 #Initialize s/no
             for protocol in protocols:
                 final_html += '<tr>'
+                no  += 1
+                final_html += f'<td>{no}</td>'
+
                 if server == 'rs2.med.v6':
-                    description = re.search('Description:    (.*)', protocol).group(1)
+                    description = \
+                    re.search('Description:    (.*)', protocol).group(1)
                     description2 = protocol.split()[0]
+                    final_html += (f'<td><span class="hide-v6">{description2}:'
+                                    f'</span>{description}</td>')
                 else:
                     description = protocol.split()[0]
-
-                if description:
                     final_html += f'<td>{description}</td>'
-                else:
-                    final_html += f'<td>-</td>'
 
                 neighbor_ip = re.search('Neighbor address: (.*)', protocol)
                 if neighbor_ip:
@@ -134,7 +140,10 @@ def connect_to_route_server(server, command):
 
                 asn = re.search('Neighbor AS:      (\d+)', protocol)
                 if asn:
-                    final_html += f'<td>{asn.group(1)}</td>'
+                    final_html += (f'<td><a href="{he_url}'
+                                    f'{asn.group(1)}" target="_blank"'
+                                    f' rel="noopener noreferrer">'
+                                    f'{asn.group(1)}</a></td>')
                 else:
                     final_html += f'<td>-</td>'
 
@@ -146,7 +155,8 @@ def connect_to_route_server(server, command):
     
                 received_routes = re.search('Routes:         (\w+)', protocol)
                 if received_routes:
-                    final_html += f'<td>{received_routes.group(1)}</td>'
+                    final_html += (f'<td class="received-routes"><a href="#">'
+                                    f'{received_routes.group(1)}</a></td>')
                 else:
                     final_html += f'<td>-</td>'
 
@@ -161,7 +171,8 @@ def connect_to_route_server(server, command):
             return final_html
 
         elif 'please show route protocol' in command:
-            final_html =  f'<table class="received"><caption>{server}: {command[:-27]}</caption>'
+            final_html =  (f'<table class="received"><caption>{server}: '
+                            f'{command[:-27]}</caption>')
             final_html += bgp_nei_rec_html
 
             a = output.splitlines()
@@ -174,8 +185,10 @@ def connect_to_route_server(server, command):
             output_joined = []
             for i in range(0,len(a),n):
                 output_joined.append(a[i] + a[i+1])
-
+            no = 0 # Initialize s/no
             for item in output_joined:
+                no  += 1
+                final_html += f'<td>{no}</td>'
 
                 prefix = item.split(None)[0]
                 if prefix:
@@ -185,8 +198,12 @@ def connect_to_route_server(server, command):
                 if origin:
                     final_html += f'<td>{origin.group()}</td>'
                 
-                path = re.findall(r"\BGP.as_path:(.*)", item)
-                if path:
+                paths = re.findall(r"\BGP.as_path:(.*)", item)
+                if paths:
+                    path = [(f'<a href="{he_url}{item.strip()}" '
+                            f'target="_blank" rel="noopener noreferrer">'
+                            f'{item}</a>') for item in paths[0].lstrip().split()]
+
                     path = ' '.join(path)
                     final_html += f'<td>{path}</td>'
                 

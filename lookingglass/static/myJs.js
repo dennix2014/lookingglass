@@ -140,3 +140,60 @@ $('#formOne').on('submit', function(e){
         }      
     });
 });     
+
+
+$(document).on('click', '.received-routes', function(){
+    $('.loading').css("display", "block");
+    $('#output').hide();
+    $('.btn').prop("disabled",true);
+    scrollToElement(".loading");
+
+    let member = $(this).closest('tr').find('td:nth-child(2)').text();
+    let server = $('caption').text().split(':')[0];
+    let los_neighbors;
+    let los_neighbors_v6;
+    let abj_neighbors;
+
+    if (server == 'rs1.rc.v4' || server == 'rs2.med.v4') {
+        los_neighbors = member;
+        los_neighbors_v6 = '';
+        abj_neighbors = '';
+
+    } else if (server == 'rs2.med.v6') {
+        los_neighbors = '';
+        los_neighbors_v6 = member.split(':')[0];
+        abj_neighbors = ''
+
+    } else if (server == 'rs3.abj.v4') {
+        los_neighbors = '';
+        los_neighbors_v6 = '';
+        abj_neighbors = member
+    }
+
+    
+    $.ajax({
+        type : "GET", 
+        url : 'bgp_neighbor_received/',
+        data: {
+            command: 'bgp_neighbor_received',
+            los_neighbors: los_neighbors,
+            los_neighbors_v6: los_neighbors_v6,
+            abj_neighbors: abj_neighbors,
+            server: server,
+            dataType: "json",
+        
+        },
+        
+        success: function(data){
+            resetForm();
+            $('#output').html(data.result);
+            scrollToElement("#output"); 
+        },
+               
+        error: function(XMLHttpRequest, textStatus, errorThrown) { 
+            resetForm();
+            $('#output').html(`<p class="text-danger">&emsp;&emsp;&emsp;${errorThrown}</p>`)
+        
+        }      
+    });
+});     
