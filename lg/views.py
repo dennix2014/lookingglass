@@ -25,7 +25,13 @@ def rate_limited(request, exception):
     
 
 @ratelimit(key='header:x-cluster-client-ip', 
-            rate='5/h', method=ratelimit.ALL, block=True)
+            rate='4/m', method=ratelimit.ALL, block=True)
+
+@ratelimit(key='header:x-cluster-client-ip', 
+            rate='20/h', method=ratelimit.ALL, block=True)
+
+@ratelimit(key='header:x-cluster-client-ip', 
+            rate='50/d', method=ratelimit.ALL, block=True)
 def ping_trace_route(request):
     if request.method == 'GET' and request.is_ajax():
         
@@ -71,8 +77,14 @@ def ping_trace_route(request):
                 return JsonResponse(response)
 
 
-@ratelimit(key='header:x-cluster-client-ip', \
-            rate='5/h', method=ratelimit.ALL, block=True)
+@ratelimit(key='header:x-cluster-client-ip', 
+            rate='4/m', method=ratelimit.ALL, block=True)
+
+@ratelimit(key='header:x-cluster-client-ip', 
+            rate='20/h', method=ratelimit.ALL, block=True)
+
+@ratelimit(key='header:x-cluster-client-ip', 
+            rate='50/d', method=ratelimit.ALL, block=True)
 @cache_page(60 * 15)
 def bgp_neighbors(request):
     if request.method == 'GET' and request.is_ajax():
@@ -84,10 +96,16 @@ def bgp_neighbors(request):
         result = connect_to_route_server(server, command_to_run)
         response = {'result':result}
         return JsonResponse(response) 
+        
     
+@ratelimit(key='header:x-cluster-client-ip', 
+            rate='4/m', method=ratelimit.ALL, block=True)
 
-@ratelimit(key='header:x-cluster-client-ip', \
-            rate='5/h', method=ratelimit.ALL, block=True)
+@ratelimit(key='header:x-cluster-client-ip', 
+            rate='20/h', method=ratelimit.ALL, block=True)
+
+@ratelimit(key='header:x-cluster-client-ip', 
+            rate='50/d', method=ratelimit.ALL, block=True)
 @cache_page(60 * 15)
 def bgp_neighbor_received(request):
     if request.method == 'GET' and request.is_ajax():
