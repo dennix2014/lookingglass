@@ -16,16 +16,16 @@ def home(request):
         return render(request, 'lg.html')
   
 
-def beenLimited(request, exception):
+def rate_limited(request, exception):
     message = (f'<h3 class="text-danger text-center">'
-                f'A few too many tries for you today buddy. '
+                f'Too many requests. '
                 f'Please try again later</h3>')
     response = {'result':message}
     return JsonResponse(response) 
     
 
 @ratelimit(key='header:x-cluster-client-ip', 
-            rate='5/m', method=ratelimit.ALL, block=True)
+            rate='5/h', method=ratelimit.ALL, block=True)
 def ping_trace_route(request):
     if request.method == 'GET' and request.is_ajax():
         
@@ -72,7 +72,7 @@ def ping_trace_route(request):
 
 
 @ratelimit(key='header:x-cluster-client-ip', \
-            rate='5/m', method=ratelimit.ALL, block=True)
+            rate='5/h', method=ratelimit.ALL, block=True)
 @cache_page(60 * 15)
 def bgp_neighbors(request):
     if request.method == 'GET' and request.is_ajax():
@@ -87,7 +87,7 @@ def bgp_neighbors(request):
     
 
 @ratelimit(key='header:x-cluster-client-ip', \
-            rate='5/m', method=ratelimit.ALL, block=True)
+            rate='5/h', method=ratelimit.ALL, block=True)
 @cache_page(60 * 15)
 def bgp_neighbor_received(request):
     if request.method == 'GET' and request.is_ajax():
