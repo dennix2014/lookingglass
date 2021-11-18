@@ -21,7 +21,7 @@ $(document).ready(function() {
             serverz.forEach(server =>  $(`#id_${server}_peers`).removeAttr('required'));
             serverz.forEach(server =>  $(`#id_${server}_peers`).removeAttr('data-error'));
         } else if (selected_command == 'bgp_neighbor_received'){
-            scrollToElement(".submit-button");
+            scrollToElement("#id_command");
             $(`#div_id_${selected_server}_peers`).show();
             $(`#id_${selected_server}_peers`).attr('required', '');
             $(`#id_${selected_server}_peers`).attr('data-error', 'This field is required');
@@ -40,7 +40,7 @@ $(document).ready(function() {
                 }
             });
         }else if (selected_command == 'ping' || selected_command == 'traceroute' || selected_command == 'route' || selected_command =='route_detail'){
-            scrollToElement(".submit-button");
+            scrollToElement("#id_command");
             $('#div_id_ip_address').show();
             $('#id_ip_address').attr('required', '');
             $('#id_ip_address').attr('data-error', 'This field is required.');
