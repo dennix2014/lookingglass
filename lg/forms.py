@@ -25,5 +25,5 @@ class CommandForm(forms.Form):
         for i in servers:
             field_name = f'{i}_peers'
             self.fields[field_name] = forms.ChoiceField(label='BGP Peers', choices=get_choices(globals()[f'{i}']))
-            self.fields[field_name].widget.attrs.update({'class': 'peers'})
+ 
        

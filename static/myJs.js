@@ -4,6 +4,21 @@ function scrollToElement(id_or_class){
     }, 1000);
 }
 
+function hideArrayOfElemets(arrayOfElemets) {
+    arrayOfElemets.forEach(element =>  $(`#div_id_${element}_peers`).hide());
+    arrayOfElemets.forEach(element =>  $(`#div_id_${element}_peers`).parent().hide());
+    arrayOfElemets.forEach(element =>  $(`#id_${element}_peers`).removeAttr('required'));
+    arrayOfElemets.forEach(element =>  $(`#id_${element}_peers`).removeAttr('data-error'));
+}
+
+function hideElement(element) {
+    $(`#div_${element}`).hide();
+    $(`#div_${element}`).parent().hide();
+    $(`#${element}`).removeAttr('required');
+    $(`#${element}`).removeAttr('data-error');
+}
+
+
 $(document).ready(function() {
     let serverz = $('#serverz').attr('servers')
     serverz = (serverz.substring(1, serverz.length-1)+',').split(' ');
@@ -14,39 +29,33 @@ $(document).ready(function() {
         var selected_command = $('#id_command').val();
         var selected_server = $('#id_server').val();
         if (selected_command == 'bgp_neighbors') {
-            $('#div_id_ip_address').hide();
-            $('#id_ip_address').removeAttr('required');
-            $('#id_ip_address').removeAttr('data-error');
-            serverz.forEach(server =>  $(`#div_id_${server}_peers`).hide());
-            serverz.forEach(server =>  $(`#id_${server}_peers`).removeAttr('required'));
-            serverz.forEach(server =>  $(`#id_${server}_peers`).removeAttr('data-error'));
+            hideElement('id_ip_address')
+            hideArrayOfElemets(serverz)
+
         } else if (selected_command == 'bgp_neighbor_received'){
             scrollToElement("#id_command");
-            $(`#div_id_${selected_server}_peers`).show();
-            $(`#id_${selected_server}_peers`).attr('required', '');
-            $(`#id_${selected_server}_peers`).attr('data-error', 'This field is required');
-            $('#div_id_ip_address').hide();
-            $('#id_ip_address').removeAttr('required');
-            $('#id_ip_address').removeAttr('data-error');
+            hideElement('id_ip_address')
             serverz.forEach(server =>  {
                 if (server != selected_server) {
                     $(`#div_id_${server}_peers`).hide();
+                    $(`#div_id_${server}_peers`).parent().hide();
                     $(`#id_${server}_peers`).removeAttr('required');
                     $(`#id_${server}_peers`).removeAttr('data-error');
                 }else if (server == selected_server) {
                     $(`#div_id_${selected_server}_peers`).show();
+                    $(`#div_id_${selected_server}_peers`).parent().show();
                     $(`#id_${selected_server}_peers`).attr('required', '');
                     $(`#id_${selected_server}_peers`).attr('data-error', 'This field is required');
                 }
             });
+            
         }else if (selected_command == 'ping' || selected_command == 'traceroute' || selected_command == 'route' || selected_command =='route_detail'){
             scrollToElement("#id_command");
             $('#div_id_ip_address').show();
+            $('#div_id_ip_address').parent().show();
             $('#id_ip_address').attr('required', '');
             $('#id_ip_address').attr('data-error', 'This field is required.');
-            serverz.forEach(server =>  $(`#div_id_${server}_peers`).hide());
-            serverz.forEach(server =>  $(`#id_${server}_peers`).removeAttr('required'));
-            serverz.forEach(server =>  $(`#id_${server}_peers`).removeAttr('data-error'));
+            hideArrayOfElemets(serverz)
         }
     })
 });
@@ -60,12 +69,8 @@ function resetForm() {
     $('.btn').prop("disabled",false);
     $("select").each(function() { this.selectedIndex = 0 });
     $("input[type=text]").val("");
-    $('#div_id_ip_address').hide();
-    $('#id_ip_address').removeAttr('required');
-    $('#id_ip_address').removeAttr('data-error');
-    serverz.forEach(server =>  $(`#div_id_${server}_peers`).hide());
-    serverz.forEach(server =>  $(`#id_${server}_peers`).removeAttr('required'));
-    serverz.forEach(server =>  $(`#id_${server}_peers`).removeAttr('data-error'));
+    hideElement('id_ip_address')
+    hideArrayOfElemets(serverz)
     
 }
 
