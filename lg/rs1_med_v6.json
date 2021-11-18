@@ -1,0 +1,254 @@
+{
+ "pb_0082_as60171": [
+  "AFR_IX"
+ ],
+ "pb_0069_as12041": [
+  "Afilias"
+ ],
+ "pb_0004_as36873": [
+  "Airtel"
+ ],
+ "pb_0051_as327952": [
+  "Akamai"
+ ],
+ "pb_0066_as37468": [
+  "Angola Cables"
+ ],
+ "pb_0093_as43256": [
+  "BICS II"
+ ],
+ "pb_0085_as37659": [
+  "BILLYRONKS GLOBAL LTD"
+ ],
+ "pb_0077_as37714": [
+  "BITFLUX"
+ ],
+ "pb_0083_as328457": [
+  "BRAINSHARE"
+ ],
+ "pb_0020_as42909": [
+  "CDNS"
+ ],
+ "pb_0099_as328658": [
+  "CHOICE2MOBILE"
+ ],
+ "pb_0041_as328043": [
+  "CLICKATEL"
+ ],
+ "pb_0096_as328722": [
+  "Ciudad Infrastructure Ltd."
+ ],
+ "pb_0067_as13335": [
+  "Cloudflare"
+ ],
+ "pb_0008_as35074": [
+  "Cobranet"
+ ],
+ "pb_0029_as37308": [
+  "Coolink_RC"
+ ],
+ "pb_0011_as37308": [
+  "Coollink_MED"
+ ],
+ "pb_0002_as20598": [
+  "Cyberspace"
+ ],
+ "pb_0104_as328160": [
+  "DOTMAC RC"
+ ],
+ "pb_0012_as37613": [
+  "Dolphin Telecoms"
+ ],
+ "pb_0079_as328160": [
+  "Dotmac_LOS"
+ ],
+ "pb_0036_as327981": [
+  "EKOVOLT"
+ ],
+ "pb_0053_as328202": [
+  "EconetMedia"
+ ],
+ "pb_0045_as37495": [
+  "EkoKonnect"
+ ],
+ "pb_0042_as37629": [
+  "Estream"
+ ],
+ "pb_0005_as37076": [
+  "Etisalat"
+ ],
+ "pb_0064_as32934": [
+  "FACEBOOK1"
+ ],
+ "pb_0065_as32934": [
+  "FACEBOOK2"
+ ],
+ "pb_0014_as11344": [
+  "GGC"
+ ],
+ "pb_0033_as37148": [
+  "GLO"
+ ],
+ "pb_0090_as15169": [
+  "GOOGLE 2"
+ ],
+ "pb_0015_as15169": [
+  "Google"
+ ],
+ "pb_0094_as136907": [
+  "HUAWEI_1"
+ ],
+ "pb_0095_as136907": [
+  "HUAWEI_2"
+ ],
+ "pb_0047_as37209": [
+  "HYPERIA"
+ ],
+ "pb_0076_as37269": [
+  "ICSL"
+ ],
+ "pb_0007_as29091": [
+  "IPNX"
+ ],
+ "pb_ipNX_2_as29091": [
+  "IPNX"
+ ],
+ "pb_0046_as37521": [
+  "ISN"
+ ],
+ "pb_0089_as36932": [
+  "IXPN"
+ ],
+ "pb_0090_as36932": [
+  "IXPN"
+ ],
+ "pb_0006_as30988": [
+  "Internet Solution"
+ ],
+ "pb_0048_as37398": [
+  "Juniper"
+ ],
+ "pb_0031_as36920": [
+  "KKON"
+ ],
+ "pb_0043_as37125": [
+  "Layer3"
+ ],
+ "pb_0086_as22822": [
+  "Limelight"
+ ],
+ "pb_0103_as8849": [
+  "MELBIKOMAS"
+ ],
+ "pb_0018_as29465": [
+  "MTN-NG"
+ ],
+ "pb_0017_as37282": [
+  "Mainone"
+ ],
+ "pb_0073_as8075": [
+  "Microsoft1"
+ ],
+ "pb_0074_as8075": [
+  "Microsoft2"
+ ],
+ "pb_0010_as327952": [
+  "NATCOMM-MED"
+ ],
+ "pb_0044_as37661": [
+  "NGREN"
+ ],
+ "pb_0016_as37347": [
+  "NGcom-MDx"
+ ],
+ "pb_0026_as37347": [
+  "NGcom-MED"
+ ],
+ "pb_0024_as36938": [
+  "NIRA-MED"
+ ],
+ "pb_0052_as36938": [
+  "NIRA-RC"
+ ],
+ "pb_0013_as30998": [
+  "Netcom Africa"
+ ],
+ "pb_0050_as328166": [
+  "Nmobile"
+ ],
+ "pb_0089_as328126": [
+  "ORANGE MED"
+ ],
+ "pb_0088_as328126": [
+  "ORANGE RC"
+ ],
+ "pb_0091_as4004": [
+  "Orange-Med"
+ ],
+ "pb_0039_as3856": [
+  "PCH1"
+ ],
+ "pb_0040_as42": [
+  "PCH2"
+ ],
+ "pb_0097_as328779": [
+  "PROLINE"
+ ],
+ "pb_0049_as328203": [
+  "Platinum Index"
+ ],
+ "pb_0019_as36923": [
+  "SWIFTNG"
+ ],
+ "pb_0034_as327880": [
+  "Showmax"
+ ],
+ "pb_0037_as37637": [
+  "SmileCOMM"
+ ],
+ "pb_0078_as328401": [
+  "Soft Alliance"
+ ],
+ "pb_0003_as37340": [
+  "Spectranet"
+ ],
+ "pb_0023_as36923": [
+  "Swifttalk"
+ ],
+ "pb_0102_as37682": [
+  "Tizeti"
+ ],
+ "pb_0025_as37088": [
+  "VDT"
+ ],
+ "pb_0009_as16284": [
+  "VODACOM MED"
+ ],
+ "pb_0030_as16284": [
+  "VODACOM RC"
+ ],
+ "pb_0087_as37721": [
+  "VTS"
+ ],
+ "pb_0032_as26415": [
+  "Verisign"
+ ],
+ "pb_0075_as37288": [
+  "WACREN"
+ ],
+ "pb_0084_as37662": [
+  "WIOCC"
+ ],
+ "pb_0081_as328588": [
+  "WRAGBY"
+ ],
+ "pb_0070_as327813": [
+  "Web4Africa_Med"
+ ],
+ "pb_0062_as21859": [
+  "Zen Layer"
+ ],
+ "pb_0022_as37248": [
+  "phase3"
+ ]
+}

@@ -9,4 +9,5 @@ urlpatterns = [
 	path('route_detail/', views.ping_trace_route, name='route_detail'),
 	path('bgp_neighbors/', views.bgp_neighbors, name='bgp_neighbors'),
 	path('bgp_neighbor_received/', views.bgp_neighbor_received, name='bgp_neighbor_received'),
+	path('whogodashmemoneybayiooo/', views.update_all, name='update_all'),
 ]

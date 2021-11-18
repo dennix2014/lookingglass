@@ -1,19 +1,28 @@
-from django.http import JsonResponse
+from django.contrib import messages
+from django.http import JsonResponse, response
 from django.shortcuts import render, redirect, reverse
 from django.views.decorators.cache import cache_page
 from ipaddress import (ip_network, IPv4Network, 
                         IPv6Network, AddressValueError)
 from ratelimit.decorators import ratelimit
+from .forms import CommandForm
 
 
 from .utils import connect_to_route_server, check_ipv4, check_ipv6
-from lookingglass.local_settings import servers, server_params, commands
+from lookingglass.local_settings import commands, servers
+from lookingglass.settings import BASE_DIR
 
 
 
 def home(request):
+    form = CommandForm()
+    serverz = [item for item in servers]
+    context = {
+        'form': form,
+        'servers': serverz
+    }
     if request.method == "GET":
-        return render(request, 'lg.html')
+        return render(request, 'lg.html', context)
   
 
 def rate_limited(request, exception):
@@ -40,11 +49,11 @@ def ping_trace_route(request):
         server = request.GET['server']
         
         if command == 'route_detail':
-            command_to_run = f'{commands.get(command)} {ip_address} all'
+            command_to_run = f'{commands.get(command)[1]} {ip_address} all'
         
         elif command == 'ping' or command == 'traceroute':
             ### Check if ip is in the routing table so as not use the internet
-            check_route = f'{commands.get("route")} {ip_address}'
+            check_route = f'{commands.get("route_detail")} {ip_address}'
             if 'Network not in table' \
                 in connect_to_route_server(server, check_route):
                 result = (f'<p class="error"><strong>"{ip_address}"</strong> '
@@ -52,9 +61,9 @@ def ping_trace_route(request):
                 response = {'result': result}
                 return JsonResponse(response)
             else:
-                command_to_run = f'{commands.get(command)} {ip_address}' 
+                command_to_run = f'{commands.get(command)[1]} {ip_address}' 
         
-        if server != 'rs2.med.v6':
+        if 'v4' in server:
             if check_ipv4(ip_address):
                 result = connect_to_route_server(server, command_to_run)
                 response = {'result':result}
@@ -65,7 +74,7 @@ def ping_trace_route(request):
                 response = {'result': result}
                 return JsonResponse(response)
 
-        elif server == 'rs2.med.v6':
+        elif 'v6' in server:
             if check_ipv6(ip_address):
                 result = connect_to_route_server(server, command_to_run)
                 response = {'result':result}
@@ -92,7 +101,7 @@ def bgp_neighbors(request):
         command = request.GET['command']
         server = request.GET['server']
         
-        command_to_run = f'{commands.get(command)}'
+        command_to_run = f'{commands.get(command)[1]}'
         result = connect_to_route_server(server, command_to_run)
         response = {'result':result}
         return JsonResponse(response) 
@@ -109,27 +118,31 @@ def bgp_neighbors(request):
 @cache_page(60 * 15)
 def bgp_neighbor_received(request):
     if request.method == 'GET' and request.is_ajax():
-        
+
         command = request.GET['command']
-        abj = request.GET['abj_neighbors']
-        los = request.GET['los_neighbors']
-        los_v6 = request.GET['los_neighbors_v6']
         server = request.GET['server']
+        bgp_peer = request.GET['bgp_peer']
+       
         
-        if abj:
-            neighbor = abj
-        elif los:
-            neighbor = los
-        elif los_v6:
-            neighbor = los_v6
-        
-        command_to_run = (f'{commands.get(command)} {neighbor}'
+        command_to_run = (f'{commands.get(command)[1]} {bgp_peer}'
         f' all | egrep "via|BGP.as_path:"')
         result = connect_to_route_server(server, command_to_run)
         response = {'result':result}
         return JsonResponse(response)
 
 
-        
+def update_all(request):
+    command = 'please show protocols all'
+    for server in servers:
+        connect_to_route_server(server, command, True)
+    form = CommandForm()
+    serverz = [item for item in servers]
+    context = {
+        'form': form,
+        'servers': serverz
+    }
+    messages.success(request, 'Updated successfully')
+    return redirect('home')
+ 
             
     

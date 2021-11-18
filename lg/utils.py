@@ -1,3 +1,4 @@
+import json
 import subprocess
 from ipaddress import (ip_network, IPv4Network, 
                         IPv6Network, AddressValueError)
@@ -6,6 +7,7 @@ import subprocess
 import time
 import re
 from lookingglass.local_settings import commands, servers, server_params
+from lookingglass.settings import BASE_DIR
 he_url = 'https://bgp.he.net/AS'
 
 def split_on_empty_lines(s):
@@ -68,9 +70,10 @@ def check_ipv6(ip_address):
     except ValueError:
         return False
     
-def connect_to_route_server(server, command):
+def connect_to_route_server(server, command, update=False):
+ 
     start_time = time.time()
-    server_params['host'] = servers.get(server)
+    server_params['host'] = (servers.get(server))[1]
 
     net_connect = ConnectHandler(**server_params)
     output = net_connect.send_command(command, delay_factor=2)
@@ -80,6 +83,7 @@ def connect_to_route_server(server, command):
 
         if 'ping' in command or 'traceroute' in command or \
             'route for' in command:
+            print(BASE_DIR)
 
 
             out = output.replace('      ', '&emsp;&emsp;').\
@@ -99,7 +103,7 @@ def connect_to_route_server(server, command):
             final_html += ptr_close_html
             return final_html
 
-        elif command == 'please show protocols all': 
+        elif not update and command == 'please show protocols all': 
 
             protocols = split_on_empty_lines(output)
 
@@ -122,7 +126,7 @@ def connect_to_route_server(server, command):
                 no  += 1
                 final_html += f'<td>{no}</td>'
 
-                if server == 'rs2.med.v6':
+                if server == 'rs1_med_v6':
                     description = \
                     re.search('Description:    (.*)', protocol).group(1)
                     description2 = protocol.split()[0]
@@ -216,6 +220,39 @@ def connect_to_route_server(server, command):
 
             final_html += bgp_nei_closing_html
             return final_html
+
+        elif update:
+            protocols = split_on_empty_lines(output)
+
+            s = set(protocols)
+            for item in s:
+                if 'BIRD ' in item or \
+                    'Pipe for ' in item or \
+                    'direct1' in item or \
+                    'static1' in item or \
+                    'kernel1' in item:
+                    protocols.remove(item)
+
+            peers = {}
+            if 'v6' in server:
+                
+                for protocol in protocols:
+                    description = \
+                        re.search('Description:    (.*)', protocol).group(1)
+                    description = description.split(' - ')
+                    description2 = protocol.split()[0]
+                    peers[description2] = [description[1]]
+                    
+
+            else:
+                for protocol in protocols:
+                    description = protocol.split()[0]
+                    peers[description] = [description]
+
+            peers = {k: v for k, v in sorted(peers.items(), key=lambda item: item[1])}
+            with open(f'{BASE_DIR}/lg/{server}.json', 'w') as update:
+                json.dump(peers, update, indent=1)
+
     else:
         final_html = "<P>Query retured no result</p>"
         return final_html
