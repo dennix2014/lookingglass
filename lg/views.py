@@ -122,6 +122,7 @@ def bgp_neighbor_received(request):
         command = request.GET['command']
         server = request.GET['server']
         bgp_peer = request.GET['bgp_peer']
+        print(bgp_peer)
        
         
         command_to_run = (f'{commands.get(command)[1]} {bgp_peer}'

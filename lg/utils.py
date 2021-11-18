@@ -126,7 +126,7 @@ def connect_to_route_server(server, command, update=False):
                 no  += 1
                 final_html += f'<td>{no}</td>'
 
-                if server == 'rs1_med_v6':
+                if 'v6' in server:
                     description = \
                     re.search('Description:    (.*)', protocol).group(1)
                     description2 = protocol.split()[0]

@@ -48,7 +48,7 @@ $(document).ready(function() {
                     $(`#id_${selected_server}_peers`).attr('data-error', 'This field is required');
                 }
             });
-            
+
         }else if (selected_command == 'ping' || selected_command == 'traceroute' || selected_command == 'route' || selected_command =='route_detail'){
             scrollToElement("#id_command");
             $('#div_id_ip_address').show();
@@ -116,10 +116,11 @@ $(document).on('click', '.received-routes', function(){
     $('#output').hide();
     $('.btn').prop("disabled",true);
     scrollToElement(".loading");
-
-    let bgp_peer = $(this).closest('tr').find('td:nth-child(2)').text();
     let server = $('caption').text().split(':')[0];
-   
+    let bgp_peer = $(this).closest('tr').find('td:nth-child(2)').text();
+    if (server.includes('v6')) {
+        bgp_peer = bgp_peer.split(':')[0]
+    }
     $.ajax({
         type : "GET", 
         url : 'bgp_neighbor_received/',
