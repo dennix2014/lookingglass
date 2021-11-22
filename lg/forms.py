@@ -18,7 +18,7 @@ def get_choices(options):
 class CommandForm(forms.Form):
     server = forms.ChoiceField(label="Route Server", choices=get_choices(servers))
     command = forms.ChoiceField(choices=get_choices(commands))
-    ip_address = forms.CharField(label='Ip address', max_length=20) 
+    ip_address = forms.CharField(label='Ip address', max_length=60) 
    
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
