@@ -24,6 +24,6 @@ class CommandForm(forms.Form):
         super().__init__(*args, **kwargs)
         for i in servers:
             field_name = f'{i}_peers'
-            self.fields[field_name] = forms.ChoiceField(label='BGP Peers', choices=get_choices(globals()[f'{i}']))
+            self.fields[field_name] = forms.ChoiceField(label='BGP Peer', choices=get_choices(globals()[f'{i}']))
  
        

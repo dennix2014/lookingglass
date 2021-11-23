@@ -26,8 +26,8 @@ $(document).ready(function() {
     resetForm()
     
     $("#id_command, #id_server").on('load change', function() {
-        var selected_command = $('#id_command').val();
-        var selected_server = $('#id_server').val();
+        let selected_command = $('#id_command').val();
+        let selected_server = $('#id_server').val();
         if (selected_command == 'bgp_neighbors') {
             hideElement('id_ip_address')
             hideArrayOfElemets(serverz)
