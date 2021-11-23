@@ -6,7 +6,7 @@ from netmiko import ConnectHandler
 import subprocess
 import time
 import re
-from lookingglass.local_settings import commands, servers, server_params
+from lookingglass.local_settings import servers, server_params
 from lookingglass.settings import BASE_DIR
 he_url = 'https://bgp.he.net/AS'
 
@@ -126,7 +126,7 @@ def connect_to_route_server(server, command, update=False):
                 no  += 1
                 final_html += f'<td>{no}</td>'
 
-                if 'v6' in server:
+                if servers.get(server)[2] == 'ixpm':
                     description = \
                     re.search('Description:    (.*)', protocol).group(1)
                     description2 = protocol.split()[0]
@@ -234,16 +234,13 @@ def connect_to_route_server(server, command, update=False):
                     protocols.remove(item)
 
             peers = {}
-            if 'v6' in server:
-                
+            if servers.get(server)[2] == 'ixpm': 
                 for protocol in protocols:
                     description = \
                         re.search('Description:    (.*)', protocol).group(1)
                     description = description.split(' - ')
                     description2 = protocol.split()[0]
                     peers[description2] = [description[1]]
-                    
-
             else:
                 for protocol in protocols:
                     description = protocol.split()[0]
