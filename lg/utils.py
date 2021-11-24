@@ -158,7 +158,8 @@ def connect_to_route_server(server, command, update=False):
                     final_html += f'<td class="red">{bgp_state.group(1)}</td>'
     
                 received_routes = re.search('Routes:         (\w+)', protocol)
-                if received_routes and int(received_routes.group(1)) > 0:
+                if received_routes and int(received_routes.group(1)) > 0 \
+                    and int(received_routes.group(1)) <= 3000:
                     final_html += (f'<td class="received-routes"><a href="#">'
                                     f'{received_routes.group(1)}</a></td>')
                 elif received_routes:

@@ -122,14 +122,17 @@ def bgp_neighbor_received(request):
         command = request.GET['command']
         server = request.GET['server']
         bgp_peer = request.GET['bgp_peer']
-        print(bgp_peer)
-       
-        
-        command_to_run = (f'{commands.get(command)[1]} {bgp_peer}'
-        f' all | egrep "via|BGP.as_path:"')
-        result = connect_to_route_server(server, command_to_run)
-        response = {'result':result}
-        return JsonResponse(response)
+
+        if "HURRICANE" in bgp_peer:
+            result = 'Route recieved too long'
+            response = {'result':result}
+            return JsonResponse(response)
+        else:       
+            command_to_run = (f'{commands.get(command)[1]} {bgp_peer}'
+            f' all | egrep "via|BGP.as_path:"')
+            result = connect_to_route_server(server, command_to_run)
+            response = {'result':result}
+            return JsonResponse(response)
 
 
 def update_all(request):
