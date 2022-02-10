@@ -9,7 +9,7 @@ from .forms import CommandForm
 
 
 from .utils import connect_to_route_server, check_ipv4, check_ipv6
-from lookingglass.local_settings import commands, servers
+from lookingglass.local_settings import commands
 from lookingglass.servers import servers
 from lookingglass.settings import BASE_DIR
 
