@@ -1,6 +1,7 @@
 from django import forms
 import json
-from lookingglass.local_settings import servers, commands
+from lookingglass.local_settings import commands
+from lookingglass.servers import servers
 from lookingglass.settings import BASE_DIR
 
 

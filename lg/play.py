@@ -17,40 +17,37 @@
 # # pprint(decode(data))
 
 
-# import subprocess
-# from json import loads
+import subprocess
+from json import loads
 
-# p = subprocess.Popen(
-# ['/usr/local/bin/sflowtool','-j'],
-# stdout=subprocess.PIPE,
-# stderr=subprocess.STDOUT
-# )
-# lines = iter(p.stdout.readline,'')
-# for line in lines:
+p = subprocess.Popen(
+['/usr/local/bin/sflowtool','-j'],
+stdout=subprocess.PIPE,
+stderr=subprocess.STDOUT
+)
+lines = iter(p.stdout.readline,'')
+for line in lines:
 
-#       datagram = loads(line)
-#       localtime = datagram["localtime"]
-#       switch = datagram["datagramSourceIP"]
-#       samples = datagram["samples"]
-#       for sample in samples:
-#             sampleType = sample["sampleType"]
-#             elements = sample["elements"]
-#             if sampleType == "FLOWSAMPLE":
-#                   for element in elements:
-#                         tag = element["flowBlock_tag"]
-#                         if tag == "0:1":
-#                               try:
-#                                     srcip = element["srcIP"]
-#                                     dstip = element["dstIP"]
-#                                     srcmac = element['srcMAC']
-#                                     dstmac = element['dstMAC']
-#                                     pktsize = element["sampledPacketSize"]
-#                                     print(f'{switch} - {srcmac}<=>{srcip} - {dstmac}<=>{dstip} - {pktsize}')
-#                               except KeyError:
-#                                     pass
+      datagram = loads(line)
+      localtime = datagram["localtime"]
+      switch = datagram["datagramSourceIP"]
+      samples = datagram["samples"]
+      for sample in samples:
+            sampleType = sample["sampleType"]
+            elements = sample["elements"]
+            if sampleType == "FLOWSAMPLE":
+                  for element in elements:
+                        tag = element["flowBlock_tag"]
+                        if tag == "0:1":
+                              try:
+                                    srcip = element["srcIP"]
+                                    dstip = element["dstIP"]
+                                    srcmac = element['srcMAC']
+                                    dstmac = element['dstMAC']
+                                    pktsize = element["sampledPacketSize"]
+                                    print(f'{switch} - {srcmac}<=>{srcip} - {dstmac}<=>{dstip} - {pktsize}')
+                              except KeyError:
+                                    pass
  
-x = {1: 2, 3: 4, 4: 3, 2: 1, 0: 0}
-y = {k: v for k, v in sorted(x.items(), key=lambda item: item[1])}
 
-print(y)
 
