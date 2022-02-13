@@ -51,12 +51,12 @@
 						<div class="animate__animated animate__zoomOutLeft animate__delay-5s">
 							<ul class="messages">
 								{% for message in messages %}
-									{% if message.tags %} 
-										class="alert alert-{{ message.tags }}"
-									{% else %}
-										class="alert alert-primary"
-									{% endif %}>
-								<li><div role="alert">{{ message }}</div></li>
+									<li {% if message.tags %} 
+											class="alert alert-{{ message.tags }}"
+											{% else %}
+											class="alert alert-primary"
+										{% endif %}>
+									<li><div role="alert">{{ message }}</div></li>
 								{% endfor %}
 							</ul>
 					  </div>

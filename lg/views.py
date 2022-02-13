@@ -140,12 +140,7 @@ def update_all(request):
     command = 'please show protocols all'
     for server in servers:
         connect_to_route_server(server, command, True)
-    form = CommandForm()
-    serverz = [item for item in servers]
-    context = {
-        'form': form,
-        'servers': serverz
-    }
+  
     messages.success(request, 'Updated successfully')
     return redirect('home')
  
