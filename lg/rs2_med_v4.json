@@ -11,6 +11,9 @@
  "AKAMAI": [
   "AKAMAI"
  ],
+ "ALIBABA_CLOUD": [
+  "ALIBABA_CLOUD"
+ ],
  "ANGOLACABLE": [
   "ANGOLACABLE"
  ],
@@ -59,6 +62,9 @@
  "COBRANET": [
   "COBRANET"
  ],
+ "COBRANET_RC": [
+  "COBRANET_RC"
+ ],
  "COMERCIOCLOUD": [
   "COMERCIOCLOUD"
  ],
@@ -89,6 +95,9 @@
  "ETISALAT": [
   "ETISALAT"
  ],
+ "EXCELSIMO": [
+  "EXCELSIMO"
+ ],
  "FACEBOOK_1": [
   "FACEBOOK_1"
  ],
@@ -97,6 +106,9 @@
  ],
  "GARANNTOR": [
   "GARANNTOR"
+ ],
+ "GCORE_LABS": [
+  "GCORE_LABS"
  ],
  "GGC_NODE": [
   "GGC_NODE"
@@ -115,6 +127,9 @@
  ],
  "HUAWEI_2": [
   "HUAWEI_2"
+ ],
+ "HURRICANE_E": [
+  "HURRICANE_E"
  ],
  "HYPERIA": [
   "HYPERIA"
@@ -161,8 +176,14 @@
  "LIMELIGHT": [
   "LIMELIGHT"
  ],
+ "LIPTINFOR": [
+  "LIPTINFOR"
+ ],
  "MAINONE": [
   "MAINONE"
+ ],
+ "MAPLELEAF": [
+  "MAPLELEAF"
  ],
  "MELBIKOMAS": [
   "MELBIKOMAS"
@@ -235,6 +256,9 @@
  ],
  "SWIFT_MED": [
   "SWIFT_MED"
+ ],
+ "TERRAHOST_AS_RC": [
+  "TERRAHOST_AS_RC"
  ],
  "TIZETI": [
   "TIZETI"

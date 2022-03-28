@@ -18,37 +18,6 @@ def split_on_empty_lines(s):
     return re.split(blank_line_regex, s.strip())
 
 
-ptr_html = """<br><br>
-            <div class="container">
-                <div class="row">
-                <div class="result">
-	    	<div class="col-sm"><strong>"""
-
-ptr_close_html = """</strong></div></div></div></div><br><br>"""
-
-bgp_nei_html = """
-            <tr>
-            <th>S/N</th>
-            <th>Neighbor</th>
-            <th>Neighbor Address</th>
-            <th>ASN</th>
-            <th>BGP State</th>
-            <th>Received</th>
-            <th>Exported</th>
-            </tr>"""
-
-bgp_nei_closing_html = '</table><br><br>'
-
-bgp_nei_rec_html = """
-            <tr>
-            <th>S/N</th>
-            <th>Prefix</th>
-            <th>Origin</th>
-            <th>Path</th>
-            <th>Local Pref</th>
-            </tr>"""
-
-closing_html_3 = '</table><br><br>'
 
 
 def check_ipv4(ip_address):
@@ -84,9 +53,7 @@ def connect_to_route_server(server, command, update=False):
 
         if 'ping' in command or 'traceroute' in command or \
             'route for' in command:
-            print(BASE_DIR)
-
-
+        
             out = output.replace('      ', '&emsp;&emsp;').\
                 replace('BIRD 1.6.3 ready.\nAccess restricted\n', '').\
                 replace('BIRD 1.6.8 ready.\nAccess restricted\n', '').\
@@ -97,13 +64,14 @@ def connect_to_route_server(server, command, update=False):
                 replace('    ', '&emsp;&emsp;').\
                 replace('     ', '&emsp;&emsp;')
 
-            final_html = ptr_html
-            final_html += f'<h4><strong>{command}</strong></h4><br>'
-
-            final_html += out
-            final_html += ptr_close_html
-            return final_html
-
+            is_table = 0
+            
+            return [
+                out,
+                command,
+                is_table
+            ]
+            
         elif not update and command == 'please show protocols all': 
 
             protocols = split_on_empty_lines(output)
@@ -113,78 +81,92 @@ def connect_to_route_server(server, command, update=False):
                 if 'BIRD ' in item or \
                     'Pipe for ' in item or \
                     'direct1' in item or \
+                    'device1' in item or \
                     'static1' in item or \
                     'kernel1' in item:
                     protocols.remove(item)
 
-            final_html =  (f'<table class="all_peers"><caption>{server}: '
-                            f'{command}</caption>')
-            final_html += bgp_nei_html
-
+            
             no = 0 #Initialize s/no
-
+            all_protocols = []
             for protocol in protocols:
-                part = []
-                final_html += '<tr>'
+                pro = {}
                 no  += 1
-                part.append(no)
-                final_html += f'<td>{no}</td>'
+                pro['s/no'] = no
 
                 if servers.get(server)[2] == 'ixpm':
                     description = \
                     re.search('Description:    (.*)', protocol).group(1)
                     description2 = protocol.split()[0]
-                    final_html += (f'<td><span class="hide-v6">{description2}:'
-                                    f'</span>{description}</td>')
+                    pro['member'] = f'{description} - {description2}'
+                    
                 else:
                     description = protocol.split()[0]
-                    final_html += f'<td>{description}</td>'
+                    pro['member'] = description
 
                 neighbor_ip = re.search('Neighbor address: (.*)', protocol)
                 if neighbor_ip:
-                    final_html += f'<td>{neighbor_ip.group(1)}</td>'
+                    pro['neighbor_ip'] = f'{neighbor_ip.group(1)}'
                 else:
-                    final_html += f'<td>-</td>'
+                    pro['neighbor_ip'] = '-'
 
                 asn = re.search('Neighbor AS:      (\d+)', protocol)
                 if asn:
-                    final_html += (f'<td><a href="{he_url}'
+                    pro['asn'] = (f'<a href="{he_url}'
                                     f'{asn.group(1)}" target="_blank"'
                                     f' rel="noopener noreferrer">'
-                                    f'{asn.group(1)}</a></td>')
+                                    f'{asn.group(1)}</a>')
                 else:
-                    final_html += f'<td>-</td>'
+                    pro['asn'] = '-'
 
                 bgp_state = re.search('BGP state:          (\w+)', protocol)
                 if bgp_state and bgp_state.group(1) == "Established":
-                     final_html += f'<td class="green">{bgp_state.group(1)}</td>'
+                     pro['bgp_state'] = \
+                     f'<span class="green">{bgp_state.group(1)}</span>'
+
                 elif bgp_state:
-                    final_html += f'<td class="red">{bgp_state.group(1)}</td>'
+                    pro['bgp_state'] = \
+                     f'<span class="red">{bgp_state.group(1)}</span>'
+                else:
+                    pro['bgp_state'] = '-'
     
                 received_routes = re.search('Routes:         (\w+)', protocol)
+
                 if received_routes and int(received_routes.group(1)) > 0 \
                     and int(received_routes.group(1)) <= 3000:
-                    final_html += (f'<td class="received-routes"><a href="#">'
-                                    f'{received_routes.group(1)}</a></td>')
+                    pro['received'] = \
+                        (f'<span class="received-routes"><a href="#">'
+                        f'{received_routes.group(1)}</span></td>')
                 elif received_routes:
-                    final_html += f'<td>{received_routes.group(1)}</td>'
+                    pro['received'] = f'{received_routes.group(1)}'
                 else:
-                    final_html += f'<td>-</td>'
+                    pro['received'] = '-'
 
                 advertised_routes = re.search('imported, (\d+)', protocol)
                 if advertised_routes:
-                    final_html += f'<td>{advertised_routes.group(1)}</td>'
+                    pro['exported'] = f'{advertised_routes.group(1)}'
                 else:
-                    final_html += f'<td>-</td>'
-                final_html += '</tr>'
+                    pro['exported'] = '-'
+                    
 
-            final_html += bgp_nei_closing_html
-            return final_html
+                all_protocols.append(pro)
+            table_header = [
+                's/no',
+                'member', 
+                'neighbor_ip', 
+                'asn', 
+                'bgp_state', 
+                'received', 
+                'exported'
+                ]
+
+            table_class = 'all_peers'
+            is_table = 1
+            return [all_protocols, table_header, table_class, command, is_table]
 
         elif 'please show route protocol' in command:
-            final_html =  (f'<table class="received"><caption>{server}: '
-                            f'{command[:-27]}</caption>')
-            final_html += bgp_nei_rec_html
+            
+            all_prefixes = []
 
             a = output.splitlines()
             for item in set(a):
@@ -196,18 +178,20 @@ def connect_to_route_server(server, command, update=False):
             output_joined = []
             for i in range(0,len(a),n):
                 output_joined.append(a[i] + a[i+1])
+
             no = 0 # Initialize s/no
             for item in output_joined:
+                prefixes = {}
                 no  += 1
-                final_html += f'<td>{no}</td>'
+                prefixes['s/no'] = no
 
                 prefix = item.split(None)[0]
                 if prefix:
-                    final_html += f'<td>{prefix}</td>'
+                    prefixes['prefix'] = prefix
 
                 origin = re.search(r"\bAS\w+", item)
                 if origin:
-                    final_html += f'<td>{origin.group()}</td>'
+                    prefixes['origin'] = origin.group()
                 
                 paths = re.findall(r"\BGP.as_path:(.*)", item)
                 if paths:
@@ -216,15 +200,34 @@ def connect_to_route_server(server, command, update=False):
                             f'{item}</a>') for item in paths[0].lstrip().split()]
 
                     path = ' '.join(path)
-                    final_html += f'<td>{path}</td>'
+                    prefixes['path'] = path
                 
                 pref = re.search(r'\(\d{1,9}\)', item)
                 if pref:
-                    final_html += f'<td>{pref.group()[1:-1]}</td>'
-                final_html += '</tr>'
+                    prefixes['local_pref'] = f'{pref.group()[1:-1]}'
 
-            final_html += bgp_nei_closing_html
-            return final_html
+                all_prefixes .append(prefixes)
+            table_header = [
+                's/no',
+                'prefix', 
+                'origin', 
+                'path', 
+                'local_pref'
+                ]
+
+            table_class = 'received'
+            is_table = 1
+
+            return [
+                all_prefixes, 
+                table_header, 
+                table_class, 
+                command[:-27], 
+                is_table
+            ]
+            
+
+            
 
         elif update:
             protocols = split_on_empty_lines(output)
@@ -234,6 +237,7 @@ def connect_to_route_server(server, command, update=False):
                 if 'BIRD ' in item or \
                     'Pipe for ' in item or \
                     'direct1' in item or \
+                    'device1' in item or \
                     'static1' in item or \
                     'kernel1' in item:
                     protocols.remove(item)

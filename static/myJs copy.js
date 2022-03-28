@@ -1,50 +1,3 @@
-function parseOutput(outputData, command, is_table=0, listOfTableTH=null, table_class=null,  server=null) {
-    if (is_table) {
-    let protocol_table;
-        protocol_table = `<table class="${table_class}"><caption>${server}: 
-                            ${command}</caption><tr>`
-
-        listOfTableTH.forEach(item => 
-           protocol_table += `<th>${item}</th>`);
-
-        protocol_table += '</tr>'
-
-        outputData.forEach(protocol => {
-            protocol_table += '<tr>'
-                listOfTableTH.forEach(item =>
-                protocol_table += `<td>${protocol[item]}</td>`)
-            protocol_table += '</tr>'
-
-            })
-
-        protocol_table += '</table><br><br><br>'
-
-        return protocol_table
-    }else {
-        output = `<br><br>
-                <div class="container">
-                    <div class="row">
-                        <div class="result">
-                            <div class="col-sm"><strong>
-                                <h4>
-                                    <strong>${command}</strong>
-                                </h4><br>${outputData}
-                                    </strong>
-                            </div>
-                        </div>
-                    </div>
-                </div><br><br>`
-
-        return output
-
-    }
-
-
-        
-        
-}
-
-
 function scrollToElement(id_or_class){
     $('html, body').animate({
         scrollTop: $(id_or_class).offset().top
@@ -130,14 +83,13 @@ $('#formOne').on('submit', function(e){
     $('.btn').prop("disabled",true);
     scrollToElement(".loading");
     s = $('#id_server').find(":selected").val()
-    command = $('#id_command').find(":selected").val(),
 
     $.ajax({
        type : "GET", 
        url: $(this).attr('action') + $('#id_command').find(":selected").val() + '/',
        data: {
         ip_address : $('#id_ip_address').val(),
-        command: command,
+        command: $('#id_command').find(":selected").val(),
         server: s,
         bgp_peer: $(`#id_${s}_peers`).find(":selected").val(),
         dataType: "json",
@@ -146,18 +98,7 @@ $('#formOne').on('submit', function(e){
 
        success: function(data){
         resetForm();
-        
-
-        $('#output').html(
-            parseOutput(
-                data.result,
-                data.command, 
-                data.is_table,
-                data.table_header, 
-                data.table_class,
-                s,
-                )
-            );
+        $('#output').html(data.result);
         scrollToElement("#output"); 
        },
        
@@ -177,7 +118,9 @@ $(document).on('click', '.received-routes', function(){
     scrollToElement(".loading");
     let server = $('caption').text().split(':')[0];
     let bgp_peer = $(this).closest('tr').find('td:nth-child(2)').text();
-    
+    if (server.includes('v6')) {
+        bgp_peer = bgp_peer.split(':')[0]
+    }
     $.ajax({
         type : "GET", 
         url : 'bgp_neighbor_received/',
@@ -191,16 +134,7 @@ $(document).on('click', '.received-routes', function(){
         
         success: function(data){
             resetForm();
-            $('#output').html(
-                parseOutput(
-                    data.result,
-                    data.command, 
-                    data.is_table,
-                    data.table_header, 
-                    data.table_class,
-                    s,
-                    )
-                );
+            $('#output').html(data.result);
             scrollToElement("#output"); 
         },
                

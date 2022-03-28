@@ -27,10 +27,15 @@ def home(request):
   
 
 def rate_limited(request, exception):
-    message = (f'<h3 class="text-danger text-center">'
+    result = (f'<h3 class="text-danger text-center">'
                 f'Too many requests. '
                 f'Please try again later</h3>')
-    response = {'result':message}
+    is_table = 0
+    response = {
+        'result':result, 
+        'command': '',
+        'is_table': is_table
+        }
     return JsonResponse(response) 
     
 
@@ -44,47 +49,48 @@ def rate_limited(request, exception):
             rate='50/d', method=ratelimit.ALL, block=True)
 def ping_trace_route(request):
     if request.method == 'GET' and request.is_ajax():
-        
+
         ip_address = request.GET['ip_address'].strip()
         command = request.GET['command']
         server = request.GET['server']
-        
-        if command == 'route_detail':
-            command_to_run = f'{commands.get(command)[1]} {ip_address} all'
-        
-        elif command == 'ping' or command == 'traceroute':
-            ### Check if ip is in the routing table so as not use the internet
-            check_route = f'{commands.get("route_detail")} {ip_address}'
+        ip_version = (servers.get(server)[0]).split('-')[1].strip()
+
+        if ip_version == 'IPV4':
+            check = check_ipv4
+        elif ip_version == 'IPV6':
+            check = check_ipv6
+
+            
+        if check(ip_address):
+            check_route = f'{commands.get("route_detail")[1]} {ip_address} all'
+    
             if 'Network not in table' \
                 in connect_to_route_server(server, check_route):
-                result = (f'<p class="error"><strong>"{ip_address}"</strong> '
-                            f'not in routing table</p>')
-                response = {'result': result}
-                return JsonResponse(response)
-            else:
-                command_to_run = f'{commands.get(command)[1]} {ip_address}' 
-        
-        if 'v4' in server:
-            if check_ipv4(ip_address):
-                result = connect_to_route_server(server, command_to_run)
-                response = {'result':result}
-                return JsonResponse(response) 
-            else:
-                result = (f'<p class="error"><strong>"{ip_address}"</strong> '
-                            f'is not  a valid ipv4 address</p>')
-                response = {'result': result}
-                return JsonResponse(response)
+                output = (f'<p class="error"><strong>"{ip_address}"</strong> '
+                            f'not in the routing table</p>')
+                command = f'{commands.get(command)[1]} {ip_address}'
+                is_table = 0
 
-        elif 'v6' in server:
-            if check_ipv6(ip_address):
-                result = connect_to_route_server(server, command_to_run)
-                response = {'result':result}
-                return JsonResponse(response) 
             else:
-                result = (f'<p class="error"><strong>"{ip_address}"</strong> '
-                            f'is not  a valid ipv6 address</p>')
-                response = {'result': result}
-                return JsonResponse(response)
+                command_to_run = f'{commands.get(command)[1]} {ip_address}'
+                result = connect_to_route_server(server, command_to_run)
+                command = result[1]
+                output = result[0]
+                is_table = result[2]
+
+        else:
+            output = (f"<p class='error'>{ip_address} is not a valid " 
+                        f"{ip_version} address</p>")
+            command = f'{commands.get(command)[1]} {ip_address}'
+            is_table = 0
+
+    response = {
+        'result':output, 
+        'command': command,
+        'is_table': is_table
+    }
+    return JsonResponse(response)
+
 
 
 @ratelimit(key='header:x-real-ip', 
@@ -104,7 +110,13 @@ def bgp_neighbors(request):
         
         command_to_run = f'{commands.get(command)[1]}'
         result = connect_to_route_server(server, command_to_run)
-        response = {'result':result}
+        response = {
+            'result':result[0], 
+            'table_header': result[1],
+            'table_class': result[2],
+            'command': result[3],
+            'is_table': result[4]
+            }
         return JsonResponse(response) 
         
     
@@ -126,13 +138,24 @@ def bgp_neighbor_received(request):
 
         if "HURRICANE" in bgp_peer:
             result = 'Route recieved too long'
-            response = {'result':result}
+            is_table = 0
+            response = {
+                'result':result, 
+                'command': f'{commands.get(command)[1]} {bgp_peer} all',
+                'is_table': is_table
+            }
             return JsonResponse(response)
         else:       
             command_to_run = (f'{commands.get(command)[1]} {bgp_peer}'
             f' all | egrep "via|BGP.as_path:"')
             result = connect_to_route_server(server, command_to_run)
-            response = {'result':result}
+            response = {
+                'result':result[0], 
+                'table_header': result[1],
+                'table_class': result[2],
+                'command': result[3],
+                'is_table': result[4]
+            }
             return JsonResponse(response)
 
 
