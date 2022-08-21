@@ -68,20 +68,20 @@ def ping_trace_route(request):
                 in connect_to_route_server(server, check_route):
                 output = (f'<p class="error"><strong>"{ip_address}"</strong> '
                             f'not in the routing table</p>')
-                command = f'{commands.get(command)[1]} {ip_address}'
+                command = f'{server}: {commands.get(command)[1]} {ip_address}'
                 is_table = 0
 
             else:
                 command_to_run = f'{commands.get(command)[1]} {ip_address}'
                 result = connect_to_route_server(server, command_to_run)
-                command = result[1]
+                command = f"{server}: {result[1]}"
                 output = result[0]
                 is_table = result[2]
 
         else:
             output = (f"<p class='error'>{ip_address} is not a valid " 
                         f"{ip_version} address</p>")
-            command = f'{commands.get(command)[1]} {ip_address}'
+            command = f'{server}: {commands.get(command)[1]} {ip_address}'
             is_table = 0
 
     response = {
@@ -113,9 +113,10 @@ def bgp_neighbors(request):
         response = {
             'result':result[0], 
             'table_header': result[1],
-            'table_class': result[2],
+            'table_id': result[2],
             'command': result[3],
-            'is_table': result[4]
+            'is_table': result[4],
+            'ip_col': result[5]
             }
         return JsonResponse(response) 
         
@@ -152,9 +153,10 @@ def bgp_neighbor_received(request):
             response = {
                 'result':result[0], 
                 'table_header': result[1],
-                'table_class': result[2],
+                'table_id': result[2],
                 'command': result[3],
-                'is_table': result[4]
+                'is_table': result[4],
+                'ip_col': result[5]
             }
             return JsonResponse(response)
 

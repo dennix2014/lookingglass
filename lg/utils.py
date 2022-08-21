@@ -1,4 +1,5 @@
 import json
+from operator import indexOf
 import subprocess
 from ipaddress import (ip_network, IPv4Network, 
                         IPv6Network, AddressValueError)
@@ -160,9 +161,10 @@ def connect_to_route_server(server, command, update=False):
                 'exported'
                 ]
 
-            table_class = 'all_peers'
+            table_id = 'all_peers'
             is_table = 1
-            return [all_protocols, table_header, table_class, command, is_table]
+            ip_col = table_header.index('neighbor_ip')
+            return [all_protocols, table_header, table_id, command, is_table, ip_col]
 
         elif 'please show route protocol' in command:
             
@@ -215,15 +217,17 @@ def connect_to_route_server(server, command, update=False):
                 'local_pref'
                 ]
 
-            table_class = 'received'
+            table_id = 'received'
             is_table = 1
+            ip_col = table_header.index('prefix')
 
             return [
                 all_prefixes, 
                 table_header, 
-                table_class, 
+                table_id, 
                 command[:-27], 
-                is_table
+                is_table,
+                ip_col
             ]
             
 

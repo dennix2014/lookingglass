@@ -1,13 +1,13 @@
-function parseOutput(outputData, command, is_table=0, listOfTableTH=null, table_class=null,  server=null) {
+function parseOutput(outputData, command, is_table=0, listOfTableTH=null, table_id=null,  server=null) {
     if (is_table) {
     let protocol_table;
-        protocol_table = `<table class="${table_class}"><caption>${server}: 
-                            ${command}</caption><tr>`
+        protocol_table = `<table class="table-sort table-arrows" id="${table_id}"><caption>${server}: 
+                            ${command}</caption><thead><tr>`
 
         listOfTableTH.forEach(item => 
            protocol_table += `<th>${item}</th>`);
 
-        protocol_table += '</tr>'
+        protocol_table += '</tr></thead><tbody>'
 
         outputData.forEach(protocol => {
             protocol_table += '<tr>'
@@ -17,7 +17,7 @@ function parseOutput(outputData, command, is_table=0, listOfTableTH=null, table_
 
             })
 
-        protocol_table += '</table><br><br><br>'
+        protocol_table += '</tbody></table><br><br><br>'
 
         return protocol_table
     }else {
@@ -154,11 +154,31 @@ $('#formOne').on('submit', function(e){
                 data.command, 
                 data.is_table,
                 data.table_header, 
-                data.table_class,
+                data.table_id,
                 s,
                 )
             );
-        scrollToElement("#output"); 
+            console.log(data)
+            var t = $(`#${data.table_id}`).DataTable({
+                columnDefs: [
+                  { type: 'ip-address', targets: data.ip_col },
+                  { searchable: false, orderable: false, targets: 0},
+                  
+                ],
+                pageLength: 500,
+                lengthMenu: [10, 50, 100, 500, 1000],
+                order: [[1, 'asc']],
+                
+             });
+             t.on('order.dt search.dt', function () {
+                let i = 1;
+         
+                t.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+                    this.data(i++);
+                });
+            }).draw();
+        scrollToElement("#output");
+        
        },
        
        error: function(XMLHttpRequest, textStatus, errorThrown) { 
@@ -197,10 +217,29 @@ $(document).on('click', '.received-routes', function(){
                     data.command, 
                     data.is_table,
                     data.table_header, 
-                    data.table_class,
+                    data.table_id,
                     s,
                     )
                 );
+                console.log(data)
+            var t = $(`#${data.table_id}`).DataTable({
+                columnDefs: [
+                  { type: 'ip-address', targets: data.ip_col },
+                  { searchable: false, orderable: false, targets: 0},
+                  
+                ],
+                pageLength: 500,
+                lengthMenu: [10, 50, 100, 500, 1000],
+                order: [[1, 'asc']],
+                
+             });
+             t.on('order.dt search.dt', function () {
+                let i = 1;
+         
+                t.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+                    this.data(i++);
+                });
+            }).draw();
             scrollToElement("#output"); 
         },
                

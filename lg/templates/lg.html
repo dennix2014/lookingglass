@@ -21,12 +21,13 @@
                 </div>
             </div>
         </form>
-        <input type="hidden" id="serverz" servers="{{ servers }}" />
+        <input type="hidden" id="serverz" servers="{{ servers }}">
 </div>
 </div>
 
 
-<br><br><br>
+<br><br>
 <div id="output"></div>
+<input type="hidden" id="homeUrl" home-url="{% url 'home' %}">
 <br><br><br><br>
 {% endblock %}
