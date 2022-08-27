@@ -62,31 +62,28 @@ def ping_trace_route(request):
 
             
         if check(ip_address):
-            check_route = f'{commands.get("route_detail")[1]} {ip_address} all'
-    
-            if 'Network not in table' \
-                in connect_to_route_server(server, check_route):
+            check_route = f'{commands.get("check_route")[1]} {ip_address}'
+            
+            check_route_result = connect_to_route_server(server, check_route)
+            if 'Network not in table' in check_route_result[0]:
                 output = (f'<p class="error"><strong>"{ip_address}"</strong> '
                             f'not in the routing table</p>')
-                command = f'{server}: {commands.get(command)[1]} {ip_address}'
                 is_table = 0
 
             else:
                 command_to_run = f'{commands.get(command)[1]} {ip_address}'
                 result = connect_to_route_server(server, command_to_run)
-                command = f"{server}: {result[1]}"
                 output = result[0]
                 is_table = result[2]
 
         else:
             output = (f"<p class='error'>{ip_address} is not a valid " 
                         f"{ip_version} address</p>")
-            command = f'{server}: {commands.get(command)[1]} {ip_address}'
             is_table = 0
 
     response = {
         'result':output, 
-        'command': command,
+        'command': f'{server}: {commands.get(command)[2]} {ip_address}',
         'is_table': is_table
     }
     return JsonResponse(response)
@@ -114,7 +111,7 @@ def bgp_neighbors(request):
             'result':result[0], 
             'table_header': result[1],
             'table_id': result[2],
-            'command': result[3],
+            'command': commands.get(command)[2],
             'is_table': result[4],
             'ip_col': result[5]
             }
@@ -142,19 +139,18 @@ def bgp_neighbor_received(request):
             is_table = 0
             response = {
                 'result':result, 
-                'command': f'{commands.get(command)[1]} {bgp_peer} all',
+                'command': f'{commands.get(command)[2]} {bgp_peer}',
                 'is_table': is_table
             }
             return JsonResponse(response)
         else:       
-            command_to_run = (f'{commands.get(command)[1]} {bgp_peer}'
-            f' all | egrep "via|BGP.as_path:"')
+            command_to_run = f'{commands.get(command)[1]} {bgp_peer}'
             result = connect_to_route_server(server, command_to_run)
             response = {
                 'result':result[0], 
                 'table_header': result[1],
                 'table_id': result[2],
-                'command': result[3],
+                'command': f'{commands.get(command)[2]} {bgp_peer}',
                 'is_table': result[4],
                 'ip_col': result[5]
             }
@@ -162,7 +158,7 @@ def bgp_neighbor_received(request):
 
 
 def update_all(request):
-    command = 'please show protocols all'
+    command = 'updatepeers'
     for server in servers:
         connect_to_route_server(server, command, True)
   

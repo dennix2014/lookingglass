@@ -1,18 +1,40 @@
 function parseOutput(outputData, command, is_table=0, listOfTableTH=null, table_id=null,  server=null) {
     if (is_table) {
     let protocol_table;
+    const he_url = 'https://bgp.he.net/AS'
         protocol_table = `<table class="table-sort table-arrows" id="${table_id}"><caption>${server}: 
                             ${command}</caption><thead><tr>`
-
-        listOfTableTH.forEach(item => 
-           protocol_table += `<th>${item}</th>`);
+        protocol_table += '<th>s/no</th>'
+        listOfTableTH.forEach((item) => {
+           protocol_table += `<th>${item}</th>`
+        });
 
         protocol_table += '</tr></thead><tbody>'
 
+        let sno = 0
         outputData.forEach(protocol => {
-            protocol_table += '<tr>'
-                listOfTableTH.forEach(item =>
-                protocol_table += `<td>${protocol[item]}</td>`)
+            sno ++
+            protocol_table += '<tr><td>${sno}</td>'
+            listOfTableTH.forEach((item) => {
+                let param = protocol[item]
+                if (item == 'asn') {
+                    protocol_table += `<td><a href="${he_url}${param}" target="_blank" rel="noopener noreferrer">${param}</a></td>`
+                }else if (item == 'bgp_state' && param == 'Established') {
+                    protocol_table += `<td><span class="green">${param}</span></td>`
+                }else if (item == 'bgp_state') {
+                    protocol_table += `<td><span class="red">${param}</span></td>`
+                }else if (item == 'imported' && param <= 3000 && param > 0) {
+                    protocol_table += `<td><span class="received-routes"><a href="#">${param}</a></span></td>`
+                }else if (item == 'path') {
+                    let paths = ''
+                    param.forEach((path) => {
+                        paths += `<a href="${he_url}${path}" target="_blank" rel="noopener noreferrer">${path}</a> `
+                    })
+                    protocol_table += `<td>${paths}</td>`
+                }else {
+                    protocol_table += `<td>${param}</td>` 
+                }
+            })
             protocol_table += '</tr>'
 
             })
@@ -28,7 +50,8 @@ function parseOutput(outputData, command, is_table=0, listOfTableTH=null, table_
                             <div class="col-sm"><strong>
                                 <h4>
                                     <strong>${command}</strong>
-                                </h4><br>${outputData}
+                                    <br>
+                                </h4><pre>${outputData}</pre>
                                     </strong>
                             </div>
                         </div>
@@ -250,3 +273,5 @@ $(document).on('click', '.received-routes', function(){
         }      
     });
 });     
+
+

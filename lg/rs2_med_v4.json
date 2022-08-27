@@ -104,6 +104,9 @@
  "FACEBOOK_2": [
   "FACEBOOK_2"
  ],
+ "FIBERHUB": [
+  "FIBERHUB"
+ ],
  "GARANNTOR": [
   "GARANNTOR"
  ],
@@ -139,6 +142,9 @@
  ],
  "ICSL": [
   "ICSL"
+ ],
+ "IDS_AFRICA": [
+  "IDS_AFRICA"
  ],
  "IMBIL": [
   "IMBIL"
@@ -197,11 +203,14 @@
  "NETFINITY": [
   "NETFINITY"
  ],
- "NGCOM": [
-  "NGCOM"
+ "NET_IT": [
+  "NET_IT"
  ],
- "NGCOM_2": [
-  "NGCOM_2"
+ "NGCOM_MDXI": [
+  "NGCOM_MDXI"
+ ],
+ "NGCOM_MED": [
+  "NGCOM_MED"
  ],
  "NGREN": [
   "NGREN"
@@ -239,6 +248,15 @@
  "PROLINE": [
   "PROLINE"
  ],
+ "ROUTELINK": [
+  "ROUTELINK"
+ ],
+ "ROUTELINK_MDX": [
+  "ROUTELINK_MDX"
+ ],
+ "SMARTCITY": [
+  "SMARTCITY"
+ ],
  "SMILE": [
   "SMILE"
  ],
@@ -257,11 +275,14 @@
  "SWIFT_MED": [
   "SWIFT_MED"
  ],
- "TERRAHOST_AS_RC": [
-  "TERRAHOST_AS_RC"
+ "TERRAHOST_AS": [
+  "TERRAHOST_AS"
  ],
  "TIZETI": [
   "TIZETI"
+ ],
+ "TRETEN": [
+  "TRETEN"
  ],
  "TWENTYONECTL": [
   "TWENTYONECTL"
@@ -274,6 +295,9 @@
  ],
  "VODACOM": [
   "VODACOM"
+ ],
+ "VODACOM_BUSINESS": [
+  "VODACOM_BUSINESS"
  ],
  "VODACOM_RC": [
   "VODACOM_RC"

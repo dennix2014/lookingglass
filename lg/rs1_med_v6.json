@@ -2,6 +2,9 @@
  "AFR_IX": [
   "AFR_IX"
  ],
+ "AIRTEL": [
+  "AIRTEL"
+ ],
  "ALIBABA": [
   "ALIBABA"
  ],
@@ -65,6 +68,9 @@
  "ISN": [
   "ISN"
  ],
+ "IXPN": [
+  "IXPN"
+ ],
  "LAYER3": [
   "LAYER3"
  ],
@@ -79,6 +85,9 @@
  ],
  "MICROSOFT_2": [
   "MICROSOFT_2"
+ ],
+ "NET_IT": [
+  "NET_IT"
  ],
  "NGCOM_1": [
   "NGCOM_1"
@@ -101,6 +110,9 @@
  "SOFTALLIANCE": [
   "SOFTALLIANCE"
  ],
+ "TERRAHOST_AS_RC": [
+  "TERRAHOST_AS_RC"
+ ],
  "TIZETI": [
   "TIZETI"
  ],
@@ -109,6 +121,9 @@
  ],
  "VERISIGN": [
   "VERISIGN"
+ ],
+ "VODACOM_BUSINESS": [
+  "VODACOM_BUSINESS"
  ],
  "VODACOM_MED": [
   "VODACOM_MED"
