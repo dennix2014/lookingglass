@@ -9,7 +9,7 @@ from .forms import CommandForm
 
 
 from .utils import connect_to_route_server, check_ipv4, check_ipv6
-from lookingglass.local_settings import commands
+from lookingglass.local_settings import commands, verification_commands
 from lookingglass.servers import servers
 from lookingglass.settings import BASE_DIR
 
@@ -62,7 +62,7 @@ def ping_trace_route(request):
 
             
         if check(ip_address):
-            check_route = f'{commands.get("check_route")[1]} {ip_address}'
+            check_route = f'{verification_commands.get("check_route")[1]} {ip_address}'
             
             check_route_result = connect_to_route_server(server, check_route)
             if 'Network not in table' in check_route_result[0]:
@@ -164,6 +164,26 @@ def update_all(request):
   
     messages.success(request, 'Updated successfully')
     return redirect('home')
- 
-            
-    
+
+
+def traffics(request, id, heading):
+    heading = ' '.join(heading.split('_'))
+    graph_ids = {
+        0: ['TWO HOURS GRAPH', 'two_hours'],
+        1: ['TWO DAYS GRAPH', 'two_days'],
+        2: ['THIRTY DAYS GRAPH', 'thirty_days'],
+        3: ['ONE YEAR GRAPH', 'one_year']
+    }
+    base_url = 'https://lg.ixp.net.ng/traffic/&width=900&height=250&graphstyling=baseFontSize%3D%2710%27&'
+
+    context = {
+        'graph_ids': graph_ids,
+        'id': id,
+        'base_url': base_url,
+        'heading': heading
+    }
+
+    return render(request, 'traffics.html', context)
+
+
+

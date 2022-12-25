@@ -2,7 +2,9 @@
 <html lang="en">
 	{% load static %}
 	<head>
+		{% block title %}
 		<title>IXPN LOOKING GLASS</title>
+		{% endblock %}
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -17,6 +19,7 @@
       />
 	</head>
 	<body>
+	{% block side %}
 	<div class="header">
 		<h3>IXPN LOOKING GLASS.</h3>
 		<img src="{% static 'ixpn5.png' %}" class="rounded mx-auto d-block" alt="IXPN LOGO">
@@ -24,6 +27,7 @@
 
 	<!-- The flexible grid (content) -->
 	<div class="ro">
+		
 		<div class="side">
 			<h3>Welcome to IXPN / AS36932 Looking Glass</h3>
 		  	<p>The following are available on this looking glass: </p>
@@ -45,6 +49,7 @@
 				&emsp;<i class="fa fa-envelope-o" aria-hidden="true"></i>&emsp; noc@ixp.net.ng<br><br>
 			</div>
 		</div>
+		{% endblock %}
 		<div class="main">
 			{% if messages %}
 				<div class="container-fluid">

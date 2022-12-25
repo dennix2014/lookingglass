@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}
+<title>{{ heading }}</title>
+{% endblock %}
+{% block side %}
+{% endblock %}
+{% block content %}
+    <div class="header">
+        <img src="{% static 'ixpn5.png' %}" class="mx-auto d-block" alt="IXPN LOGO">
+        <br>
+        <h3 class="header">{{ heading }}</h3>
+    </div>
+    <div class="container">
+        <br><br>
+        {% for k,v in graph_ids.items %}
+        <div class="zoom">
+            <p class="header">{{ v.0 }}</p>
+            <img class="mx-auto d-block img-fluid" src="{{ base_url }}graphid={{ k }}&id={{ id }}" width="950" height="300" alt="{{ v.1 }}">
+            <hr class="hr1">
+            </div>
+                <br><br><br>
+        {% endfor %}
+</div>
+{% endblock %}

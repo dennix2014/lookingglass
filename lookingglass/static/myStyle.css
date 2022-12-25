@@ -202,3 +202,15 @@ caption, thead {
 .hide-v6{
   display: none;
 }
+
+.hr1 {
+  height: 15px;
+  border: 0;
+  box-shadow: inset 0 12px 12px -12px #2B5928;
+}
+
+.zoom:hover {
+  -ms-transform: scale(1.2); /* IE 9 */
+  -webkit-transform: scale(1.2); /* Safari 3-8 */
+  transform: scale(1.2); 
+}
