@@ -176,6 +176,14 @@ background-color: #dddddd;
 .red {
   color: red;
 }
+.highlight-amber {
+  color: whitesmoke;
+  background-color: #DD6E0F;
+}
+.highlight-green {
+  color: whitesmoke;
+  background-color: #2B5928;
+}
 .green {
   color:#2B5928;
 }
@@ -192,15 +200,27 @@ background-color: #dddddd;
 #los_nei_v6 {
   display: none;
 }
-caption, thead {
+thead {
   background-color: #2B5928;
   color: whitesmoke;
   caption-side: top;
   text-align: center;
   font-weight: 900;
 }
+
+caption{
+  background-color: whitesmoke;
+  color: black;
+  caption-side: top;
+  text-align: center;
+  font-weight: 900;
+}
 .hide-v6{
   display: none;
+}
+
+.hidden{
+  visibility: hidden;
 }
 
 .hr1 {
@@ -214,3 +234,5 @@ caption, thead {
   -webkit-transform: scale(1.2); /* Safari 3-8 */
   transform: scale(1.2); 
 }
+
+

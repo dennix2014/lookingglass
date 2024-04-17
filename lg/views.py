@@ -1,3 +1,5 @@
+import requests
+import json
 from django.contrib import messages
 from django.http import JsonResponse, response
 from django.shortcuts import render, redirect, reverse
@@ -7,8 +9,7 @@ from ipaddress import (ip_network, IPv4Network,
 from ratelimit.decorators import ratelimit
 from .forms import CommandForm
 
-
-from .utils import connect_to_route_server, check_ipv4, check_ipv6
+from .utils import connect_to_route_server, check_ipv4, check_ipv6, api_get_bgp_peers, api_get_peer_routes, api_get_route_detail
 from lookingglass.local_settings import commands, verification_commands
 from lookingglass.servers import servers
 from lookingglass.settings import BASE_DIR
@@ -18,11 +19,13 @@ from lookingglass.settings import BASE_DIR
 def home(request):
     form = CommandForm()
     serverz = [item for item in servers]
+    
     context = {
         'form': form,
         'servers': serverz
     }
     if request.method == "GET":
+        
         return render(request, 'lg.html', context)
   
 
@@ -39,14 +42,14 @@ def rate_limited(request, exception):
     return JsonResponse(response) 
     
 
-@ratelimit(key='header:x-real-ip', 
-            rate='4/m', method=ratelimit.ALL, block=True)
+# @ratelimit(key='header:x-real-ip', 
+#             rate='4/m', method=ratelimit.ALL, block=True)
 
-@ratelimit(key='header:x-real-ip', 
-            rate='20/h', method=ratelimit.ALL, block=True)
+# @ratelimit(key='header:x-real-ip', 
+#             rate='20/h', method=ratelimit.ALL, block=True)
 
-@ratelimit(key='header:x-real-ip', 
-            rate='50/d', method=ratelimit.ALL, block=True)
+# @ratelimit(key='header:x-real-ip', 
+#             rate='50/d', method=ratelimit.ALL, block=True)
 def ping_trace_route(request):
     if request.method == 'GET' and request.is_ajax():
 
@@ -90,71 +93,101 @@ def ping_trace_route(request):
 
 
 
-@ratelimit(key='header:x-real-ip', 
-            rate='4/m', method=ratelimit.ALL, block=True)
+# @ratelimit(key='header:x-real-ip', 
+#             rate='4/m', method=ratelimit.ALL, block=True)
 
-@ratelimit(key='header:x-real-ip', 
-            rate='20/h', method=ratelimit.ALL, block=True)
+# @ratelimit(key='header:x-real-ip', 
+#             rate='20/h', method=ratelimit.ALL, block=True)
 
-@ratelimit(key='header:x-real-ip', 
-            rate='50/d', method=ratelimit.ALL, block=True)
-@cache_page(60 * 15)
+# @ratelimit(key='header:x-real-ip', 
+#             rate='50/d', method=ratelimit.ALL, block=True)
+# @cache_page(60 * 15)
 def bgp_neighbors(request):
     if request.method == 'GET' and request.is_ajax():
         
-        command = request.GET['command']
         server = request.GET['server']
+        command = request.GET['command']
+
+        server = servers.get(server)[1]
         
-        command_to_run = f'{commands.get(command)[1]}'
-        result = connect_to_route_server(server, command_to_run)
+        result = api_get_bgp_peers(server, command)
         response = {
             'result':result[0], 
             'table_header': result[1],
             'table_id': result[2],
-            'command': commands.get(command)[2],
             'is_table': result[4],
-            'ip_col': result[5]
+            'ip_col': result[5],
+            'command': commands.get(command)[2]
             }
         return JsonResponse(response) 
         
     
-@ratelimit(key='header:x-real-ip', 
-            rate='4/m', method=ratelimit.ALL, block=True)
+# @ratelimit(key='header:x-real-ip', 
+#             rate='4/m', method=ratelimit.ALL, block=True)
 
-@ratelimit(key='header:x-real-ip', 
-            rate='20/h', method=ratelimit.ALL, block=True)
+# @ratelimit(key='header:x-real-ip', 
+#             rate='20/h', method=ratelimit.ALL, block=True)
 
-@ratelimit(key='header:x-real-ip', 
-            rate='50/d', method=ratelimit.ALL, block=True)
-@cache_page(60 * 15)
+# @ratelimit(key='header:x-real-ip', 
+#             rate='50/d', method=ratelimit.ALL, block=True)
+# @cache_page(60 * 15)
 def bgp_neighbor_received(request):
     if request.method == 'GET' and request.is_ajax():
 
         command = request.GET['command']
         server = request.GET['server']
-        bgp_peer = request.GET['bgp_peer']
+        protocol = request.GET['protocol']
+        peer = request.GET['peer']
+        
 
-        if "HURRICANE" in bgp_peer:
+        server = servers.get(server)[1]
+
+        if "akpamu" in protocol:
             result = 'Route recieved too long'
             is_table = 0
             response = {
                 'result':result, 
-                'command': f'{commands.get(command)[2]} {bgp_peer}',
+                'command': f'{commands.get(command)[2]} {protocol}',
                 'is_table': is_table
             }
             return JsonResponse(response)
         else:       
-            command_to_run = f'{commands.get(command)[1]} {bgp_peer}'
-            result = connect_to_route_server(server, command_to_run)
+            command_to_run = f'{commands.get(command)[1]} {protocol}'
+            result = api_get_peer_routes(server, command, protocol)
             response = {
                 'result':result[0], 
                 'table_header': result[1],
                 'table_id': result[2],
-                'command': f'{commands.get(command)[2]} {bgp_peer}',
+                'command': f'''{commands.get(command)[2]} from {peer}&emsp;<hr>
+                            key: <span class="badge badge-success">P</span> - Primary / active route. 
+                            &emsp;<span class="badge badge-warning">N</span> - Inactive route.
+                            &emsp;<span><i class="fa-solid fa-triangle-exclamation"></i></span>
+                             - Blocked / filtered route''',
                 'is_table': result[4],
-                'ip_col': result[5]
+                'ip_col': result[5],
+                'server_ip': server
             }
             return JsonResponse(response)
+
+
+def route_detail(request):
+    if request.method == 'GET' and request.is_ajax():
+
+        server = request.GET['server']
+        protocol = request.GET['protocol']
+        ip_prefix = request.GET['prefix']
+        print(ip_prefix)
+    
+        server = servers.get(server)[1]
+
+        result = api_get_route_detail(server, protocol, ip_prefix)
+        print(result)
+        
+        response = {
+            'result':result
+        }
+
+        return JsonResponse(response)
 
 
 def update_all(request):
@@ -184,6 +217,7 @@ def traffics(request, id, heading):
     }
 
     return render(request, 'traffics.html', context)
+
 
 
 

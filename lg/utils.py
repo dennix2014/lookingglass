@@ -1,6 +1,10 @@
 import ast
 import json
+import logging
+import requests
+import urllib.parse
 from operator import indexOf
+from pprint import pprint as pp
 import subprocess
 from ipaddress import (ip_network, IPv4Network, 
                         IPv6Network, AddressValueError)
@@ -88,6 +92,166 @@ def connect_to_route_server(server, command, update=False):
     else:
         final_html = "<P>Query retured no result</p>"
         return final_html
+
+
+def api_get_bgp_peers(server, command):
+    endpoint = f"http://{server}/api/protocols/bgp"
+
+    try:
+        response = requests.get(endpoint)
+
+        # Check if request was successful (status code 200)
+        if response.status_code == 200:
+            data = response.json()
+
+            # retrieve pertinent peer info from response like neigh, asn, bgp state etc.
+
+            protocols = data.get('protocols')
+
+            all_peer_info = []
+            for k,v in protocols.items():
+                peer_info = {}
+
+                peer_info['protocol'] = k
+                peer_info['peer'] = v.get("description")
+                peer_info['neighbor_ip'] = v.get("neighbor_address")
+                peer_info['asn'] = v.get("neighbor_as")
+                peer_info['bgp_state'] = v.get('bgp_state')
+                routes = v.get("routes")
+                
+                if routes:
+                    peer_info['imported'] = routes.get("imported")
+                    peer_info['exported'] = routes.get("exported")
+                else:
+                    peer_info['imported'] = 0
+                    peer_info['exported'] = 0
+
+                all_peer_info.append(peer_info)
+
+            table_header = [
+                'peer', 'neighbor_ip', 'asn', 
+                'bgp_state', 'imported', 'exported', 'protocol'
+            ]
+
+            table_id = 'all_peers'
+            is_table = 1
+            ip_col = table_header.index('neighbor_ip') + 1
+
+            return [all_peer_info, table_header, table_id, command, is_table, ip_col]
+
+        else:
+            # If the request was not successful, print the status code
+            print("Request was not successful. Status code:", response.status_code)
+
+    except requests.exceptions.RequestException as e:
+        # If there was a problem with the request (e.g., network connection issues)
+        print("Error making request:", e)
+
+
+def api_get_peer_routes(server, command, protocol):
+    endpoint = f"http://{server}/api/routes/protocol/{protocol}"
+
+    try:
+        response = requests.get(endpoint)
+
+        # Check if request was successful (status code 200)
+        if response.status_code == 200:
+            data = response.json()
+
+            # retrieve pertinent peer info from response like neigh, asn, bgp state etc.
+
+            routes = data.get('routes')
+
+            all_routes = []
+            for item in routes:
+                route = {}
+                is_primary = item.get('primary')
+                bgp = item.get('bgp')
+                large_communities = bgp.get('large_communities')
+                prefix = item.get('network')
+                is_filtered = False
+
+
+                for community in large_communities:
+                    if community[1] == 1101:
+                        is_filtered = True
+                        break
+
+                route['prefix'] = prefix
+                route['next_hop'] = (item.get('gateway'))
+                route['prefix'] = (item.get('network'))
+                route['is_filtered'] = is_filtered
+                route['is_primary'] = is_primary
+                route['detail'] = protocol
+
+                route['path'] = (bgp.get('as_path'))
+                route['communities'] = (bgp.get('communities'))
+                route['large_communities'] = large_communities
+
+                all_routes.append(route)
+
+            table_header = ['prefix', 'is_primary', 'next_hop', 'path', 'detail']
+            table_id = 'received'
+            is_table = 1
+            ip_col = table_header.index('prefix') + 1
+
+            return [all_routes, table_header, table_id, command, is_table, ip_col]
+
+        else:
+            # If the request was not successful, print the status code
+            print("Request was not successful. Status code:", response.status_code)
+
+    except requests.exceptions.RequestException as e:
+        # If there was a problem with the request (e.g., network connection issues)
+        print("Error making request:", e)
+
+
+def api_get_route_detail(server, protocol, prefix):
+
+    prefix = urllib.parse.quote_plus(prefix)
+    endpoint = f"http://{server}/api/route/{prefix}/protocol/{protocol}"
+    print(endpoint)
+
+    try:
+        response = requests.get(endpoint)
+
+        # Check if request was successful (status code 200)
+        if response.status_code == 200:
+            data = response.json()
+
+            # retrieve pertinent peer info from response like neigh, asn, bgp state etc.
+
+            details = (data.get('routes'))[0]
+            route_details = []
+            detail = {}
+
+            detail['prefix'] = details.get('network')
+            detail['gateway'] = details.get('gateway')
+            detail['is_primary'] = details.get('primary')
+               
+            bgp = details.get('bgp')
+            large_communities = bgp.get('large_communities')
+            detail['as_path'] = bgp.get('as_path')
+            detail['next_hop'] = bgp.get('next_hop')
+            detail['large_communities'] = large_communities
+
+
+            route_details.append(detail)
+
+            
+
+            return route_details
+
+        else:
+            # If the request was not successful, print the status code
+            print("Request was not successful. Status code:", response.status_code)
+
+    except requests.exceptions.RequestException as e:
+        # If there was a problem with the request (e.g., network connection issues)
+        print("Error making request:", e)
+
+
+
 
 
 

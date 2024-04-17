@@ -1,4 +1,4 @@
-function parseOutput(outputData, command, is_table=0, listOfTableTH=null, table_id=null,  server=null) {
+function parseOutput(outputData, command, is_table=0, listOfTableTH=null, table_id=null,  server=null, peerProtocol=null) {
     if (is_table) {
     let protocol_table;
     const he_url = 'https://bgp.he.net/AS'
@@ -6,7 +6,13 @@ function parseOutput(outputData, command, is_table=0, listOfTableTH=null, table_
                             ${command}</caption><thead><tr>`
         protocol_table += '<th>s/no</th>'
         listOfTableTH.forEach((item) => {
+            if (item == 'protocol') {
+                protocol_table += `<th class="hidden">${item}</th>`
+            }else if (item == 'is_primary') {
+            protocol_table += `<th>Remarks</th>`
+            }else {
            protocol_table += `<th>${item}</th>`
+            }
         });
 
         protocol_table += '</tr></thead><tbody>'
@@ -14,16 +20,27 @@ function parseOutput(outputData, command, is_table=0, listOfTableTH=null, table_
         let sno = 0
         outputData.forEach(protocol => {
             sno ++
-            protocol_table += '<tr><td>${sno}</td>'
+            protocol_table += `<tr><td>${sno}</td>`
             listOfTableTH.forEach((item) => {
+                let isFiltered = protocol['is_filtered']
+                let isPrimary = protocol['is_primary']
+                let prefix = protocol['prefix']
                 let param = protocol[item]
                 if (item == 'asn') {
                     protocol_table += `<td><a href="${he_url}${param}" target="_blank" rel="noopener noreferrer">${param}</a></td>`
+                }else if (item == 'is_primary' && isPrimary && isFiltered){
+                    protocol_table += `<td><span><i class="fa-solid fa-triangle-exclamation"></i></span>&emsp;<span class="badge badge-success">P</span></td>`
+                }else if (item == 'is_primary' && !isFiltered && isPrimary){
+                    protocol_table += `<td><span class="badge badge-success">P</span></td>`
+                }else if (item == 'is_primary' && isFiltered && !isPrimary ) {
+                    protocol_table += `<td><span><i class="fa-solid fa-triangle-exclamation"></i></span>&emsp;<span class="badge badge-warning">N</span></td>`
+                }else if (item == 'is_primary' && !isFiltered && !isPrimary){
+                    protocol_table += `<td><span class="badge badge-warning">N</span></td>`
                 }else if (item == 'bgp_state' && param == 'Established') {
                     protocol_table += `<td><span class="green">${param}</span></td>`
                 }else if (item == 'bgp_state') {
                     protocol_table += `<td><span class="red">${param}</span></td>`
-                }else if (item == 'imported' && param <= 3000 && param > 0) {
+                }else if (item == 'imported' && param <= 1000 && param > 0) {
                     protocol_table += `<td><span class="received-routes"><a href="#">${param}</a></span></td>`
                 }else if (item == 'path') {
                     let paths = ''
@@ -31,16 +48,48 @@ function parseOutput(outputData, command, is_table=0, listOfTableTH=null, table_
                         paths += `<a href="${he_url}${path}" target="_blank" rel="noopener noreferrer">${path}</a> `
                     })
                     protocol_table += `<td>${paths}</td>`
+                }else if (item == 'protocol') {
+                    protocol_table += `<td class="hidden">${param}</td>`
+                }else if (item == 'detail') {
+                    protocol_table += `<td><a class="btn btn-outline-secondary show-route-detail" data-toggle="modal"  data-target="#routeDetailModal">
+                                            Details
+                                        </a></td>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="routeDetailModal" tabindex="-1" role="dialog" aria-labelledby="routeDetailModalLabel" aria-hidden="true">
+                                          <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                              <div class="modal-header">
+                                                <h5 class="modal-title" id="routeDetailModalLabel"></h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                  <span aria-hidden="true">&times;</span>
+                                                </button>
+                                              </div>
+                                              <div class="modal-body">
+
+                                              </div>
+                                              <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>`
                 }else {
                     protocol_table += `<td>${param}</td>` 
+                    
                 }
             })
             protocol_table += '</tr>'
 
             })
-
-        protocol_table += '</tbody></table><br><br><br>'
-
+            protocol_table += '</tbody></table><br><br><br>'
+            if (peerProtocol) {
+                protocol_table += `
+                <input
+                type="hidden"
+                id="peerProtocol"
+                data-peerProtocol="${peerProtocol}"
+            />`
+            }
         return protocol_table
     }else {
         output = `<br><br>
@@ -69,6 +118,7 @@ function parseOutput(outputData, command, is_table=0, listOfTableTH=null, table_
 
 
 function scrollToElement(id_or_class){
+   
     $('html, body').animate({
         scrollTop: $(id_or_class).offset().top
     }, 1000);
@@ -181,7 +231,6 @@ $('#formOne').on('submit', function(e){
                 s,
                 )
             );
-            console.log(data)
             var t = $(`#${data.table_id}`).DataTable({
                 columnDefs: [
                   { type: 'ip-address', targets: data.ip_col },
@@ -219,7 +268,9 @@ $(document).on('click', '.received-routes', function(){
     $('.btn').prop("disabled",true);
     scrollToElement(".loading");
     let server = $('caption').text().split(':')[0];
-    let bgp_peer = $(this).closest('tr').find('td:nth-child(2)').text();
+    let protocol = $(this).closest('tr').find('td:nth-child(8)').text();
+    let peer = $(this).closest('tr').find('td:nth-child(2)').text();
+    
     
     $.ajax({
         type : "GET", 
@@ -227,7 +278,8 @@ $(document).on('click', '.received-routes', function(){
         data: {
             command: 'bgp_neighbor_received',
             server: server,
-            bgp_peer: bgp_peer,
+            protocol: protocol,
+            peer: peer,
             dataType: "json",
         
         },
@@ -242,9 +294,9 @@ $(document).on('click', '.received-routes', function(){
                     data.table_header, 
                     data.table_id,
                     s,
+                    protocol
                     )
                 );
-                console.log(data)
             var t = $(`#${data.table_id}`).DataTable({
                 columnDefs: [
                   { type: 'ip-address', targets: data.ip_col },
@@ -275,3 +327,77 @@ $(document).on('click', '.received-routes', function(){
 });     
 
 
+$(document).on('click', '.show-route-detail', function(){
+    $('.btn').prop("disabled",true);
+    let server = $('caption').text().split(':')[0];
+    let prefix = $(this).closest('tr').find('td:nth-child(2)').text();
+    let peerProtocol = $("#peerProtocol").attr("data-peerProtocol");
+    
+    
+    $.ajax({
+        type : "GET", 
+        url : 'route_detail/',
+        data: {
+            server: server,
+            protocol: peerProtocol,
+            prefix: prefix,
+            dataType: "json",
+        
+        },
+        
+        success: function(data){
+            $('.btn').prop("disabled",false);
+            let output = data.result[0]    
+
+        let routeRouteDetailHTML = ''
+
+        routeRouteDetailHTML += `
+                <table><tbody>
+                    <tr>
+                        <td>Network</td>
+                        <td>${output.prefix}</td>
+                    </tr>
+                    <tr>
+                        <td>Gateway</td>
+                        <td>${output.gateway}</td>
+                    </tr>
+                    <tr>
+                        <td>AS Path</td>
+                        <td>${output.as_path}</td>
+                    </tr>
+                    <tr>`
+                    let nextHop = output.next_hop
+                    if (nextHop) {
+                        routeRouteDetailHTML += `
+                        <td>Next Hop</td>
+                        <td>${nextHop}</td></tr>`
+                    }
+                        
+                    let largeCommunities = ''
+                    let largeCommunitiesOutput = output.large_communities
+                    largeCommunitiesOutput.forEach((item) => {
+                        largeCommunities += `${item}<hr>`
+                    })
+                    routeRouteDetailHTML += `
+                                            <tr>
+                                            <td>Large Communities</td><td>${largeCommunities}</td>
+                                            </tr></tbody></table>`
+
+            $('.modal-body').html(routeRouteDetailHTML);
+            $('.modal-title').text(`Route Details - ${output.prefix}`)
+            $('#routeDetailModal').on('shown.bs.modal', function () {
+                $('.modal-body').html(routeRouteDetailHTML);
+              });
+        
+
+
+            
+        },
+               
+        error: function(XMLHttpRequest, textStatus, errorThrown) { 
+            resetForm();
+            $('#output').html(`<p class="text-danger">&emsp;&emsp;&emsp;${errorThrown}</p>`)
+        
+        }      
+    });
+});    
