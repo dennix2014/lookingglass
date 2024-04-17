@@ -17,6 +17,34 @@ from lookingglass.servers import servers
 from lookingglass.settings import BASE_DIR
 he_url = 'https://bgp.he.net/AS'
 
+lc_definitions ={
+
+[36932, 1101, 1 ]: "PREFIX LENGHT TOO LONG",
+[36932, 1101, 2 ]: "PREFIX_LEN_TOO_SHORT",
+[36932, 1101, 3 ]: "BOGON",
+[36932, 1101, 4 ]: "BOGON ASN",
+[36932, 1101, 5 ]: "AS PATH TOO LONG",
+[36932, 1101, 6 ]: "AS PATH TOO SHORT",
+[36932, 1101, 7 ]: "FIRST AS NOT PEER AS",
+[36932, 1101, 8 ]: "NEXT HOP NOT PEER IP",
+[36932, 1101, 9 ]: "IRRDB PREFIX FILTERED",
+[36932, 1101, 10]: "IRRDB ORIGIN AS FILTERED",
+[36932, 1101, 11]: "PREFIX NOT IN ORIGIN AS",
+[36932, 1101, 12]: "RPKI UNKNOWN",
+[36932, 1101, 13]: "RPKI INVALID",
+[36932, 1101, 14]: "TRANSIT FREE ASN",
+[36932, 1101, 15]: "TOO MANY COMMUNITIES",
+[36932, 1000, 1]: "RPKI VALID",
+[36932, 1000, 2 ]: "RPKI UNKNOWN",
+[36932, 1000, 3 ]: "RPKI NOT CHECKED",
+[36932, 1001, 1 ]: "IRRDB VALID",
+[36932, 1001, 2 ]: "IRRDB NOT CHECKED",
+[36932, 1001, 3 ]: "IRRDB MORE SPECIFIC",
+[36932, 1001, 1000]: "IRRDB FILTERED LOOSE",
+[36932, 1001, 1001]: "IRRDB FILTERED STRICT",
+[36932, 1001, 1002]: "IRRDB PREFIX EMPTY"
+}
+
 def split_on_empty_lines(s):
     
     # greedily match 2 or more new-lines
@@ -231,14 +259,17 @@ def api_get_route_detail(server, protocol, prefix):
                
             bgp = details.get('bgp')
             large_communities = bgp.get('large_communities')
+
+            large_communities_defined = []
+            for community in large_communities:
+                community.append(lc_definitions.get(community))
+                large_communities_defined.append(community)
+                large_communities_defined.append()
             detail['as_path'] = bgp.get('as_path')
             detail['next_hop'] = bgp.get('next_hop')
-            detail['large_communities'] = large_communities
-
+            detail['large_communities'] = large_communities_defined
 
             route_details.append(detail)
-
-            
 
             return route_details
 
