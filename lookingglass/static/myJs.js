@@ -56,7 +56,7 @@ function parseOutput(outputData, command, is_table=0, listOfTableTH=null, table_
                                         </a></td>
                                         <!-- Modal -->
                                         <div class="modal fade" id="routeDetailModal" tabindex="-1" role="dialog" aria-labelledby="routeDetailModalLabel" aria-hidden="true">
-                                          <div class="modal-dialog" role="document">
+                                          <div class="modal-dialog modal-lg" role="document">
                                             <div class="modal-content">
                                               <div class="modal-header">
                                                 <h5 class="modal-title" id="routeDetailModalLabel"></h5>
