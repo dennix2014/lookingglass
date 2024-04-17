@@ -265,7 +265,6 @@ def api_get_route_detail(server, protocol, prefix):
             for community in large_communities:
                 community.append(lc_definitions.get(tuple(community)))
                 large_communities_defined.append(community)
-                large_communities_defined.append()
             detail['as_path'] = bgp.get('as_path')
             detail['next_hop'] = bgp.get('next_hop')
             detail['large_communities'] = large_communities_defined
