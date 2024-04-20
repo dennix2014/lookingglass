@@ -215,9 +215,11 @@ $('#formOne').on('submit', function(e){
     s = $('#id_server').find(":selected").val()
     command = $('#id_command').find(":selected").val()
     protocol = $(`#id_${s}_peers`).find(":selected").val()
+    peer = $(`#id_${s}_peers`).find(":selected").text()
     ipAddress = $('#id_ip_address').val()
     url = $(this).attr('action') + $('#id_command').find(":selected").val() + '/',
 
+    console.log(peer)
 
     $.ajax({
        type : "GET", 
