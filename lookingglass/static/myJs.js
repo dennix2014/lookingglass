@@ -214,18 +214,21 @@ $('#formOne').on('submit', function(e){
     scrollToElement(".loading");
     s = $('#id_server').find(":selected").val()
     command = $('#id_command').find(":selected").val()
+    bgpPeer = $(`#id_${s}_peers`).find(":selected").val()
+    ipAddress = $('#id_ip_address').val()
+    url = $(this).attr('action') + $('#id_command').find(":selected").val() + '/',
 
-    console.log(s)
-    console.log(command)
-
+    console.log(bgpPeer)
+    console.log(url)
+    
     $.ajax({
        type : "GET", 
-       url: $(this).attr('action') + $('#id_command').find(":selected").val() + '/',
+       url: url,
        data: {
-        ip_address : $('#id_ip_address').val(),
+        ip_address : ipAddress,
         command: command,
         server: s,
-        bgp_peer: $(`#id_${s}_peers`).find(":selected").val(),
+        bgp_peer: bgpPeer,
         dataType: "json",
 
        },
