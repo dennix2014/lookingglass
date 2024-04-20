@@ -123,7 +123,7 @@ function addClass(listItem, text) {
     }else if (listItem == 1001 && text.includes("IRRDB VALID")) {
         return `&emsp;<span class="badge badge-success">${text}</span>`   
     }else {
-        return `&emsp;<span class="badge badge-light">${text}</span>`
+        return `&emsp;<span class="badge badge-info">${text}</span>`
     }
 }
 
@@ -368,9 +368,15 @@ $(document).on('click', '.show-route-detail', function(){
                         <td>${output.prefix}</td>
                     </tr>
                     <tr>
-                        <td>Gateway</td>
-                        <td>${output.gateway}</td>
-                    </tr>
+                        <td>Gateway</td>`
+                        if (is_primary) {
+                            routeRouteDetailHTML += `<td>${output.gateway}
+                            &emsp;<span class="badge badge-success">Primary</span></td></tr>`
+                        }else {
+                            routeRouteDetailHTML += `<td>${output.gateway}
+                            &emsp;<span class="badge badge-warning">Not Primary</span></td></tr>`
+                        }
+        routeRouteDetailHTML += `
                     <tr>
                         <td>AS Path</td>
                         <td>${output.as_path}</td>
