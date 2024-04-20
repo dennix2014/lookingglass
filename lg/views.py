@@ -190,10 +190,10 @@ def route_detail(request):
 
 
 def update_all(request):
-    command = 'updatepeers'
-    for k,v in servers.items():
-        server = v[1]
-        api_update_peers(server, command)
+
+    for server, details in servers.items():
+        server_ip = details[1]
+        api_update_peers(server, server_ip)
   
     messages.success(request, 'Updated successfully')
     return redirect('home')

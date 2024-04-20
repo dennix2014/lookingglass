@@ -282,8 +282,8 @@ def api_get_route_detail(server, protocol, prefix):
         print("Error making request:", e)
 
 
-def api_update_peers(server, command):
-    endpoint = f"http://{server}/api/protocols/bgp"
+def api_update_peers(server, server_ip):
+    endpoint = f"http://{server_ip}/api/protocols/bgp"
 
     try:
         response = requests.get(endpoint)
