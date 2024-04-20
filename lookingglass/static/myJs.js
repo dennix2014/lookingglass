@@ -120,6 +120,8 @@ function addClass(listItem, text) {
         return `&emsp;<span class="badge badge-danger">${text}</span>`
     }else if (listItem == 1000 && "RPKI VALID" in text) {
         return `&emsp;<span class="badge badge-success">${text}</span>`   
+    }else if (listItem == 1001 && "IRRDB VALID" in text) {
+        return `&emsp;<span class="badge badge-success">${text}</span>`   
     }
 }
 
