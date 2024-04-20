@@ -229,6 +229,7 @@ $('#formOne').on('submit', function(e){
         command: command,
         server: s,
         protocol: protocol,
+        peer: peer,
         dataType: "json",
 
        },
