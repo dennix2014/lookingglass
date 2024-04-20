@@ -115,7 +115,11 @@ function parseOutput(outputData, command, is_table=0, listOfTableTH=null, table_
         
         
 }
-
+function addClass(listItem, text) {
+    if (listItem == 1101) {
+        return `&emsp;<span class="badge badge-warning">${text}</span>`
+    }
+}
 
 function scrollToElement(id_or_class){
    
@@ -376,7 +380,8 @@ $(document).on('click', '.show-route-detail', function(){
                     let largeCommunities = ''
                     let largeCommunitiesOutput = output.large_communities
                     largeCommunitiesOutput.forEach((item) => {
-                        largeCommunities += `${item}<hr>`
+                        largeCommunities += `${item[0]}:${item[1]}:${item[2]}  
+                                                ${addClass(item[1],(item[3]))}<hr>`
                     })
                     routeRouteDetailHTML += `
                                             <tr>
