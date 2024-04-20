@@ -369,7 +369,8 @@ $(document).on('click', '.show-route-detail', function(){
                     </tr>
                     <tr>
                         <td>Gateway</td>`
-                        if (is_primary) {
+                        let isPrimary = output.is_primary
+                        if (isPrimary) {
                             routeRouteDetailHTML += `<td>${output.gateway}
                             &emsp;<span class="badge badge-success">Primary</span></td></tr>`
                         }else {
