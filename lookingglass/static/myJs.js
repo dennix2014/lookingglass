@@ -122,6 +122,8 @@ function addClass(listItem, text) {
         return `&emsp;<span class="badge badge-success">${text}</span>`   
     }else if (listItem == 1001 && text.includes("IRRDB VALID")) {
         return `&emsp;<span class="badge badge-success">${text}</span>`   
+    }else {
+        return `&emsp;<span class="badge badge-light">${text}</span>`
     }
 }
 
