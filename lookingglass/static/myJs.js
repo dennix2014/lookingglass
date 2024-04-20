@@ -214,13 +214,11 @@ $('#formOne').on('submit', function(e){
     scrollToElement(".loading");
     s = $('#id_server').find(":selected").val()
     command = $('#id_command').find(":selected").val()
-    bgpPeer = $(`#id_${s}_peers`).find(":selected").val()
+    protocol = $(`#id_${s}_peers`).find(":selected").val()
     ipAddress = $('#id_ip_address').val()
     url = $(this).attr('action') + $('#id_command').find(":selected").val() + '/',
 
-    console.log(bgpPeer)
-    console.log(url)
-    
+
     $.ajax({
        type : "GET", 
        url: url,
@@ -228,7 +226,7 @@ $('#formOne').on('submit', function(e){
         ip_address : ipAddress,
         command: command,
         server: s,
-        bgp_peer: bgpPeer,
+        protocol: protocol,
         dataType: "json",
 
        },
