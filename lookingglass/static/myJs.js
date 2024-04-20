@@ -117,7 +117,9 @@ function parseOutput(outputData, command, is_table=0, listOfTableTH=null, table_
 }
 function addClass(listItem, text) {
     if (listItem == 1101) {
-        return `&emsp;<span class="badge badge-warning">${text}</span>`
+        return `&emsp;<span class="badge badge-danger">${text}</span>`
+    }else if (listItem == 1000 && "RPKI VALID" in text) {
+        return `&emsp;<span class="badge badge-success">${text}</span>`   
     }
 }
 
