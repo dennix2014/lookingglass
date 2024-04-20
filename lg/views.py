@@ -9,7 +9,7 @@ from ipaddress import (ip_network, IPv4Network,
 from ratelimit.decorators import ratelimit
 from .forms import CommandForm
 
-from .utils import connect_to_route_server, check_ipv4, check_ipv6, api_get_bgp_peers, api_get_peer_routes, api_get_route_detail
+from .utils import connect_to_route_server, check_ipv4, check_ipv6, api_get_bgp_peers, api_get_peer_routes, api_get_route_detail, api_update_peers
 from lookingglass.local_settings import commands, verification_commands
 from lookingglass.servers import servers
 from lookingglass.settings import BASE_DIR
@@ -176,7 +176,6 @@ def route_detail(request):
         server = request.GET['server']
         protocol = request.GET['protocol']
         ip_prefix = request.GET['prefix']
-        print(ip_prefix)
     
         server = servers.get(server)[1]
 
@@ -192,8 +191,9 @@ def route_detail(request):
 
 def update_all(request):
     command = 'updatepeers'
-    for server in servers:
-        connect_to_route_server(server, command, True)
+    for k,v in servers.items():
+        server = v[1]
+        api_update_peers(server, command)
   
     messages.success(request, 'Updated successfully')
     return redirect('home')

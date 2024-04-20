@@ -282,7 +282,34 @@ def api_get_route_detail(server, protocol, prefix):
         print("Error making request:", e)
 
 
+def api_update_peers(server, command):
+    endpoint = f"http://{server}/api/protocols/bgp"
 
+    try:
+        response = requests.get(endpoint)
 
+        # Check if request was successful (status code 200)
+        if response.status_code == 200:
+            data = response.json()
 
+            # retrieve pertinent peer info from response like neigh, asn, bgp state etc.
 
+            protocols = data.get('protocols')
+
+            all_peer_info = {}
+            for k,v in protocols.items():
+
+                pb = k
+                description = v.get("description")
+
+                all_peer_info[pb] = [description]
+
+            return all_peer_info
+
+        else:
+            # If the request was not successful, print the status code
+            print("Request was not successful. Status code:", response.status_code)
+
+    except requests.exceptions.RequestException as e:
+        # If there was a problem with the request (e.g., network connection issues)
+        print("Error making request:", e)
