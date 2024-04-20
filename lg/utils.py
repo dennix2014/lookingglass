@@ -296,15 +296,17 @@ def api_update_peers(server, command):
 
             protocols = data.get('protocols')
 
-            all_peer_info = {}
+            peers = {}
             for k,v in protocols.items():
 
                 pb = k
                 description = v.get("description")
 
-                all_peer_info[pb] = [description]
+                peers[pb] = [description]
 
-            return all_peer_info
+            peers = {k: v for k, v in sorted(peers.items(), key=lambda item: item[1])}
+            with open(f'{BASE_DIR}/lg/{server}.json', 'w') as update:
+                json.dump(peers, update, indent=1)
 
         else:
             # If the request was not successful, print the status code
