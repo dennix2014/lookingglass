@@ -213,7 +213,10 @@ $('#formOne').on('submit', function(e){
     $('.btn').prop("disabled",true);
     scrollToElement(".loading");
     s = $('#id_server').find(":selected").val()
-    command = $('#id_command').find(":selected").val(),
+    command = $('#id_command').find(":selected").val()
+
+    console.log(s)
+    console.log(command)
 
     $.ajax({
        type : "GET", 
