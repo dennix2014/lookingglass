@@ -263,12 +263,12 @@ $('#formOne').on('submit', function(e){
     prefix = $('#id_ip_address').val()
     url = $(this).attr('action') + $('#id_command').find(":selected").val() + '/'
     if (protocol) {
-        isMaster4 = false
+        isMaster4 = 0
     }else {
-        isMaster4 = true
+        isMaster4 = 1
     }
 
-    console.log(peer)
+    console.log(isMaster4)
 
     $.ajax({
        type : "GET", 
@@ -408,6 +408,7 @@ $(document).on('click', '.show-route-detail', function(){
     let server = $('caption').text().split(':')[0];
     let prefix = $(this).closest('tr').find('td:nth-child(2)').text();
     let peerProtocol = $("#peerProtocol").attr("data-peerProtocol");
+    let isMaster4 = 0
     
     
     $.ajax({
@@ -417,6 +418,7 @@ $(document).on('click', '.show-route-detail', function(){
             server: server,
             protocol: peerProtocol,
             prefix: prefix,
+            isMaster4: isMaster4,
             dataType: "json",
         
         },
