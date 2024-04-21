@@ -262,7 +262,7 @@ $('#formOne').on('submit', function(e){
     peer = $(`#id_${s}_peers`).find(":selected").text()
     prefix = $('#id_ip_address').val()
     url = $(this).attr('action') + $('#id_command').find(":selected").val() + '/'
-    if (peer) {
+    if (protocol) {
         isMaster4 = false
     }else {
         isMaster4 = true
