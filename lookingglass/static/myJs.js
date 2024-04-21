@@ -197,10 +197,6 @@ function hideElement(element) {
 
 
 $(document).ready(function() {
-    $('#routeDetailModal').on('hidden.bs.modal', function () {
-        $('.modal-body').empty();
-      });
-
     let serverz = $('#serverz').attr('servers')
     serverz = (serverz.substring(1, serverz.length-1)+',').split(' ');
     serverz.forEach( (item,i) => serverz[i] = item.substring(1, item.length-2));
@@ -303,13 +299,9 @@ $('#formOne').on('submit', function(e){
         if (isMaster4 && command.includes('route_detail')) {
             let routeRouteDetailHTML = createRouteDetailModal(data.result)
             $('.modal-body').html(routeRouteDetailHTML);
-            $('.modal-title').text(`Route Details - ${output.prefix}`)
+            $('.modal-title').text(`Route Details - ${output[0].prefix}`)
             $('#routeDetailModal').on('shown.bs.modal', function () {
                 $('.modal-body').html(routeRouteDetailHTML);
-              });
-
-            $('#routeDetailModal').on('hidden.bs.modal', function () {
-                $('.modal-body').empty();
               });
         }else {
             $('#output').html(
@@ -452,10 +444,6 @@ $(document).on('click', '.show-route-detail', function(){
             $('.modal-title').text(`Route Details - ${output[0].prefix}`)
             $('#routeDetailModal').on('shown.bs.modal', function () {
                 $('.modal-body').html(routeRouteDetailHTML);
-              });
-
-            $('#routeDetailModal').on('hidden.bs.modal', function () {
-                $('.modal-body').empty();
               });
             $(function () {
                 // Delegating to `document` just in case.
