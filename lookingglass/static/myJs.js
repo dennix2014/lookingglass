@@ -294,7 +294,7 @@ $('#formOne').on('submit', function(e){
         resetForm();
 
         if (isMaster4 && command.includes('route_detail')) {
-            let routeRouteDetailHTML = createRouteDetailModal(data.result[0])
+            let routeRouteDetailHTML = createRouteDetailModal(data.result)
             $('.modal-body').html(routeRouteDetailHTML);
             $('.modal-title').text(`Route Details - ${output.prefix}`)
             $('#routeDetailModal').on('shown.bs.modal', function () {
