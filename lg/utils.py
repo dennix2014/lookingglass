@@ -235,11 +235,13 @@ def api_get_peer_routes(server, command, protocol):
         print("Error making request:", e)
 
 
-def api_get_route_detail(server, protocol, prefix):
+def api_get_route_detail(server, protocol, prefix, is_master4):
 
     prefix = urllib.parse.quote_plus(prefix)
-    endpoint = f"http://{server}/api/route/{prefix}/protocol/{protocol}"
-    print(endpoint)
+    if is_master4:
+        endpoint = f"http://{server}/api/route/{prefix}/table/master4"
+    else:
+        endpoint = f"http://{server}/api/route/{prefix}/protocol/{protocol}"
 
     try:
         response = requests.get(endpoint)

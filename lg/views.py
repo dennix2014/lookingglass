@@ -175,10 +175,11 @@ def route_detail(request):
         server = request.GET['server']
         protocol = request.GET['protocol']
         ip_prefix = request.GET['prefix']
+        is_master4 = request.GET['isMaster4']
     
         server = servers.get(server)[1]
 
-        result = api_get_route_detail(server, protocol, ip_prefix)
+        result = api_get_route_detail(server, protocol, ip_prefix,is_master4)
         print(result)
         
         response = {

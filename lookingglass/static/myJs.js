@@ -217,7 +217,12 @@ $('#formOne').on('submit', function(e){
     protocol = $(`#id_${s}_peers`).find(":selected").val()
     peer = $(`#id_${s}_peers`).find(":selected").text()
     prefix = $('#id_ip_address').val()
-    url = $(this).attr('action') + $('#id_command').find(":selected").val() + '/',
+    url = $(this).attr('action') + $('#id_command').find(":selected").val() + '/'
+    if (peer) {
+        isMaster4 = false
+    }else {
+        isMaster4 = true
+    }
 
     console.log(peer)
 
@@ -230,6 +235,7 @@ $('#formOne').on('submit', function(e){
         server: s,
         protocol: protocol,
         peer: peer,
+        isMaster4: isMaster4,
         dataType: "json",
 
        },
