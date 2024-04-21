@@ -198,7 +198,7 @@ function hideElement(element) {
 
 $(document).ready(function() {
     $('#routeDetailModal').on('hidden.bs.modal', function () {
-        $('.modal-body').html('');
+        $('.modal-body').empty();
       });
 
     let serverz = $('#serverz').attr('servers')
