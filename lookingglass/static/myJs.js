@@ -229,6 +229,8 @@ $(document).ready(function() {
             $('#div_id_ip_address').parent().show();
             $('#id_ip_address').attr('required', '');
             $('#id_ip_address').attr('data-error', 'This field is required.');
+            $('.btn').attr('data-toggle', 'modal');
+            $('.btn').attr('data-target', '#routeDetailModal');
             hideArrayOfElemets(serverz)
         }
     })
