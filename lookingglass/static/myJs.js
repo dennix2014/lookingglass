@@ -197,7 +197,7 @@ function hideElement(element) {
 
 
 $(document).ready(function() {
-    $('#routeDetailModal').on('hidden.bs.modal', function () {
+    $('#routeDetailModal').on('hide.bs.modal', function () {
         $(this).find('.modal-body').empty();
       });
     let serverz = $('#serverz').attr('servers')
@@ -305,7 +305,7 @@ $('#formOne').on('submit', function(e){
             $('#routeDetailModal').on('shown.bs.modal', function () {
                 $('.modal-body').html(routeRouteDetailHTML);
               });
-              $('#routeDetailModal').on('hidden.bs.modal', function () {
+              $('#routeDetailModal').on('hide.bs.modal', function () {
                 $(this).find('.modal-body').empty();
               });
         }else {
@@ -449,7 +449,7 @@ $(document).on('click', '.show-route-detail', function(){
             $('#routeDetailModal').on('shown.bs.modal', function () {
                 $('.modal-body').html(routeRouteDetailHTML);
               });
-            $('#routeDetailModal').on('hidden.bs.modal', function () {
+            $('#routeDetailModal').on('hide.bs.modal', function () {
                 $(this).find('.modal-body').empty();
               });
 
