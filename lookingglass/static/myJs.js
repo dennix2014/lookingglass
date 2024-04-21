@@ -278,6 +278,8 @@ $('#formOne').on('submit', function(e){
         isMaster4 = 1
     }
 
+    console.log(isMaster4)
+
     $.ajax({
        type : "GET", 
        url: url,
@@ -417,6 +419,8 @@ $(document).on('click', '.show-route-detail', function(){
     let prefix = $(this).closest('tr').find('td:nth-child(2)').text();
     let peerProtocol = $("#peerProtocol").attr("data-peerProtocol");
     let isMaster4 = 0
+
+    console.log(isMaster4)
     
     
     $.ajax({
