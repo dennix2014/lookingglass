@@ -197,13 +197,10 @@ function hideElement(element) {
 
 
 $(document).ready(function() {
-    $(function () {
-        // Delegating to `document` just in case.
-        $(document).on("hidden.bs.modal", "#routeDetailModal", function () {
-          $(this).find("#info").html(""); // Just clear the contents.
-          $(this).find("#info").remove(); // Remove from DOM.
-        });
+    $('#routeDetailModal').on('hidden.bs.modal', function () {
+        $('.modal-body').html('');
       });
+
     let serverz = $('#serverz').attr('servers')
     serverz = (serverz.substring(1, serverz.length-1)+',').split(' ');
     serverz.forEach( (item,i) => serverz[i] = item.substring(1, item.length-2));
@@ -308,13 +305,6 @@ $('#formOne').on('submit', function(e){
             $('.modal-title').text(`Route Details - ${output.prefix}`)
             $('#routeDetailModal').on('shown.bs.modal', function () {
                 $('.modal-body').html(routeRouteDetailHTML);
-              });
-            $(function () {
-                // Delegating to `document` just in case.
-                $(document).on("hidden.bs.modal", "#routeDetailModal", function () {
-                  $(this).find("#info").html(""); // Just clear the contents.
-                  $(this).find("#info").remove(); // Remove from DOM.
-                });
               });
         }else {
             $('#output').html(
