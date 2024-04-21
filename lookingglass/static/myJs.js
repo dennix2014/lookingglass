@@ -270,6 +270,7 @@ $('#formOne').on('submit', function(e){
     $('#output').hide();
     $('.btn').prop("disabled",true);
     scrollToElement(".loading");
+    $('.modal-body').empty();
     s = $('#id_server').find(":selected").val()
     command = $('#id_command').find(":selected").val()
     protocol = $(`#id_${s}_peers`).find(":selected").val()
@@ -420,6 +421,7 @@ $(document).on('click', '.received-routes', function(){
 
 
 $(document).on('click', '.show-route-detail', function(){
+    $('.modal-body').empty();
     $('.btn').prop("disabled",true);
     let server = $('caption').text().split(':')[0];
     let prefix = $(this).closest('tr').find('td:nth-child(2)').text();
