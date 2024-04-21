@@ -202,6 +202,7 @@ $(document).ready(function() {
     $("#id_command, #id_server").on('load change', function() {
         let selected_command = $('#id_command').val();
         let selected_server = $('#id_server').val();
+        let protocol = $(`#id_${selected_server}_peers`).find(":selected").val()
         if (selected_command == 'bgp_neighbors') {
             hideElement('id_ip_address')
             hideArrayOfElemets(serverz)
@@ -229,8 +230,10 @@ $(document).ready(function() {
             $('#div_id_ip_address').parent().show();
             $('#id_ip_address').attr('required', '');
             $('#id_ip_address').attr('data-error', 'This field is required.');
+            if (!protocol) {
             $('.btn').attr('data-toggle', 'modal');
             $('.btn').attr('data-target', '#routeDetailModal');
+            }
             hideArrayOfElemets(serverz)
         }
     })
