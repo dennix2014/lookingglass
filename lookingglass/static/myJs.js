@@ -1,6 +1,6 @@
 function createRouteDetailModal(output) {
+    let routeRouteDetailHTML = ''
     output.forEach((item) => {
-        let routeRouteDetailHTML = ''
         routeRouteDetailHTML += `
             <table><tbody>
                 <tr>
@@ -431,7 +431,7 @@ $(document).on('click', '.show-route-detail', function(){
         
         success: function(data){
             $('.btn').prop("disabled",false);
-            let output = data.result[0]
+            let output = data.result
 
             let routeRouteDetailHTML = createRouteDetailModal(output)
             $('.modal-body').html(routeRouteDetailHTML);
