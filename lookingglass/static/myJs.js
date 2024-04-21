@@ -267,6 +267,7 @@ $('#formOne').on('submit', function(e){
     $('.btn').prop("disabled",true);
     scrollToElement(".loading");
     $('.modal-body').empty();
+    $('.modal-title').text('');
     s = $('#id_server').find(":selected").val()
     command = $('#id_command').find(":selected").val()
     protocol = $(`#id_${s}_peers`).find(":selected").val()
@@ -414,6 +415,7 @@ $(document).on('click', '.received-routes', function(){
 
 $(document).on('click', '.show-route-detail', function(){
     $('.modal-body').empty();
+    $('.modal-title').text('');
     $('.btn').prop("disabled",true);
     let server = $('caption').text().split(':')[0];
     let prefix = $(this).closest('tr').find('td:nth-child(2)').text();
@@ -444,13 +446,6 @@ $(document).on('click', '.show-route-detail', function(){
             $('.modal-title').text(`Route Details - ${output[0].prefix}`)
             $('#routeDetailModal').on('shown.bs.modal', function () {
                 $('.modal-body').html(routeRouteDetailHTML);
-              });
-            $(function () {
-                // Delegating to `document` just in case.
-                $(document).on("hidden.bs.modal", "#routeDetailModal", function () {
-                  $(this).find("#info").html(""); // Just clear the contents.
-                  $(this).find("#info").remove(); // Remove from DOM.
-                });
               });
 
         },
