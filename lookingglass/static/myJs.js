@@ -197,8 +197,12 @@ function hideElement(element) {
 
 
 $(document).ready(function() {
-    $('#routeDetailModal').on('hide.bs.modal', function () {
-        $(this).find('.modal-body').empty();
+    $(function () {
+        // Delegating to `document` just in case.
+        $(document).on("hidden.bs.modal", "#routeDetailModal", function () {
+          $(this).find("#info").html(""); // Just clear the contents.
+          $(this).find("#info").remove(); // Remove from DOM.
+        });
       });
     let serverz = $('#serverz').attr('servers')
     serverz = (serverz.substring(1, serverz.length-1)+',').split(' ');
@@ -305,8 +309,12 @@ $('#formOne').on('submit', function(e){
             $('#routeDetailModal').on('shown.bs.modal', function () {
                 $('.modal-body').html(routeRouteDetailHTML);
               });
-              $('#routeDetailModal').on('hide.bs.modal', function () {
-                $(this).find('.modal-body').empty();
+            $(function () {
+                // Delegating to `document` just in case.
+                $(document).on("hidden.bs.modal", "#routeDetailModal", function () {
+                  $(this).find("#info").html(""); // Just clear the contents.
+                  $(this).find("#info").remove(); // Remove from DOM.
+                });
               });
         }else {
             $('#output').html(
@@ -445,12 +453,16 @@ $(document).on('click', '.show-route-detail', function(){
 
             let routeRouteDetailHTML = createRouteDetailModal(output)
             $('.modal-body').html(routeRouteDetailHTML);
-            $('.modal-title').text(`Route Details - ${output.prefix}`)
+            $('.modal-title').text(`Route Details - ${output[0].prefix}`)
             $('#routeDetailModal').on('shown.bs.modal', function () {
                 $('.modal-body').html(routeRouteDetailHTML);
               });
-            $('#routeDetailModal').on('hide.bs.modal', function () {
-                $(this).find('.modal-body').empty();
+            $(function () {
+                // Delegating to `document` just in case.
+                $(document).on("hidden.bs.modal", "#routeDetailModal", function () {
+                  $(this).find("#info").html(""); // Just clear the contents.
+                  $(this).find("#info").remove(); // Remove from DOM.
+                });
               });
 
         },
