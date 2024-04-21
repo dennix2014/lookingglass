@@ -209,10 +209,12 @@ $(document).ready(function() {
         if (selected_command == 'bgp_neighbors') {
             hideElement('id_ip_address')
             hideArrayOfElemets(serverz)
+            $('.btn').removeAttr('data-toggle data-target');
 
         } else if (selected_command == 'bgp_neighbor_received'){
             scrollToElement("#id_command");
             hideElement('id_ip_address')
+            $('.btn').removeAttr('data-toggle data-target');
             serverz.forEach(server =>  {
                 if (server != selected_server) {
                     $(`#div_id_${server}_peers`).hide();
