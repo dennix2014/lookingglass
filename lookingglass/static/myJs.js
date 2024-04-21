@@ -216,7 +216,7 @@ $('#formOne').on('submit', function(e){
     command = $('#id_command').find(":selected").val()
     protocol = $(`#id_${s}_peers`).find(":selected").val()
     peer = $(`#id_${s}_peers`).find(":selected").text()
-    ipAddress = $('#id_ip_address').val()
+    prefix = $('#id_ip_address').val()
     url = $(this).attr('action') + $('#id_command').find(":selected").val() + '/',
 
     console.log(peer)
@@ -225,7 +225,7 @@ $('#formOne').on('submit', function(e){
        type : "GET", 
        url: url,
        data: {
-        ip_address : ipAddress,
+        prefix : prefix,
         command: command,
         server: s,
         protocol: protocol,

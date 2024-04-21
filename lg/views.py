@@ -152,7 +152,6 @@ def bgp_neighbor_received(request):
             }
             return JsonResponse(response)
         else:       
-            command_to_run = f'{commands.get(command)[1]} {protocol}'
             result = api_get_peer_routes(server, command, protocol)
             response = {
                 'result':result[0], 
