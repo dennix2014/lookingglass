@@ -254,24 +254,25 @@ def api_get_route_detail(server, protocol, prefix, is_master4):
 
             details = (data.get('routes'))[0]
             route_details = []
-            detail = {}
+            for item in details:
+                detail = {}
 
-            detail['prefix'] = details.get('network')
-            detail['gateway'] = details.get('gateway')
-            detail['is_primary'] = details.get('primary')
-               
-            bgp = details.get('bgp')
-            large_communities = bgp.get('large_communities')
+                detail['prefix'] = item.get('network')
+                detail['gateway'] = item.get('gateway')
+                detail['is_primary'] = item.get('primary')
 
-            large_communities_defined = []
-            for community in large_communities:
-                community.append(lc_definitions.get(tuple(community)))
-                large_communities_defined.append(community)
-            detail['as_path'] = bgp.get('as_path')
-            detail['next_hop'] = bgp.get('next_hop')
-            detail['large_communities'] = large_communities_defined
+                bgp = item.get('bgp')
+                large_communities = bgp.get('large_communities')
 
-            route_details.append(detail)
+                large_communities_defined = []
+                for community in large_communities:
+                    community.append(lc_definitions.get(tuple(community)))
+                    large_communities_defined.append(community)
+                detail['as_path'] = bgp.get('as_path')
+                detail['next_hop'] = bgp.get('next_hop')
+                detail['large_communities'] = large_communities_defined
+
+                route_details.append(detail)
 
             return route_details
 

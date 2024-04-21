@@ -1,44 +1,47 @@
 function createRouteDetailModal(output) {
-    let routeRouteDetailHTML = ''
-    routeRouteDetailHTML += `
-        <table><tbody>
-            <tr>
-                <td>Network</td>
-                <td>${output.prefix}</td>
-            </tr>
-            <tr>
-                <td>Gateway</td>`
-                let isPrimary = output.is_primary
-                if (isPrimary) {
-                    routeRouteDetailHTML += `<td>${output.gateway}
-                    &emsp;<span class="badge badge-success">Primary</span></td></tr>`
-                }else {
-                    routeRouteDetailHTML += `<td>${output.gateway}
-                    &emsp;<span class="badge badge-warning">Not Primary</span></td></tr>`
+    output.forEach(item => {
+        let routeRouteDetailHTML = ''
+        routeRouteDetailHTML += `
+            <table><tbody>
+                <tr>
+                    <td>Network</td>
+                    <td>${item.prefix}</td>
+                </tr>
+                <tr>
+                    <td>Gateway</td>`
+                    let isPrimary = item.is_primary
+                    if (isPrimary) {
+                        routeRouteDetailHTML += `<td>${item.gateway}
+                        &emsp;<span class="badge badge-success">Primary</span></td></tr>`
+                    }else {
+                        routeRouteDetailHTML += `<td>${item.gateway}
+                        &emsp;<span class="badge badge-warning">Not Primary</span></td></tr>`
+                    }
+        routeRouteDetailHTML += `
+                <tr>
+                    <td>AS Path</td>
+                    <td>${item.as_path}</td>
+                </tr>
+                <tr>`
+                let nextHop = item.next_hop
+                if (nextHop) {
+                    routeRouteDetailHTML += `
+                    <td>Next Hop</td>
+                    <td>${nextHop}</td></tr>`
                 }
-    routeRouteDetailHTML += `
-            <tr>
-                <td>AS Path</td>
-                <td>${output.as_path}</td>
-            </tr>
-            <tr>`
-            let nextHop = output.next_hop
-            if (nextHop) {
-                routeRouteDetailHTML += `
-                <td>Next Hop</td>
-                <td>${nextHop}</td></tr>`
-            }
-                        
-                let largeCommunities = ''
-                let largeCommunitiesOutput = output.large_communities
-                largeCommunitiesOutput.forEach((item) => {
-                    largeCommunities += `${item[0]}:${item[1]}:${item[2]}  
-                                            ${addClass(item[1],(item[3]))}<hr>`
-                })
-                routeRouteDetailHTML += `
-                                        <tr>
-                                        <td>Large Communities</td><td>${largeCommunities}</td>
-                                        </tr></tbody></table>`
+
+                    let largeCommunities = ''
+                    let largeCommunitiesOutput = item.large_communities
+                    largeCommunitiesOutput.forEach((comm) => {
+                        largeCommunities += `${comm[0]}:${comm[1]}:${comm[2]}  
+                                                ${addClass(comm[1],(comm[3]))}<hr>`
+                    })
+                    routeRouteDetailHTML += `
+                                            <tr>
+                                            <td>Large Communities</td><td>${largeCommunities}</td>
+                                            </tr></tbody></table><br><hr><br>`
+    });
+
     return routeRouteDetailHTML
 }
 
@@ -272,8 +275,6 @@ $('#formOne').on('submit', function(e){
     }else {
         isMaster4 = 1
     }
-
-    console.log(isMaster4)
 
     $.ajax({
        type : "GET", 
