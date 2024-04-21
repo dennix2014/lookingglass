@@ -1,5 +1,5 @@
 function createRouteDetailModal(output) {
-    output.forEach(item => {
+    output.forEach((item) => {
         let routeRouteDetailHTML = ''
         routeRouteDetailHTML += `
             <table><tbody>
