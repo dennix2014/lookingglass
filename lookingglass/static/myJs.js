@@ -1,3 +1,47 @@
+function createRouteDetailModal(output) {
+    let routeRouteDetailHTML = ''
+    routeRouteDetailHTML += `
+        <table><tbody>
+            <tr>
+                <td>Network</td>
+                <td>${output.prefix}</td>
+            </tr>
+            <tr>
+                <td>Gateway</td>`
+                let isPrimary = output.is_primary
+                if (isPrimary) {
+                    routeRouteDetailHTML += `<td>${output.gateway}
+                    &emsp;<span class="badge badge-success">Primary</span></td></tr>`
+                }else {
+                    routeRouteDetailHTML += `<td>${output.gateway}
+                    &emsp;<span class="badge badge-warning">Not Primary</span></td></tr>`
+                }
+    routeRouteDetailHTML += `
+            <tr>
+                <td>AS Path</td>
+                <td>${output.as_path}</td>
+            </tr>
+            <tr>`
+            let nextHop = output.next_hop
+            if (nextHop) {
+                routeRouteDetailHTML += `
+                <td>Next Hop</td>
+                <td>${nextHop}</td></tr>`
+            }
+                        
+                let largeCommunities = ''
+                let largeCommunitiesOutput = output.large_communities
+                largeCommunitiesOutput.forEach((item) => {
+                    largeCommunities += `${item[0]}:${item[1]}:${item[2]}  
+                                            ${addClass(item[1],(item[3]))}<hr>`
+                })
+                routeRouteDetailHTML += `
+                                        <tr>
+                                        <td>Large Communities</td><td>${largeCommunities}</td>
+                                        </tr></tbody></table>`
+    return routeRouteDetailHTML
+}
+
 function parseOutput(outputData, command, is_table=0, listOfTableTH=null, table_id=null,  server=null, peerProtocol=null) {
     if (is_table) {
     let protocol_table;
@@ -242,9 +286,16 @@ $('#formOne').on('submit', function(e){
 
        success: function(data){
         resetForm();
-        
 
-        $('#output').html(
+        if (isMaster4 && command.includes('route_detail')) {
+            let routeRouteDetailHTML = createRouteDetailModal(output)
+            $('.modal-body').html(routeRouteDetailHTML);
+            $('.modal-title').text(`Route Details - ${output.prefix}`)
+            $('#routeDetailModal').on('shown.bs.modal', function () {
+                $('.modal-body').html(routeRouteDetailHTML);
+              });
+        }else {
+            $('#output').html(
             parseOutput(
                 data.result,
                 data.command, 
@@ -274,7 +325,7 @@ $('#formOne').on('submit', function(e){
             }).draw();
         scrollToElement("#output");
         
-       },
+       }},
        
        error: function(XMLHttpRequest, textStatus, errorThrown) { 
            resetForm();
@@ -350,6 +401,8 @@ $(document).on('click', '.received-routes', function(){
 });     
 
 
+
+
 $(document).on('click', '.show-route-detail', function(){
     $('.btn').prop("disabled",true);
     let server = $('caption').text().split(':')[0];
@@ -370,59 +423,15 @@ $(document).on('click', '.show-route-detail', function(){
         
         success: function(data){
             $('.btn').prop("disabled",false);
-            let output = data.result[0]    
+            let output = data.result[0]
 
-        let routeRouteDetailHTML = ''
-
-        routeRouteDetailHTML += `
-                <table><tbody>
-                    <tr>
-                        <td>Network</td>
-                        <td>${output.prefix}</td>
-                    </tr>
-                    <tr>
-                        <td>Gateway</td>`
-                        let isPrimary = output.is_primary
-                        if (isPrimary) {
-                            routeRouteDetailHTML += `<td>${output.gateway}
-                            &emsp;<span class="badge badge-success">Primary</span></td></tr>`
-                        }else {
-                            routeRouteDetailHTML += `<td>${output.gateway}
-                            &emsp;<span class="badge badge-warning">Not Primary</span></td></tr>`
-                        }
-        routeRouteDetailHTML += `
-                    <tr>
-                        <td>AS Path</td>
-                        <td>${output.as_path}</td>
-                    </tr>
-                    <tr>`
-                    let nextHop = output.next_hop
-                    if (nextHop) {
-                        routeRouteDetailHTML += `
-                        <td>Next Hop</td>
-                        <td>${nextHop}</td></tr>`
-                    }
-                        
-                    let largeCommunities = ''
-                    let largeCommunitiesOutput = output.large_communities
-                    largeCommunitiesOutput.forEach((item) => {
-                        largeCommunities += `${item[0]}:${item[1]}:${item[2]}  
-                                                ${addClass(item[1],(item[3]))}<hr>`
-                    })
-                    routeRouteDetailHTML += `
-                                            <tr>
-                                            <td>Large Communities</td><td>${largeCommunities}</td>
-                                            </tr></tbody></table>`
-
+            let routeRouteDetailHTML = createRouteDetailModal(output)
             $('.modal-body').html(routeRouteDetailHTML);
             $('.modal-title').text(`Route Details - ${output.prefix}`)
             $('#routeDetailModal').on('shown.bs.modal', function () {
                 $('.modal-body').html(routeRouteDetailHTML);
               });
-        
 
-
-            
         },
                
         error: function(XMLHttpRequest, textStatus, errorThrown) { 
