@@ -306,6 +306,10 @@ $('#formOne').on('submit', function(e){
             $('#routeDetailModal').on('shown.bs.modal', function () {
                 $('.modal-body').html(routeRouteDetailHTML);
               });
+
+            $('#routeDetailModal').on('hidden.bs.modal', function () {
+                $('.modal-body').empty();
+              });
         }else {
             $('#output').html(
             parseOutput(
@@ -446,6 +450,10 @@ $(document).on('click', '.show-route-detail', function(){
             $('.modal-title').text(`Route Details - ${output[0].prefix}`)
             $('#routeDetailModal').on('shown.bs.modal', function () {
                 $('.modal-body').html(routeRouteDetailHTML);
+              });
+
+            $('#routeDetailModal').on('hidden.bs.modal', function () {
+                $('.modal-body').empty();
               });
             $(function () {
                 // Delegating to `document` just in case.
