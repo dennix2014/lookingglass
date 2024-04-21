@@ -252,7 +252,7 @@ def api_get_route_detail(server, protocol, prefix, is_master4):
 
             # retrieve pertinent peer info from response like neigh, asn, bgp state etc.
 
-            details = (data.get('routes'))[0]
+            details = (data.get('routes'))
             route_details = []
             for item in details:
                 detail = {}
